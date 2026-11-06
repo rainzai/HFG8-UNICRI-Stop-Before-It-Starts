@@ -51,7 +51,9 @@ function isLocalForum(domain: string) {
 }
 
 export function forumHref(forum: string) {
-  return `${isLocalForum(forum) ? "http" : "https"}://${forum}`;
+  // the mock forum lives in a subfolder of the repo dev server
+  if (isLocalForum(forum)) return `http://${forum}/mock-platform/index.html`;
+  return `https://${forum}`;
 }
 
 export const ANONYMOUS_ANCHOR = "anoniem";

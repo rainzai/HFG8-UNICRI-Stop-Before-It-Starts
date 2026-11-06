@@ -8,9 +8,11 @@
 // where the hosted page runs, web/ dev server by default
 const HELP_BASE = window.SBIS_HELP_BASE || 'http://localhost:3100';
 
-document.body.addEventListener('sbis:trigger', (e) => {
+// the forum's own language, not the visitor's browser
+const LANG = 'nl';
+
+document.body.addEventListener('sbis:trigger', () => {
   const site = encodeURIComponent(window.location.host);
-  const lang = e.detail?.language || 'nl';
   // replace, so the search url with the term is not left in history
-  window.location.replace(`${HELP_BASE}/w/${site}?l=${lang}`);
+  window.location.replace(`${HELP_BASE}/w/${site}?l=${LANG}`);
 });
