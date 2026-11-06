@@ -42,3 +42,14 @@ venv/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+# Commit the web app lockfile
+!web/pnpm-lock.yaml
+
+# Next.js app (web/)
+web/.next/
+web/out/
+web/next-env.d.ts
+*.tsbuildinfo
+.vercel
+*.pem
