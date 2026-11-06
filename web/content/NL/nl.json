@@ -74,5 +74,12 @@
     "selfHelpBody": "Een anonieme zelfhulpmodule. Je doet het alleen, in je eigen tempo.",
     "saveLink": "Bewaar dit voor later",
     "alsoFor": "De {helpline} helpt ook partners, familie en professionals."
+  },
+  "later": {
+    "title": "Kom terug wanneer je wilt",
+    "body": "Bewaar deze link. Hij opent een neutrale pagina en ziet er gewoon uit in je geschiedenis of bladwijzers.",
+    "copy": "Link kopiëren",
+    "copied": "Gekopieerd",
+    "note": "In de link staat niets over jou of over je zoekopdracht."
   }
 }

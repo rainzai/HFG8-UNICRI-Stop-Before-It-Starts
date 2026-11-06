@@ -67,3 +67,12 @@ export function Check() {
     </Icon>
   );
 }
+
+export function Copy() {
+  return (
+    <Icon size={20}>
+      <rect x="9" y="9" width="11" height="11" rx="2" />
+      <path d="M5 15V5a1 1 0 0 1 1-1h10" />
+    </Icon>
+  );
+}

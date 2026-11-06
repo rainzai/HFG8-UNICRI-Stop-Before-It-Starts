@@ -53,3 +53,8 @@ export function stepHref(
   const path = `/w/${encodeURIComponent(site)}${slug ? `/${slug}` : ""}`;
   return `${path}?l=${lang}${anchor ? `#${anchor}` : ""}`;
 }
+
+// same for everyone, a per-person link would be a tracking token
+export function savedLinkPath(country: string) {
+  return `/i/${country.toLowerCase()}`;
+}

@@ -3,6 +3,7 @@ import { Suspense } from "react";
 
 import { Consequences } from "@/components/flow/consequences";
 import { Help } from "@/components/flow/help";
+import { Later } from "@/components/flow/later";
 import { Mistake } from "@/components/flow/mistake";
 import { Shell } from "@/components/flow/shell";
 import { Start } from "@/components/flow/start";
@@ -27,15 +28,7 @@ async function Flow({
   const { l: requestedLang } = await searchParams;
 
   const step = parseStep(segments);
-  // TODO: other screens
-  if (
-    step !== "start" &&
-    step !== "mistake" &&
-    step !== "worried" &&
-    step !== "consequences" &&
-    step !== "help"
-  )
-    notFound();
+  if (!step) notFound();
 
   const forum = parseForumDomain(site);
   const { pack, copy, lang } = getContent(
@@ -59,6 +52,7 @@ async function Flow({
         {step === "worried" && <Worried {...screenProps} />}
         {step === "consequences" && <Consequences {...screenProps} />}
         {step === "help" && <Help {...screenProps} />}
+        {step === "later" && <Later {...screenProps} />}
       </Shell>
     </div>
   );
