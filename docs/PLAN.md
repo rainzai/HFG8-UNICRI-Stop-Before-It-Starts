@@ -24,7 +24,12 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
    - Optional flags per variant that components read (e.g. `contactOrder: ["chat", "call"]`), and an optional own component per screen for bigger changes.
    - Optional step list per variant in `lib/flow.ts` (e.g. call button on screen 1).
    - `?v=` added once in `stepHref`, so it carries through every link.
-3. **Stats page and metrics endpoint** (Ron: analytics dashboard; data format and rules in ARCHITECTURE.md under "Counts"). Per forum, counts below 10 suppressed. `GET /api/metrics/<forum>` returns the contract's metrics event format: this is the "payload back to the forum" from `contract/PLUGIN_CONTRACT.md`. Optionally `redirect.js` fires one `sbis:result` (`shown: true`) before redirecting.
+3. **Stats and metrics** (Ron: analytics dashboard; data format and rules in ARCHITECTURE.md under "Counts"). The redirect stays the whole install; stats are fetched separately, never in the visitor's request.
+   - **Public, no setup:** one dashboard with the totals of all forums combined. Counts below 10 suppressed.
+   - **Own numbers, optional and self-service:** on the instructions page a forum enters its domain and gets a verification code, puts it in a `<meta>` tag or file on its own site, clicks check; we fetch it and show its private stats link. Same idea as Google Search Console.
+   - **No storage, secret never leaves the server:** verification code = `HMAC(secret, "verify:<domain>")` (public, only proves control of the site), stats key = `HMAC(secret, "stats:<domain>")` (private, shown after a successful check). Different prefixes, so the key cannot be derived from the code. Both are recomputed on every request.
+   - `GET /api/metrics/<forum>` with that key returns the contract's metrics event format: the "payload back to the forum" from `contract/PLUGIN_CONTRACT.md`. Optionally `redirect.js` fires one `sbis:result` (`shown: true`) before redirecting.
+   - For the demo: the public dashboard, plus a hand-made private link if there is time.
 4. **Feedback loop.** Compare variants on reaching call/chat, then a multi-armed bandit that shifts traffic to the better variant using totals only. Mentor: this is the most important part.
 5. **English help alternative** once the question above is answered.
 6. **Install instructions page** (redirect URL format, Referrer-Policy).
