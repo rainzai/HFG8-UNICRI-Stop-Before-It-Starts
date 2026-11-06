@@ -12,7 +12,7 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
 
 ## Open questions
 
-- **Which "EU English" service for English speakers?** The mentor said the Preventielijn does not support English and to use the EU English one instead. Candidates from the brief: ReDirection (English self-help, `verified: false` in `data/`), Troubled Desire, Help Wanted. Not Helplinks.eu: it is run by police services, which clashes with "you will not be reported".
+- **Which "EU English" service for English speakers?** The mentor said the Preventielijn does not support English and to use the EU English one instead. Use [Helplinks.eu](https://helplinks.eu) (the EU directory) as the source to pick it, but link visitors straight to the service itself, like the chat link. The directory is compiled by police services, which would clash with "you will not be reported" right before it. Candidates it lists: ReDirection (English self-help, `verified: false` in `data/`), Troubled Desire, Help Wanted.
 - **Service name and domain.** Still `[Service name]`. Must be neutral, it ends up in browser history.
 
 ## Next, in order
