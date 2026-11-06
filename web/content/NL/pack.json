@@ -6,7 +6,8 @@
     "name": "Preventielijn",
     "org": "Offlimits",
     "phone": "0800 266 64 36",
-    "chatUrl": "https://preventielijn.offlimits.nl",
+    "url": "https://preventielijn.offlimits.nl",
+    "chatUrl": "https://chatpreventielijn.offlimits.nl/chat?o=600",
     "hours": [
       {
         "days": [1, 4],

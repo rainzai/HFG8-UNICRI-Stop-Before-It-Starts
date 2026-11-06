@@ -17,7 +17,7 @@ type Props = {
 
 export function Help({ copy, pack, site, lang }: Props) {
   const t = copy.help;
-  const { name: helpline, org, chatUrl, hours } = pack.helpline;
+  const { name: helpline, org, url, hours } = pack.helpline;
   const vars = { helpline, org };
   const hoursLines = hours.map(({ days, open, close }) => ({
     days: dayRange(days, lang),
@@ -38,8 +38,8 @@ export function Help({ copy, pack, site, lang }: Props) {
           <CallButton copy={copy} pack={pack} />
           <ChatButton copy={copy} pack={pack} />
         </div>
-        <a href={chatUrl} className="self-start text-[15px] underline">
-          {new URL(chatUrl).host}
+        <a href={url} className="self-start text-[15px] underline">
+          {new URL(url).host}
         </a>
       </div>
       <div className="flex flex-col gap-1.5 text-[15px] text-muted">

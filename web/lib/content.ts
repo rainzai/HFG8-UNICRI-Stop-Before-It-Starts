@@ -14,6 +14,7 @@ const packSchema = z.object({
     name: z.string().min(1),
     org: z.string().min(1),
     phone: z.string().regex(/^[0-9 ]+$/),
+    url: z.url({ protocol: /^https$/ }),
     chatUrl: z.url({ protocol: /^https$/ }),
     // days: [first, last], 1 = monday
     hours: z.array(
