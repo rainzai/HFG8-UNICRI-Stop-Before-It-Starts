@@ -1,6 +1,6 @@
 import { FlowLink } from "@/components/flow/flow-link";
 import { fill, type Copy } from "@/lib/content";
-import { stepHref } from "@/lib/flow";
+import { forumHref, stepHref } from "@/lib/flow";
 
 type Props = {
   copy: Copy;
@@ -21,7 +21,7 @@ export function Mistake({ copy, forum, site, lang }: Props) {
 
       {forum && (
         <a
-          href={`https://${forum}`}
+          href={forumHref(forum)}
           className="mt-2 flex min-h-14 max-w-[420px] items-center justify-center rounded-xl bg-brand px-6 text-lg font-bold text-white no-underline hover:bg-brand-dark hover:text-white"
         >
           {fill(copy.chrome.backToForum, { forum })}

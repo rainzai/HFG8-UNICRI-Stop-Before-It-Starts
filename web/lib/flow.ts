@@ -37,8 +37,21 @@ export function parseForumDomain(raw: string): string | null {
     return null;
   }
   if (domain.length > 253) return null;
+  if (isLocalForum(domain)) return domain;
   if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain)) return null;
   return domain;
+}
+
+// dev only, so the local mock forum works as a site
+function isLocalForum(domain: string) {
+  return (
+    process.env.NODE_ENV === "development" &&
+    /^localhost(:\d{1,5})?$/.test(domain)
+  );
+}
+
+export function forumHref(forum: string) {
+  return `${isLocalForum(forum) ? "http" : "https"}://${forum}`;
 }
 
 export const ANONYMOUS_ANCHOR = "anoniem";

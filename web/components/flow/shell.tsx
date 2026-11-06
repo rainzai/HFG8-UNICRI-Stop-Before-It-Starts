@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { FlowLink } from "@/components/flow/flow-link";
 import { ChevronLeft, Lock } from "@/components/flow/icons";
 import { fill, type Copy, type Pack } from "@/lib/content";
+import { forumHref } from "@/lib/flow";
 
 type Props = {
   copy: Copy;
@@ -46,7 +47,7 @@ export function Shell({ copy, pack, forum, backHref, children }: Props) {
         <div className="mx-auto flex max-w-[720px] flex-wrap items-center justify-between gap-x-6 gap-y-1.5 px-6 pt-4 pb-7">
           {forum && (
             <a
-              href={`https://${forum}`}
+              href={forumHref(forum)}
               className="inline-flex min-h-11 items-center gap-1.5 text-base font-bold"
             >
               <ChevronLeft />

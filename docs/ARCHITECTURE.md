@@ -74,10 +74,15 @@ These are the product, not an afterthought.
 
 ## Running it
 
+The mock forum loads `mock-platform/redirect.js` instead of the starter widget: on an `sbis:trigger` it replaces the page with `/w/<forum host>?l=<lang>`. In dev, `localhost:<port>` counts as a valid forum so "back to the forum" works locally.
+
 ```bash
 nix develop
 cd web && pnpm dev -p 3100     # the starter's mock platform uses port 3000
 pnpm format && pnpm lint && pnpm typecheck
+
+# mock forum (repo root), redirects test-trigger-* searches to :3100
+npx vite --config vite.config.js --port 3005
 ```
 
 Run `npm run check` at the repo root before pushing.
