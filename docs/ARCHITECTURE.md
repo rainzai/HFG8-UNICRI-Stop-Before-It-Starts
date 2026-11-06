@@ -74,6 +74,37 @@ These are the product, not an afterthought.
 - **Suppress counts below 10** when reading stats.
 - **Access logs off** in our code. The host may still log requests, so we say "our code stores nothing", not "nobody ever sees an IP".
 
+## Counts (what the dashboard reads)
+
+Everything we store is one JSON object in `web/.data/counts.json` (gitignored, created on the first count):
+
+```json
+{ "2026-11-06|forum-x.nl|a|step:start": 12, "2026-11-06|forum-x.nl|a|call": 11 }
+```
+
+Key = `day|site|variant|event`, value = how many times it happened. Nothing else exists: no IP, no time of day, no visitor or session ID.
+
+| Part | Values |
+|---|---|
+| `day` | `YYYY-MM-DD` (UTC) |
+| `site` | the forum domain, `localhost:<port>` in dev, or `saved` for the saved-link page `/i/<country>` |
+| `variant` | `a` for now (variants are not built yet) |
+| `event` | `step:start`, `step:mistake`, `step:worried`, `step:consequences`, `step:help`, `step:later`, `step:saved`, `call`, `chat` |
+
+How it gets counted:
+
+- **Steps:** `web/proxy.ts` adds 1 for every real request to `/w/<site>/<step>` (page load or in-app click, each exactly once; prefetch is off) and to `/i/<country>`.
+- **Call and chat:** the buttons send `{ site, event }` with `sendBeacon` to `POST /api/count`, which the proxy also handles. The link itself is not delayed.
+- Only valid forum domains and known events are counted, so nobody can fill the file with made-up keys.
+
+For the dashboard:
+
+- **Read only.** Use `readCounts()` and `parseKey()` from `web/lib/counter.ts`. Only the proxy writes, so there is one writer.
+- **Suppress counts below 10** (`MIN_COUNT`) in anything shown, also after summing or filtering.
+- The useful number is the funnel: `step:start` → `step:help` → `call` + `chat`.
+- `/stats/<site>` is a bare example of reading it.
+- For demo data, write fake counts in this same format. Do not use `tools/generate-traffic.js` as is: it creates per-session events with a UUID, which is exactly what we do not store.
+
 ## Running it
 
 The mock forum loads `mock-platform/redirect.js` instead of the starter widget: on an `sbis:trigger` it replaces the page with `/w/<forum host>?l=<lang>`. In dev, `localhost:<port>` counts as a valid forum so "back to the forum" works locally.

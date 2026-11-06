@@ -24,7 +24,7 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
    - Optional flags per variant that components read (e.g. `contactOrder: ["chat", "call"]`), and an optional own component per screen for bigger changes.
    - Optional step list per variant in `lib/flow.ts` (e.g. call button on screen 1).
    - `?v=` added once in `stepHref`, so it carries through every link.
-3. **Stats page and metrics endpoint.** Per forum, counts below 10 suppressed. `GET /api/metrics/<forum>` returns the contract's metrics event format: this is the "payload back to the forum" from `contract/PLUGIN_CONTRACT.md`. Optionally `redirect.js` fires one `sbis:result` (`shown: true`) before redirecting.
+3. **Stats page and metrics endpoint** (Ron: analytics dashboard; data format and rules in ARCHITECTURE.md under "Counts"). Per forum, counts below 10 suppressed. `GET /api/metrics/<forum>` returns the contract's metrics event format: this is the "payload back to the forum" from `contract/PLUGIN_CONTRACT.md`. Optionally `redirect.js` fires one `sbis:result` (`shown: true`) before redirecting.
 4. **Feedback loop.** Compare variants on reaching call/chat, then a multi-armed bandit that shifts traffic to the better variant using totals only. Mentor: this is the most important part.
 5. **English help alternative** once the question above is answered.
 6. **Install instructions page** (redirect URL format, Referrer-Policy).
