@@ -10,7 +10,8 @@ import { ANONYMOUS_ANCHOR, stepHref } from "@/lib/flow";
 type Props = {
   copy: Copy;
   pack: Pack;
-  site: string;
+  // no site on the saved-link page: no forum, nothing to save
+  site?: string;
   lang: string;
 };
 
@@ -139,12 +140,14 @@ export function Help({ copy, pack, site, lang }: Props) {
           </span>
           <span className="text-base leading-snug">{t.selfHelpBody}</span>
         </a>
-        <FlowLink
-          href={stepHref(site, "later", lang)}
-          className="inline-flex min-h-11 items-center self-start text-[17px] font-bold underline"
-        >
-          {t.saveLink}
-        </FlowLink>
+        {site && (
+          <FlowLink
+            href={stepHref(site, "later", lang)}
+            className="inline-flex min-h-11 items-center self-start text-[17px] font-bold underline"
+          >
+            {t.saveLink}
+          </FlowLink>
+        )}
       </section>
 
       <div className="mt-3 flex flex-col gap-2.5 border-t border-line pt-6">

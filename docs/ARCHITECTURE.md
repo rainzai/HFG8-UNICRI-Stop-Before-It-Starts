@@ -41,13 +41,13 @@ Every screen: one calm exit, a way back to the forum, and "Vorige". Dutch only f
 ```
 web/                              Next.js (app router), pnpm
   app/w/[site]/[[...step]]/page.tsx  all flow screens, one page
+  app/i/[country]/page.tsx           saved link: help screen without forum, same for everyone
   components/flow/                   one component per screen + shell, call button, FlowLink
   lib/flow.ts                        steps, neutral slugs, back links, domain check
   lib/content.ts                     getContent(country, lang), zod validation
   content/NL/{nl,pack}.json          Dutch copy + shared facts (helpline, hours, law)
 
   not built yet:
-  app/i/[country]/page.tsx           neutral saved-link landing page
   app/go/[service]/route.ts          count a help click, then redirect
   app/setup/page.tsx                 install instructions (no form)
   app/stats/[site]/page.tsx          aggregate stats

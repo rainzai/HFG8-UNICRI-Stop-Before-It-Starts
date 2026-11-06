@@ -83,6 +83,10 @@ const countries: Record<string, CountryPack> = {
 
 export const DEFAULT_COUNTRY = "NL";
 
+export function hasCountry(country: string) {
+  return country in countries;
+}
+
 export function getContent(country: string, lang?: string) {
   const entry = countries[country] ?? countries[DEFAULT_COUNTRY];
   const pick =
