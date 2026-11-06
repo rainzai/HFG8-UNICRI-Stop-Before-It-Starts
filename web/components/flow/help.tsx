@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
 
 import { CallButton } from "@/components/flow/call-button";
+import { ChatButton } from "@/components/flow/chat-button";
 import { FlowLink } from "@/components/flow/flow-link";
-import { Chat, Check } from "@/components/flow/icons";
+import { Check } from "@/components/flow/icons";
 import { fill, type Copy, type Pack } from "@/lib/content";
 import { ANONYMOUS_ANCHOR, stepHref } from "@/lib/flow";
 
@@ -34,13 +35,7 @@ export function Help({ copy, pack, site, lang }: Props) {
       <div className="flex flex-col gap-1">
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-2.5">
           <CallButton copy={copy} pack={pack} />
-          <a
-            href={chatUrl}
-            className="flex min-h-15 items-center justify-center gap-3 rounded-xl border-2 border-brand bg-white px-5 text-[19px] font-bold text-brand no-underline"
-          >
-            <Chat />
-            {t.chat}
-          </a>
+          <ChatButton copy={copy} pack={pack} />
         </div>
         <a href={chatUrl} className="self-start text-[15px] underline">
           {new URL(chatUrl).host}

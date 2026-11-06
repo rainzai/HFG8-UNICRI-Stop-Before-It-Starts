@@ -1,4 +1,4 @@
-import { CallBlock } from "@/components/flow/call-block";
+import { ContactBlock } from "@/components/flow/contact-block";
 import { fill, type Copy, type Pack } from "@/lib/content";
 
 type Props = {
@@ -53,7 +53,7 @@ export function Consequences({ copy, pack, site, lang }: Props) {
           {t.help}
         </p>
         <div className="flex flex-[1_1_260px]">
-          <CallBlock copy={copy} pack={pack} site={site} lang={lang} />
+          <ContactBlock copy={copy} pack={pack} site={site} lang={lang} />
         </div>
       </div>
     </>

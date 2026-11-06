@@ -10,8 +10,9 @@
     "backToForumGeneric": "Terug naar het forum",
     "privacy": "Deze pagina slaat niet op wie je bent."
   },
-  "call": {
-    "button": "Bel {phone}",
+  "contact": {
+    "call": "Bel {phone}",
+    "chat": "Start een chat",
     "caption": "{helpline} van {org} · gratis en anoniem",
     "anonymousLink": "Is het echt anoniem?"
   },
@@ -50,7 +51,6 @@
   "help": {
     "title": "Praat met de {helpline}",
     "subtitle": "Van {org}. Gratis en anoniem.",
-    "chat": "Start een chat",
     "hoursTitle": "Openingstijden",
     "closedHolidays": "Gesloten op feestdagen.",
     "anonymousTitle": "Is het anoniem?",

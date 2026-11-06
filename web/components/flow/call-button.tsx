@@ -17,7 +17,7 @@ export function CallButton({ copy, pack, className = "" }: Props) {
       className={`flex min-h-15 items-center justify-center gap-2.5 rounded-xl bg-brand px-4 text-lg font-bold whitespace-nowrap text-white no-underline hover:bg-brand-dark hover:text-white sm:gap-3 sm:px-5 sm:text-[19px] ${className}`}
     >
       <Phone />
-      {fill(copy.call.button, { phone })}
+      {fill(copy.contact.call, { phone })}
     </a>
   );
 }
