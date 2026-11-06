@@ -14,7 +14,7 @@ export function CallBlock({ copy, pack, site, lang }: Props) {
   const { name, org, phone } = pack.helpline;
 
   return (
-    <div className="flex max-w-[420px] flex-col gap-2">
+    <div className="flex w-full max-w-[420px] flex-col gap-2">
       {/* TODO: count call clicks */}
       <a
         href={`tel:${phone.replaceAll(" ", "")}`}

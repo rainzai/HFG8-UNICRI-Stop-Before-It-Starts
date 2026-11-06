@@ -18,7 +18,7 @@ export function Worried({ copy, pack, site, lang }: Props) {
       </h1>
       <p className="m-0 max-w-[34em] text-[19px] leading-normal">{t.body}</p>
       <p className="m-0 text-[19px] leading-normal">{t.help}</p>
-      <div className="mt-1">
+      <div className="mt-1 flex justify-center">
         <CallBlock copy={copy} pack={pack} site={site} lang={lang} />
       </div>
     </>
