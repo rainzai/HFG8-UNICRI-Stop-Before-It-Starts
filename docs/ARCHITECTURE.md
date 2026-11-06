@@ -102,7 +102,7 @@ For the dashboard:
 - **Read only.** Use `readCounts()` and `parseKey()` from `web/lib/counter.ts`. Only the proxy writes, so there is one writer.
 - **Suppress counts below 10** (`MIN_COUNT`) in anything shown, also after summing or filtering.
 - The useful number is the funnel: `step:start` → `step:help` → `call` + `chat`.
-- `/stats/<site>` is a bare example of reading it.
+- `/stats/<site>` is a bare example of reading it, and still open to anyone. All stats are private by default: an internal dashboard for us behind a login, and each forum only its own numbers (see PLAN.md, step 3).
 - For demo data, write fake counts in this same format. Do not use `tools/generate-traffic.js` as is: it creates per-session events with a UUID, which is exactly what we do not store.
 
 ## Running it
