@@ -1,0 +1,30 @@
+{
+  description = "hfg dev flake";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+  };
+
+  outputs = {
+    self,
+    nixpkgs,
+  }: let
+    inherit (nixpkgs) lib;
+
+    systems = [
+      "x86_64-linux"
+      "aarch64-darwin"
+    ];
+
+    forAllSystems = f: lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
+  in {
+    devShells = forAllSystems (pkgs: {
+      default = pkgs.mkShellNoCC {
+        packages = with pkgs; [
+          nodejs
+          pnpm
+        ];
+      };
+    });
+  };
+}
