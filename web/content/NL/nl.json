@@ -36,5 +36,15 @@
     "title": "Goed dat je hier even stopt.",
     "body": "Je bent niet de enige met deze zorgen. Gedachten en gewoontes zoals deze kunnen veranderen.",
     "help": "Er is hulp. Die is anoniem en gratis."
+  },
+  "consequences": {
+    "title": "Wat zegt de wet?",
+    "body": "Seksuele beelden van kinderen bekijken is strafbaar. Ook online.",
+    "maxLabel": "Maximale straf",
+    "maxValue": "{years} jaar cel",
+    "habitualLabel": "Als gewoonte of beroepsmatig",
+    "habitualValue": "tot {years} jaar cel",
+    "source": "Artikel {articles}, Wetboek van Strafrecht. Geldt sinds {since}.",
+    "help": "Wil je stoppen? Daar is anonieme hulp voor."
   }
 }

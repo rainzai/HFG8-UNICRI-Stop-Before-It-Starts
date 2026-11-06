@@ -6,5 +6,11 @@
     "name": "Preventielijn",
     "org": "Offlimits",
     "phone": "0800 266 64 36"
+  },
+  "law": {
+    "articles": [252, 254],
+    "maxYears": 6,
+    "habitualMaxYears": 9,
+    "since": "2024-07-01"
   }
 }

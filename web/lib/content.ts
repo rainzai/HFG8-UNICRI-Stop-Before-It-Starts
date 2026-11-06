@@ -15,6 +15,12 @@ const packSchema = z.object({
     org: z.string().min(1),
     phone: z.string().regex(/^[0-9 ]+$/),
   }),
+  law: z.object({
+    articles: z.array(z.number().int().positive()).min(1),
+    maxYears: z.number().int().positive(),
+    habitualMaxYears: z.number().int().positive(),
+    since: z.iso.date(),
+  }),
 });
 
 export type Pack = z.infer<typeof packSchema>;
