@@ -1,3 +1,4 @@
+import { FlowLink } from "@/components/flow/flow-link";
 import { ChevronRight } from "@/components/flow/icons";
 import { fill, type Copy } from "@/lib/content";
 import { stepHref, type Step } from "@/lib/flow";
@@ -33,23 +34,23 @@ export function Start({ copy, forum, site, lang }: Props) {
           {t.question}
         </h2>
         {options.map(([step, label]) => (
-          <a
+          <FlowLink
             key={step}
             href={stepHref(site, step, lang)}
             className="flex min-h-16 items-center justify-between gap-3 rounded-xl border-[1.5px] border-edge bg-white px-5 py-3.5 text-lg leading-snug font-bold text-ink no-underline hover:bg-tint-hover hover:text-ink"
           >
             <span>{label}</span>
             <ChevronRight />
-          </a>
+          </FlowLink>
         ))}
         <p className="mt-1.5 text-base leading-normal text-muted">
           {t.direct}{" "}
-          <a
+          <FlowLink
             href={stepHref(site, "help", lang)}
             className="inline-flex min-h-11 items-center font-bold underline"
           >
             {t.directLink}
-          </a>
+          </FlowLink>
         </p>
       </section>
     </>

@@ -60,7 +60,7 @@ These are the product, not an afterthought.
 
 - **Aggregate at ingest.** The counter stores `(site, event, day) → count` and nothing else: no IP, no timestamp finer than a day, no session ID, no cookies. Individual visits never exist in storage.
 - **No analytics tools on the visitor flow.** No PostHog, Plausible, Google Analytics or similar: they all store individual events. They are fine on the moderator and public pages.
-- **Plain `<a>` links in the flow, not `<Link>`.** Next.js prefetching would request later steps in the background and inflate the counts.
+- **`<Link prefetch={false}>` between steps (via `FlowLink`).** Prefetching would request later steps in the background and inflate the counts. External links stay plain `<a>`.
 - **Count in middleware, skip prefetch requests.**
 - **Phone links stay direct** (`tel:`), counted with a small `sendBeacon`, the only client JS in the flow.
 - **The saved link is identical for everyone** (`/i/nl`). A per-person code would be a tracking token.
