@@ -1,0 +1,47 @@
+export const STEPS = {
+  start: "",
+  mistake: "2a",
+  worried: "2b",
+  consequences: "2c",
+  help: "3",
+  later: "4",
+} as const;
+
+export type Step = keyof typeof STEPS;
+
+const BACK: Record<Step, Step | null> = {
+  start: null,
+  mistake: "start",
+  worried: "start",
+  consequences: "start",
+  help: "start",
+  later: "help",
+};
+
+export function parseStep(segments: string[] | undefined): Step | null {
+  const slug = segments?.join("/") ?? "";
+  const match = Object.entries(STEPS).find(([, s]) => s === slug);
+  return match ? (match[0] as Step) : null;
+}
+
+export function backOf(step: Step) {
+  return BACK[step];
+}
+
+// site id = forum domain
+export function parseForumDomain(raw: string): string | null {
+  let domain: string;
+  try {
+    domain = decodeURIComponent(raw).toLowerCase();
+  } catch {
+    return null;
+  }
+  if (domain.length > 253) return null;
+  if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain)) return null;
+  return domain;
+}
+
+export function stepHref(site: string, step: Step, lang: string) {
+  const slug = STEPS[step];
+  return `/w/${encodeURIComponent(site)}${slug ? `/${slug}` : ""}?l=${lang}`;
+}

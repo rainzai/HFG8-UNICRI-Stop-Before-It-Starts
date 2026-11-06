@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "title": "[Service name]"
+  },
+  "chrome": {
+    "serviceName": "[Service name]",
+    "close": "Sluiten",
+    "back": "Vorige",
+    "backToForum": "Terug naar {forum}",
+    "backToForumGeneric": "Terug naar het forum",
+    "privacy": "Deze pagina slaat niet op wie je bent."
+  },
+  "start": {
+    "title": "Je zoekopdracht op {forum} is gestopt.",
+    "titleNoForum": "Je zoekopdracht is gestopt.",
+    "body": "Seksuele beelden van kinderen bekijken is in Nederland strafbaar. Het doet echte kinderen kwaad.",
+    "question": "Wat past het best bij jou?",
+    "mistake": "Dit was een vergissing",
+    "worried": "Ik maak me zorgen over wat ik denk of bekijk",
+    "consequences": "Wat zijn de gevolgen?",
+    "direct": "Wil je meteen met iemand praten?",
+    "directLink": "Naar anonieme hulp"
+  }
+}

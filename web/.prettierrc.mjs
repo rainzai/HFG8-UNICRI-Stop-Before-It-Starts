@@ -2,7 +2,7 @@
 const config = {
   plugins: [
     "@ianvs/prettier-plugin-sort-imports",
-    // Must be last: it wraps the other plugins.
+    // must be last, wraps other plugins
     "prettier-plugin-tailwindcss",
   ],
   importOrder: [
