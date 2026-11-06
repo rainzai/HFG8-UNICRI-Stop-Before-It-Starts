@@ -1,3 +1,4 @@
+import { ChevronRight } from "@/components/flow/icons";
 import { fill, type Copy } from "@/lib/content";
 import { stepHref, type Step } from "@/lib/flow";
 
@@ -45,30 +46,12 @@ export function Start({ copy, forum, site, lang }: Props) {
           {t.direct}{" "}
           <a
             href={stepHref(site, "help", lang)}
-            className="inline-flex min-h-11 items-center px-1 font-bold underline"
+            className="inline-flex min-h-11 items-center font-bold underline"
           >
             {t.directLink}
           </a>
         </p>
       </section>
     </>
-  );
-}
-
-function ChevronRight() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M9 6l6 6-6 6" />
-    </svg>
   );
 }
