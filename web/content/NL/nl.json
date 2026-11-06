@@ -20,5 +20,11 @@
     "consequences": "Wat zijn de gevolgen?",
     "direct": "Wil je meteen met iemand praten?",
     "directLink": "Naar anonieme hulp"
+  },
+  "mistake": {
+    "title": "Oké. Bedankt dat je dit even las.",
+    "body": "Woordfilters houden soms per ongeluk een zoekopdracht tegen. Je hoeft verder niets te doen.",
+    "nudge": "Zet dit je toch aan het denken? Hulp is anoniem.",
+    "nudgeLink": "Naar anonieme hulp"
   }
 }

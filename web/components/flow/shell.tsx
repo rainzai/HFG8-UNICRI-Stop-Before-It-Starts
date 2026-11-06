@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { FlowLink } from "@/components/flow/flow-link";
 import { ChevronLeft, Lock } from "@/components/flow/icons";
 import { fill, type Copy, type Pack } from "@/lib/content";
 
@@ -7,10 +8,11 @@ type Props = {
   copy: Copy;
   pack: Pack;
   forum: string | null;
+  backHref?: string;
   children: ReactNode;
 };
 
-export function Shell({ copy, pack, forum, children }: Props) {
+export function Shell({ copy, pack, forum, backHref, children }: Props) {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="border-b border-line">
@@ -28,6 +30,15 @@ export function Shell({ copy, pack, forum, children }: Props) {
       </header>
 
       <main className="mx-auto flex w-full max-w-[720px] grow flex-col gap-[22px] px-6 pt-12 pb-10">
+        {backHref && (
+          <FlowLink
+            href={backHref}
+            className="inline-flex min-h-11 items-center gap-1 self-start text-base text-muted underline"
+          >
+            <ChevronLeft />
+            {copy.chrome.back}
+          </FlowLink>
+        )}
         {children}
       </main>
 
