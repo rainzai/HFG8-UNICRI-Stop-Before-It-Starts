@@ -1,6 +1,6 @@
 {
   "country": "NL",
-  "languages": ["nl"],
+  "languages": ["nl", "en"],
   "exitUrl": "https://www.google.nl",
   "helpline": {
     "name": "Preventielijn",

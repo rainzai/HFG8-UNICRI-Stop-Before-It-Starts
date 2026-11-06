@@ -1,6 +1,6 @@
 import { FlowLink } from "@/components/flow/flow-link";
 import { ChevronRight } from "@/components/flow/icons";
-import { fill, type Copy } from "@/lib/content";
+import type { Copy } from "@/lib/content";
 import { stepHref, type Step } from "@/lib/flow";
 
 type Props = {
@@ -22,7 +22,11 @@ export function Start({ copy, forum, site, lang }: Props) {
     <>
       <div className="flex flex-col gap-3.5">
         <h1 className="m-0 text-[clamp(30px,3.4vw,42px)] leading-tight font-bold">
-          {forum ? fill(t.title, { forum }) : t.titleNoForum}
+          {forum ? (
+            <WithForum template={t.title} forum={forum} />
+          ) : (
+            t.titleNoForum
+          )}
         </h1>
         <p className="m-0 max-w-[34em] text-[clamp(19px,1.6vw,21px)] leading-normal">
           {t.body}
@@ -53,6 +57,18 @@ export function Start({ copy, forum, site, lang }: Props) {
           </FlowLink>
         </p>
       </section>
+    </>
+  );
+}
+
+// domain on one line, it would otherwise break at a hyphen
+function WithForum({ template, forum }: { template: string; forum: string }) {
+  const [before, after] = template.split("{forum}");
+  return (
+    <>
+      {before}
+      <span className="whitespace-nowrap">{forum}</span>
+      {after}
     </>
   );
 }

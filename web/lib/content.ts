@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import nlEn from "@/content/NL/en.json";
 import nlNl from "@/content/NL/nl.json";
 import nlPack from "@/content/NL/pack.json";
 
@@ -79,7 +80,7 @@ function load(pack: unknown, copy: Record<string, unknown>): CountryPack {
 // new country: add content/<CC>/, register here
 // new language: add content/<CC>/<lang>.json, list in pack.json, register here
 const countries: Record<string, CountryPack> = {
-  NL: load(nlPack, { nl: nlNl }),
+  NL: load(nlPack, { nl: nlNl, en: nlEn }),
 };
 
 export const DEFAULT_COUNTRY = "NL";

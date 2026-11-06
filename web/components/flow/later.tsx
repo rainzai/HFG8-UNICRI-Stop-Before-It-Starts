@@ -5,9 +5,10 @@ import { savedLinkPath } from "@/lib/flow";
 type Props = {
   copy: Copy;
   pack: Pack;
+  lang: string;
 };
 
-export function Later({ copy, pack }: Props) {
+export function Later({ copy, pack, lang }: Props) {
   const t = copy.later;
 
   return (
@@ -17,7 +18,7 @@ export function Later({ copy, pack }: Props) {
       </h1>
       <p className="m-0 max-w-[34em] text-lg leading-normal">{t.body}</p>
       <CopyLink
-        path={savedLinkPath(pack.country)}
+        path={savedLinkPath(pack.country, lang)}
         label={t.copy}
         copiedLabel={t.copied}
       />

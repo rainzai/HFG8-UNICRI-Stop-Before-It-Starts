@@ -68,6 +68,6 @@ export function stepHref(
 }
 
 // same for everyone, a per-person link would be a tracking token
-export function savedLinkPath(country: string) {
-  return `/i/${country.toLowerCase()}`;
+export function savedLinkPath(country: string, lang?: string) {
+  return `/i/${country.toLowerCase()}${lang ? `?l=${lang}` : ""}`;
 }

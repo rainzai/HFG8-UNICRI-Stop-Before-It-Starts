@@ -2,6 +2,10 @@ import type { ReactNode } from "react";
 
 import { FlowLink } from "@/components/flow/flow-link";
 import { ChevronLeft, Lock } from "@/components/flow/icons";
+import {
+  LanguageMenu,
+  type LanguageOption,
+} from "@/components/flow/language-menu";
 import { fill, type Copy, type Pack } from "@/lib/content";
 import { forumHref } from "@/lib/flow";
 
@@ -10,10 +14,20 @@ type Props = {
   pack: Pack;
   forum: string | null;
   backHref?: string;
+  lang: string;
+  languages: LanguageOption[];
   children: ReactNode;
 };
 
-export function Shell({ copy, pack, forum, backHref, children }: Props) {
+export function Shell({
+  copy,
+  pack,
+  forum,
+  backHref,
+  lang,
+  languages,
+  children,
+}: Props) {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="border-b border-line">
@@ -21,12 +35,19 @@ export function Shell({ copy, pack, forum, backHref, children }: Props) {
           <span className="text-[17px] font-bold">
             {copy.chrome.serviceName}
           </span>
-          <a
-            href={pack.exitUrl}
-            className="inline-flex min-h-11 items-center rounded-[10px] border-[1.5px] border-edge px-4 text-[15px] font-bold text-ink no-underline hover:text-ink"
-          >
-            {copy.chrome.close}
-          </a>
+          <div className="flex items-center gap-1">
+            <LanguageMenu
+              label={copy.chrome.language}
+              current={lang}
+              options={languages}
+            />
+            <a
+              href={pack.exitUrl}
+              className="inline-flex min-h-11 items-center rounded-[10px] border-[1.5px] border-edge px-4 text-[15px] font-bold text-ink no-underline hover:text-ink"
+            >
+              {copy.chrome.close}
+            </a>
+          </div>
         </div>
       </header>
 

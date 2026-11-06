@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { Help } from "@/components/flow/help";
 import { Shell } from "@/components/flow/shell";
 import { getContent, hasCountry } from "@/lib/content";
+import { savedLinkPath } from "@/lib/flow";
 
 // required by cacheComponents for params
 export default function Page(props: PageProps<"/i/[country]">) {
@@ -28,7 +29,16 @@ async function Saved({ params, searchParams }: PageProps<"/i/[country]">) {
 
   return (
     <div lang={lang}>
-      <Shell copy={copy} pack={pack} forum={null}>
+      <Shell
+        copy={copy}
+        pack={pack}
+        forum={null}
+        lang={lang}
+        languages={pack.languages.map((code) => ({
+          code,
+          href: savedLinkPath(pack.country, code),
+        }))}
+      >
         <Help copy={copy} pack={pack} lang={lang} />
       </Shell>
     </div>

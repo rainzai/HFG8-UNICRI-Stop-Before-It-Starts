@@ -5,6 +5,7 @@
   "chrome": {
     "serviceName": "[Service name]",
     "close": "Sluiten",
+    "language": "Taal",
     "back": "Vorige",
     "backToForum": "Terug naar {forum}",
     "backToForumGeneric": "Terug naar het forum",

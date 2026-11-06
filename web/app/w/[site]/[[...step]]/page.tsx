@@ -46,6 +46,11 @@ async function Flow({
         pack={pack}
         forum={forum}
         backHref={back ? stepHref(site, back, lang) : undefined}
+        lang={lang}
+        languages={pack.languages.map((code) => ({
+          code,
+          href: stepHref(site, step, code),
+        }))}
       >
         {step === "start" && <Start {...screenProps} />}
         {step === "mistake" && <Mistake {...screenProps} />}

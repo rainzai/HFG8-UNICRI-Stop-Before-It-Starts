@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "title": "[Service name]"
+  },
+  "chrome": {
+    "serviceName": "[Service name]",
+    "close": "Close",
+    "language": "Language",
+    "back": "Back",
+    "backToForum": "Back to {forum}",
+    "backToForumGeneric": "Back to the forum",
+    "privacy": "This page does not store who you are."
+  },
+  "contact": {
+    "call": "Call {phone}",
+    "chat": "Start a chat",
+    "caption": "{helpline} by {org} · free, anonymous, in Dutch",
+    "anonymousLink": "Is it really anonymous?"
+  },
+  "start": {
+    "title": "Your search on {forum} was stopped.",
+    "titleNoForum": "Your search was stopped.",
+    "body": "Viewing sexual images of children is a crime in the Netherlands. It harms real children.",
+    "question": "What fits you best?",
+    "mistake": "This was a mistake",
+    "worried": "I am worried about what I think or watch",
+    "consequences": "What are the consequences?",
+    "direct": "Want to talk to someone right away?",
+    "directLink": "Go to anonymous help"
+  },
+  "mistake": {
+    "title": "Okay. Thanks for reading this.",
+    "body": "Word filters sometimes block a search by accident. You do not need to do anything else.",
+    "nudge": "Did this make you think anyway? Help is anonymous.",
+    "nudgeLink": "Go to anonymous help"
+  },
+  "worried": {
+    "title": "It is good that you stopped here.",
+    "body": "You are not the only one with these worries. Thoughts and habits like these can change.",
+    "help": "Help exists. It is anonymous and free."
+  },
+  "consequences": {
+    "title": "What does the law say?",
+    "body": "Viewing sexual images of children is a crime. Online too.",
+    "maxLabel": "Maximum sentence",
+    "maxValue": "{years} years in prison",
+    "habitualLabel": "If habitual or professional",
+    "habitualValue": "up to {years} years in prison",
+    "source": "Articles {articles}, Dutch Criminal Code. In force since {since}.",
+    "help": "Want to stop? There is anonymous help for that."
+  },
+  "help": {
+    "title": "Talk to the {helpline}",
+    "subtitle": "By {org}. Free and anonymous. Conversations are in Dutch.",
+    "hoursTitle": "Opening hours",
+    "closedHolidays": "Closed on public holidays.",
+    "anonymousTitle": "Is it anonymous?",
+    "anonymousAnswer": "Yes.",
+    "anonymousBody": "You do not have to say who you are.",
+    "anonymousPoints": [
+      "They cannot see your phone number, and the call does not appear on your bill.",
+      "This page does not get your name or forum account.",
+      "It is free."
+    ],
+    "reportedTitle": "Will I be reported?",
+    "reportedAnswer": "No.",
+    "reportedBody": "What you share stays between you and the {helpline}. They do not pass it on to the police or the courts.",
+    "reportedException": "Only if a child faces serious danger in the future do they have to report it.",
+    "expectTitle": "What a conversation is like",
+    "expectSteps": [
+      "Someone from the {helpline} answers. All staff are bound by professional secrecy.",
+      "You do not give your name. You decide what you share.",
+      "You talk about what is going on and what might help.",
+      "You can always hang up or close the chat."
+    ],
+    "notReadyTitle": "Not ready to talk yet?",
+    "selfHelpBody": "An anonymous self-help programme, in Dutch. You work through it alone, at your own pace.",
+    "saveLink": "Save this for later",
+    "alsoFor": "The {helpline} also helps partners, family and professionals."
+  },
+  "later": {
+    "title": "Come back whenever you want",
+    "body": "Save this link. The link and the title look neutral in your history or bookmarks.",
+    "copy": "Copy link",
+    "copied": "Copied",
+    "note": "The link contains nothing about you or your search."
+  }
+}
