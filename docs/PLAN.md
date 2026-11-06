@@ -19,6 +19,11 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
 
 1. **Research: what gets people to help.** Go through `research/EVIDENCE.md` and the studies in `BRIEF.md` (Prichard 2024 deterrent vs therapeutic, Ciardha 2026 harm-focused, reThink chatbot, Google redesign, ReDirection, Prevent It). Output: a short list of techniques we can turn into testable variants.
 2. **Counter with variants.** `(forum, variant, step, day) → count`, nothing else. Count in `proxy.ts` per real step request, call and chat clicks via `sendBeacon`. Variant assigned at random per visit, carried in the URL (`?v=b`), no cookie.
+   Variants are more than restyles: wording, buttons, links to other services, even flow. Setup:
+   - `content/<CC>/variants/<id>.json`: partial overrides of copy (per language) and pack (e.g. a different self-help service, verified only), deep-merged in `getContent(country, lang, variant)`; zod rejects keys that do not exist in the base.
+   - Optional flags per variant that components read (e.g. `contactOrder: ["chat", "call"]`), and an optional own component per screen for bigger changes.
+   - Optional step list per variant in `lib/flow.ts` (e.g. call button on screen 1).
+   - `?v=` added once in `stepHref`, so it carries through every link.
 3. **Stats page and metrics endpoint.** Per forum, counts below 10 suppressed. `GET /api/metrics/<forum>` returns the contract's metrics event format: this is the "payload back to the forum" from `contract/PLUGIN_CONTRACT.md`. Optionally `redirect.js` fires one `sbis:result` (`shown: true`) before redirecting.
 4. **Feedback loop.** Compare variants on reaching call/chat, then a multi-armed bandit that shifts traffic to the better variant using totals only. Mentor: this is the most important part.
 5. **English help alternative** once the question above is answered.
