@@ -51,3 +51,19 @@ export function Phone() {
     </Icon>
   );
 }
+
+export function Chat() {
+  return (
+    <Icon size={22}>
+      <path d="M4 5h16v11H9l-5 4z" />
+    </Icon>
+  );
+}
+
+export function Check() {
+  return (
+    <Icon size={22}>
+      <path d="M5 12l4 4 10-10" />
+    </Icon>
+  );
+}

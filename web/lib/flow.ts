@@ -41,7 +41,15 @@ export function parseForumDomain(raw: string): string | null {
   return domain;
 }
 
-export function stepHref(site: string, step: Step, lang: string) {
+export const ANONYMOUS_ANCHOR = "anoniem";
+
+export function stepHref(
+  site: string,
+  step: Step,
+  lang: string,
+  anchor?: string,
+) {
   const slug = STEPS[step];
-  return `/w/${encodeURIComponent(site)}${slug ? `/${slug}` : ""}?l=${lang}`;
+  const path = `/w/${encodeURIComponent(site)}${slug ? `/${slug}` : ""}`;
+  return `${path}?l=${lang}${anchor ? `#${anchor}` : ""}`;
 }

@@ -14,6 +14,22 @@ const packSchema = z.object({
     name: z.string().min(1),
     org: z.string().min(1),
     phone: z.string().regex(/^[0-9 ]+$/),
+    chatUrl: z.url({ protocol: /^https$/ }),
+    // days: [first, last], 1 = monday
+    hours: z.array(
+      z.object({
+        days: z.tuple([
+          z.number().int().min(1).max(7),
+          z.number().int().min(1).max(7),
+        ]),
+        open: z.string().regex(/^\d\d:\d\d$/),
+        close: z.string().regex(/^\d\d:\d\d$/),
+      }),
+    ),
+  }),
+  selfHelp: z.object({
+    name: z.string().min(1),
+    url: z.url({ protocol: /^https$/ }),
   }),
   law: z.object({
     articles: z.array(z.number().int().positive()).min(1),

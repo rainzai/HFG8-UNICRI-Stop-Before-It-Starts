@@ -46,5 +46,33 @@
     "habitualValue": "tot {years} jaar cel",
     "source": "Artikel {articles}, Wetboek van Strafrecht. Geldt sinds {since}.",
     "help": "Wil je stoppen? Daar is anonieme hulp voor."
+  },
+  "help": {
+    "title": "Praat met de {helpline}",
+    "subtitle": "Van {org}. Gratis en anoniem.",
+    "chat": "Start een chat",
+    "hoursTitle": "Openingstijden",
+    "closedHolidays": "Gesloten op feestdagen.",
+    "reportedTitle": "Word ik aangegeven?",
+    "reportedAnswer": "Nee.",
+    "reportedBody": "Wat je vertelt blijft tussen jou en de {helpline}. Ze geven het niet door aan politie of justitie.",
+    "reportedException": "Alleen bij ernstig gevaar voor een kind in de toekomst moeten ze iets melden.",
+    "reportedPoints": [
+      "Je hoeft je naam niet te noemen.",
+      "Ze zien je telefoonnummer niet, en het nummer staat niet op je rekening.",
+      "Het is gratis.",
+      "Deze pagina krijgt je naam en forumaccount niet."
+    ],
+    "expectTitle": "Zo gaat een gesprek",
+    "expectSteps": [
+      "Een medewerker van de {helpline} neemt op. Alle medewerkers hebben beroepsgeheim.",
+      "Je noemt geen naam. Je bepaalt zelf wat je vertelt.",
+      "Jullie praten over wat er speelt en wat kan helpen.",
+      "Je kunt altijd ophangen of de chat sluiten."
+    ],
+    "notReadyTitle": "Nog niet klaar om te praten?",
+    "selfHelpBody": "Een anonieme zelfhulpmodule. Je doet het alleen, in je eigen tempo.",
+    "saveLink": "Bewaar dit voor later",
+    "alsoFor": "De {helpline} helpt ook partners, familie en professionals."
   }
 }

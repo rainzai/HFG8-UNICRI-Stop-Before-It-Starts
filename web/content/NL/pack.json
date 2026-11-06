@@ -5,7 +5,29 @@
   "helpline": {
     "name": "Preventielijn",
     "org": "Offlimits",
-    "phone": "0800 266 64 36"
+    "phone": "0800 266 64 36",
+    "chatUrl": "https://preventielijn.offlimits.nl",
+    "hours": [
+      {
+        "days": [1, 4],
+        "open": "09:00",
+        "close": "22:00"
+      },
+      {
+        "days": [5, 5],
+        "open": "09:00",
+        "close": "17:30"
+      },
+      {
+        "days": [6, 7],
+        "open": "09:30",
+        "close": "18:00"
+      }
+    ]
+  },
+  "selfHelp": {
+    "name": "Stoppen is mogelijk",
+    "url": "https://stoppen-is-mogelijk.eu"
   },
   "law": {
     "articles": [252, 254],

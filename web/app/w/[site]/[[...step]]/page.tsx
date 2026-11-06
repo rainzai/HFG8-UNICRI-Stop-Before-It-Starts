@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { Consequences } from "@/components/flow/consequences";
+import { Help } from "@/components/flow/help";
 import { Mistake } from "@/components/flow/mistake";
 import { Shell } from "@/components/flow/shell";
 import { Start } from "@/components/flow/start";
@@ -31,7 +32,8 @@ async function Flow({
     step !== "start" &&
     step !== "mistake" &&
     step !== "worried" &&
-    step !== "consequences"
+    step !== "consequences" &&
+    step !== "help"
   )
     notFound();
 
@@ -56,6 +58,7 @@ async function Flow({
         {step === "mistake" && <Mistake {...screenProps} />}
         {step === "worried" && <Worried {...screenProps} />}
         {step === "consequences" && <Consequences {...screenProps} />}
+        {step === "help" && <Help {...screenProps} />}
       </Shell>
     </div>
   );
