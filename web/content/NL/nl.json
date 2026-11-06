@@ -10,6 +10,11 @@
     "backToForumGeneric": "Terug naar het forum",
     "privacy": "Deze pagina slaat niet op wie je bent."
   },
+  "call": {
+    "button": "Bel {phone}",
+    "caption": "{helpline} van {org} · gratis en anoniem",
+    "anonymousLink": "Is het echt anoniem?"
+  },
   "start": {
     "title": "Je zoekopdracht op {forum} is gestopt.",
     "titleNoForum": "Je zoekopdracht is gestopt.",
@@ -26,5 +31,10 @@
     "body": "Woordfilters houden soms per ongeluk een zoekopdracht tegen. Je hoeft verder niets te doen.",
     "nudge": "Zet dit je toch aan het denken? Hulp is anoniem.",
     "nudgeLink": "Naar anonieme hulp"
+  },
+  "worried": {
+    "title": "Goed dat je hier even stopt.",
+    "body": "Je bent niet de enige met deze zorgen. Gedachten en gewoontes zoals deze kunnen veranderen.",
+    "help": "Er is hulp. Die is anoniem en gratis."
   }
 }

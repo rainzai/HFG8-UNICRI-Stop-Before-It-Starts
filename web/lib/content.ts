@@ -10,6 +10,11 @@ const packSchema = z.object({
   country: z.string().length(2),
   languages: z.array(z.string().length(2)).min(1),
   exitUrl: z.url({ protocol: /^https$/ }),
+  helpline: z.object({
+    name: z.string().min(1),
+    org: z.string().min(1),
+    phone: z.string().regex(/^[0-9 ]+$/),
+  }),
 });
 
 export type Pack = z.infer<typeof packSchema>;

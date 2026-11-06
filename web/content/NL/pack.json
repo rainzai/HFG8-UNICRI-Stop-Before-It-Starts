@@ -1,5 +1,10 @@
 {
   "country": "NL",
   "languages": ["nl"],
-  "exitUrl": "https://www.google.nl"
+  "exitUrl": "https://www.google.nl",
+  "helpline": {
+    "name": "Preventielijn",
+    "org": "Offlimits",
+    "phone": "0800 266 64 36"
+  }
 }

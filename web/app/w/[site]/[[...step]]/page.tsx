@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { Mistake } from "@/components/flow/mistake";
 import { Shell } from "@/components/flow/shell";
 import { Start } from "@/components/flow/start";
+import { Worried } from "@/components/flow/worried";
 import { DEFAULT_COUNTRY, getContent } from "@/lib/content";
 import { backOf, parseForumDomain, parseStep, stepHref } from "@/lib/flow";
 
@@ -25,7 +26,7 @@ async function Flow({
 
   const step = parseStep(segments);
   // TODO: other screens
-  if (step !== "start" && step !== "mistake") notFound();
+  if (step !== "start" && step !== "mistake" && step !== "worried") notFound();
 
   const forum = parseForumDomain(site);
   const { pack, copy, lang } = getContent(
@@ -34,7 +35,7 @@ async function Flow({
   );
 
   const back = backOf(step);
-  const screenProps = { copy, forum, site, lang };
+  const screenProps = { copy, pack, forum, site, lang };
 
   return (
     <div lang={lang}>
@@ -46,6 +47,7 @@ async function Flow({
       >
         {step === "start" && <Start {...screenProps} />}
         {step === "mistake" && <Mistake {...screenProps} />}
+        {step === "worried" && <Worried {...screenProps} />}
       </Shell>
     </div>
   );
