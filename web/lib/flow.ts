@@ -29,13 +29,17 @@ export function backOf(step: Step) {
 }
 
 // site id = forum domain
-export function parseForumDomain(raw: string): string | null {
-  let domain: string;
+// params arrive still encoded, stepHref encodes again: decode once here
+export function decodeSite(raw: string) {
   try {
-    domain = decodeURIComponent(raw).toLowerCase();
+    return decodeURIComponent(raw);
   } catch {
-    return null;
+    return raw;
   }
+}
+
+export function parseForumDomain(site: string): string | null {
+  const domain = site.toLowerCase();
   if (domain.length > 253) return null;
   if (isLocalForum(domain)) return domain;
   if (!/^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(domain)) return null;

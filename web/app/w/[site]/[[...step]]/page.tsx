@@ -9,7 +9,13 @@ import { Shell } from "@/components/flow/shell";
 import { Start } from "@/components/flow/start";
 import { Worried } from "@/components/flow/worried";
 import { DEFAULT_COUNTRY, getContent } from "@/lib/content";
-import { backOf, parseForumDomain, parseStep, stepHref } from "@/lib/flow";
+import {
+  backOf,
+  decodeSite,
+  parseForumDomain,
+  parseStep,
+  stepHref,
+} from "@/lib/flow";
 
 // required by cacheComponents for params
 export default function Page(props: PageProps<"/w/[site]/[[...step]]">) {
@@ -24,7 +30,8 @@ async function Flow({
   params,
   searchParams,
 }: PageProps<"/w/[site]/[[...step]]">) {
-  const { site, step: segments } = await params;
+  const { site: rawSite, step: segments } = await params;
+  const site = decodeSite(rawSite);
   const { l: requestedLang } = await searchParams;
 
   const step = parseStep(segments);
