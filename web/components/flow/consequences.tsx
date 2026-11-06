@@ -33,7 +33,7 @@ export function Consequences({ copy, pack, site, lang }: Props) {
       </h1>
       <p className="m-0 text-[19px] leading-normal">{t.body}</p>
 
-      <dl className="m-0 grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">
+      <dl className="m-0 grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-3">
         {penalties.map(([label, value]) => (
           <div
             key={label}
@@ -48,7 +48,7 @@ export function Consequences({ copy, pack, site, lang }: Props) {
         {fill(t.source, { articles, since })}
       </p>
 
-      <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 rounded-xl bg-tint p-5">
+      <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 rounded-xl bg-tint p-4 sm:p-5">
         <p className="m-0 flex-[1_1_240px] text-lg leading-snug font-bold">
           {t.help}
         </p>
