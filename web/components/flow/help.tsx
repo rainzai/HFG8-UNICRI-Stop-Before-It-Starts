@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import { CallButton } from "@/components/flow/call-button";
 import { FlowLink } from "@/components/flow/flow-link";
 import { Chat, Check } from "@/components/flow/icons";
@@ -59,26 +61,18 @@ export function Help({ copy, pack, site, lang }: Props) {
 
       <section
         id={ANONYMOUS_ANCHOR}
-        aria-labelledby="reported"
+        aria-labelledby="anonymous"
         className="mt-[18px] flex scroll-mt-6 flex-col gap-4"
       >
-        <h2 id="reported" className="m-0 text-[26px] leading-tight font-bold">
-          {t.reportedTitle}
+        <h2 id="anonymous" className="m-0 text-[26px] leading-tight font-bold">
+          {t.anonymousTitle}
         </h2>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(280px,100%),1fr))] items-start gap-5">
-          <div className="flex flex-col gap-2 rounded-[14px] border-2 border-brand bg-white p-[22px]">
-            <p className="m-0 text-[28px] font-bold text-brand">
-              {t.reportedAnswer}
-            </p>
-            <p className="m-0 text-lg leading-normal">
-              {fill(t.reportedBody, vars)}
-            </p>
-            <p className="m-0 text-base leading-snug text-muted">
-              {t.reportedException}
-            </p>
-          </div>
+          <Answer answer={t.anonymousAnswer}>
+            <p className="m-0 text-lg leading-normal">{t.anonymousBody}</p>
+          </Answer>
           <ul className="m-0 flex list-none flex-col gap-3.5 p-0 pt-1">
-            {t.reportedPoints.map((point) => (
+            {t.anonymousPoints.map((point) => (
               <li
                 key={point}
                 className="flex items-start gap-3 text-[17px] leading-snug"
@@ -91,6 +85,23 @@ export function Help({ copy, pack, site, lang }: Props) {
             ))}
           </ul>
         </div>
+      </section>
+
+      <section
+        aria-labelledby="reported"
+        className="mt-[18px] flex flex-col gap-4"
+      >
+        <h2 id="reported" className="m-0 text-[26px] leading-tight font-bold">
+          {t.reportedTitle}
+        </h2>
+        <Answer answer={t.reportedAnswer}>
+          <p className="m-0 text-lg leading-normal">
+            {fill(t.reportedBody, vars)}
+          </p>
+          <p className="m-0 text-base leading-snug text-muted">
+            {t.reportedException}
+          </p>
+        </Answer>
       </section>
 
       <section
@@ -158,4 +169,13 @@ function dayRange([first, last]: [number, number], lang: string) {
       Date.UTC(2024, 0, day),
     );
   return first === last ? name(first) : `${name(first)}–${name(last)}`;
+}
+
+function Answer({ answer, children }: { answer: string; children: ReactNode }) {
+  return (
+    <div className="flex flex-col gap-2 rounded-[14px] border-2 border-brand bg-white p-[22px]">
+      <p className="m-0 text-[28px] font-bold text-brand">{answer}</p>
+      {children}
+    </div>
+  );
 }

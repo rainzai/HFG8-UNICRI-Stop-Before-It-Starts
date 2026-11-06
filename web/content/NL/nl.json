@@ -53,16 +53,18 @@
     "chat": "Start een chat",
     "hoursTitle": "Openingstijden",
     "closedHolidays": "Gesloten op feestdagen.",
+    "anonymousTitle": "Is het anoniem?",
+    "anonymousAnswer": "Ja.",
+    "anonymousBody": "Je hoeft niet te zeggen wie je bent.",
+    "anonymousPoints": [
+      "Ze zien je telefoonnummer niet, en het nummer staat niet op je rekening.",
+      "Deze pagina krijgt je naam en forumaccount niet.",
+      "Het is gratis."
+    ],
     "reportedTitle": "Word ik aangegeven?",
     "reportedAnswer": "Nee.",
     "reportedBody": "Wat je vertelt blijft tussen jou en de {helpline}. Ze geven het niet door aan politie of justitie.",
     "reportedException": "Alleen bij ernstig gevaar voor een kind in de toekomst moeten ze iets melden.",
-    "reportedPoints": [
-      "Je hoeft je naam niet te noemen.",
-      "Ze zien je telefoonnummer niet, en het nummer staat niet op je rekening.",
-      "Het is gratis.",
-      "Deze pagina krijgt je naam en forumaccount niet."
-    ],
     "expectTitle": "Zo gaat een gesprek",
     "expectSteps": [
       "Een medewerker van de {helpline} neemt op. Alle medewerkers hebben beroepsgeheim.",
