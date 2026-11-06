@@ -2,6 +2,10 @@
 
 This is the challenge repository for the **UNICRI Stop Before It Starts** challenge at **Hackathon for Good #8** (6-8 November 2026, The Hague).
 
+## Our Build
+
+We build a hosted warning-to-help page in `web/` that platforms redirect to. Architecture, decisions and privacy rules: @docs/ARCHITECTURE.md
+
 ## What This Repo Is
 
 A hackathon challenge repository — not a software project. It contains starter code, data files, templates and documentation. Participants fork this repo and build their solutions on top of it.
