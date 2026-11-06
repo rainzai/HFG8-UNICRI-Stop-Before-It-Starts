@@ -1,5 +1,7 @@
 # Architecture
 
+What is done and what is next: [PLAN.md](PLAN.md).
+
 ## The idea
 
 Warnings already work at stopping a search. Where they fail is the next step: roughly 1 in 100 people who see a warning click through to help, and far fewer actually contact anyone. Everyone else is improving the warning. We shrink the jump from warning to help.
