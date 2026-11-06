@@ -44,7 +44,7 @@ async function Flow({
   );
 
   const back = backOf(step);
-  const screenProps = { copy, pack, forum, site, lang };
+  const screenProps = { copy, pack, forum, site, lang, statsSite: forum };
 
   return (
     <div lang={lang}>

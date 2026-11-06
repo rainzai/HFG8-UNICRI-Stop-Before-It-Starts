@@ -4,11 +4,12 @@ import type { Copy, Pack } from "@/lib/content";
 type Props = {
   copy: Copy;
   pack: Pack;
+  forum: string | null;
   site: string;
   lang: string;
 };
 
-export function Worried({ copy, pack, site, lang }: Props) {
+export function Worried({ copy, pack, forum, site, lang }: Props) {
   const t = copy.worried;
 
   return (
@@ -19,7 +20,13 @@ export function Worried({ copy, pack, site, lang }: Props) {
       <p className="m-0 max-w-[34em] text-[19px] leading-normal">{t.body}</p>
       <p className="m-0 text-[19px] leading-normal">{t.help}</p>
       <div className="mt-1 flex justify-center">
-        <ContactBlock copy={copy} pack={pack} site={site} lang={lang} />
+        <ContactBlock
+          copy={copy}
+          pack={pack}
+          site={site}
+          statsSite={forum}
+          lang={lang}
+        />
       </div>
     </>
   );

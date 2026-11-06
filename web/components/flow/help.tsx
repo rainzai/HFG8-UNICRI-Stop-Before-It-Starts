@@ -12,10 +12,11 @@ type Props = {
   pack: Pack;
   // no site on the saved-link page: no forum, nothing to save
   site?: string;
+  statsSite: string | null;
   lang: string;
 };
 
-export function Help({ copy, pack, site, lang }: Props) {
+export function Help({ copy, pack, site, statsSite, lang }: Props) {
   const t = copy.help;
   const { name: helpline, org, url, hours } = pack.helpline;
   const vars = { helpline, org };
@@ -35,8 +36,8 @@ export function Help({ copy, pack, site, lang }: Props) {
 
       <div className="flex flex-col gap-1">
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-2.5">
-          <CallButton copy={copy} pack={pack} />
-          <ChatButton copy={copy} pack={pack} />
+          <CallButton copy={copy} pack={pack} statsSite={statsSite} />
+          <ChatButton copy={copy} pack={pack} statsSite={statsSite} />
         </div>
         <a href={url} className="self-start text-[15px] underline">
           {new URL(url).host}
@@ -151,7 +152,12 @@ export function Help({ copy, pack, site, lang }: Props) {
       </section>
 
       <div className="mt-3 flex flex-col gap-2.5 border-t border-line pt-6">
-        <CallButton copy={copy} pack={pack} className="max-w-[420px]" />
+        <CallButton
+          copy={copy}
+          pack={pack}
+          statsSite={statsSite}
+          className="max-w-[420px]"
+        />
         <p className="m-0 text-[15px] leading-snug text-muted">
           {fill(t.alsoFor, vars)}
         </p>

@@ -4,11 +4,12 @@ import { fill, type Copy, type Pack } from "@/lib/content";
 type Props = {
   copy: Copy;
   pack: Pack;
+  forum: string | null;
   site: string;
   lang: string;
 };
 
-export function Consequences({ copy, pack, site, lang }: Props) {
+export function Consequences({ copy, pack, forum, site, lang }: Props) {
   const t = copy.consequences;
   const { law } = pack;
 
@@ -53,7 +54,13 @@ export function Consequences({ copy, pack, site, lang }: Props) {
           {t.help}
         </p>
         <div className="flex flex-[1_1_260px]">
-          <ContactBlock copy={copy} pack={pack} site={site} lang={lang} />
+          <ContactBlock
+            copy={copy}
+            pack={pack}
+            site={site}
+            statsSite={forum}
+            lang={lang}
+          />
         </div>
       </div>
     </>

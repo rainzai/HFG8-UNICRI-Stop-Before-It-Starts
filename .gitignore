@@ -48,6 +48,7 @@ pnpm-lock.yaml
 
 # Next.js app (web/)
 web/.next/
+web/.data/
 web/out/
 web/next-env.d.ts
 *.tsbuildinfo

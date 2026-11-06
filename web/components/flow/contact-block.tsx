@@ -8,16 +8,17 @@ type Props = {
   copy: Copy;
   pack: Pack;
   site: string;
+  statsSite: string | null;
   lang: string;
 };
 
-export function ContactBlock({ copy, pack, site, lang }: Props) {
+export function ContactBlock({ copy, pack, site, statsSite, lang }: Props) {
   const { name, org } = pack.helpline;
 
   return (
     <div className="flex w-full max-w-[420px] flex-col gap-2">
-      <CallButton copy={copy} pack={pack} />
-      <ChatButton copy={copy} pack={pack} />
+      <CallButton copy={copy} pack={pack} statsSite={statsSite} />
+      <ChatButton copy={copy} pack={pack} statsSite={statsSite} />
       <p className="m-0 text-center text-[15px] text-muted">
         {fill(copy.contact.caption, { helpline: name, org })}
       </p>

@@ -47,14 +47,14 @@ web/                              Next.js (app router), pnpm
   components/flow/                   one component per screen + shell, call button, FlowLink
   lib/flow.ts                        steps, neutral slugs, back links, domain check
   lib/content.ts                     getContent(country, lang), zod validation
-  content/NL/{nl,pack}.json          Dutch copy + shared facts (helpline, hours, law)
+  content/NL/{nl,en,pack}.json       copy per language + shared facts (helpline, hours, law)
+  proxy.ts                           the only writer: +1 per step request, and POST /api/count for call/chat beacons
+  lib/counter.ts                     (day, site, variant, event) → count in web/.data/counts.json (gitignored)
+  app/stats/[site]/page.tsx          totals per forum, counts below 10 hidden (bare for now)
 
   not built yet:
-  app/go/[service]/route.ts          count a help click, then redirect
   app/setup/page.tsx                 install instructions (no form)
-  app/stats/[site]/page.tsx          aggregate stats
-  proxy.ts                           count real step visits (Next 16 name for middleware)
-  lib/counter.ts                     (site, event, day) → count
+  variants (?v=), metrics endpoint for forums
 ```
 
 Copy lives in country packs, keyed by country **and** language (`nl.json` is the reference shape; other languages must match it): English for the Netherlands carries Dutch law and Dutch helplines, which differs from English for Belgium. Adding a country means adding a folder. Packs are validated at build time, so a missing translation fails the build instead of rendering blank.
@@ -68,7 +68,7 @@ These are the product, not an afterthought.
 - **Aggregate at ingest.** The counter stores `(site, event, day) → count` and nothing else: no IP, no timestamp finer than a day, no session ID, no cookies. Individual visits never exist in storage.
 - **No analytics tools on the visitor flow.** No PostHog, Plausible, Google Analytics or similar: they all store individual events. They are fine on the moderator and public pages.
 - **`<Link prefetch={false}>` between steps (via `FlowLink`).** Prefetching would request later steps in the background and inflate the counts. External links stay plain `<a>`.
-- **Count in `proxy.ts`, per real step request.**
+- **Count in `proxy.ts`, per real step request.** Verified: a load and each in-app click count exactly once. Only valid forum domains and known events are counted, so nobody can fill the file with made-up keys.
 - **Phone links stay direct** (`tel:`), counted with a small `sendBeacon`. Apart from navigation and the copy button on screen 4, the only client JS in the flow.
 - **The saved link is identical for everyone** (`/i/nl`). A per-person code would be a tracking token.
 - **Suppress counts below 10** when reading stats.

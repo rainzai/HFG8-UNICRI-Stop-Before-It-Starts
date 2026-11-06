@@ -18,7 +18,7 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
 ## Next, in order
 
 1. **Research: what gets people to help.** Go through `research/EVIDENCE.md` and the studies in `BRIEF.md` (Prichard 2024 deterrent vs therapeutic, Ciardha 2026 harm-focused, reThink chatbot, Google redesign, ReDirection, Prevent It). Output: a short list of techniques we can turn into testable variants.
-2. **Counter with variants.** `(forum, variant, step, day) → count`, nothing else. Count in `proxy.ts` per real step request, call and chat clicks via `sendBeacon`. Variant assigned at random per visit, carried in the URL (`?v=b`), no cookie.
+2. **Counter with variants.** Counter done (6 Nov): proxy counts steps, call/chat via beacon, bare `/stats/<forum>`. Variants still to do (variant is fixed to `a`). `(forum, variant, step, day) → count`, nothing else. Count in `proxy.ts` per real step request, call and chat clicks via `sendBeacon`. Variant assigned at random per visit, carried in the URL (`?v=b`), no cookie.
    Variants are more than restyles: wording, buttons, links to other services, even flow. Setup:
    - `content/<CC>/variants/<id>.json`: partial overrides of copy (per language) and pack (e.g. a different self-help service, verified only), deep-merged in `getContent(country, lang, variant)`; zod rejects keys that do not exist in the base.
    - Optional flags per variant that components read (e.g. `contactOrder: ["chat", "call"]`), and an optional own component per screen for bigger changes.

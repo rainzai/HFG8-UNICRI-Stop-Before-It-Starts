@@ -1,0 +1,49 @@
+import {
+  NextResponse,
+  type NextFetchEvent,
+  type NextRequest,
+} from "next/server";
+
+import { hasCountry } from "@/lib/content";
+import { CLICK_EVENTS, countKey, increment, SAVED_SITE } from "@/lib/counter";
+import { decodeSite, parseForumDomain, parseStep } from "@/lib/flow";
+
+// TODO: variants
+const VARIANT = "a";
+
+export async function proxy(request: NextRequest, event: NextFetchEvent) {
+  const { pathname } = request.nextUrl;
+
+  if (pathname === "/api/count") {
+    if (request.method !== "POST")
+      return new NextResponse(null, { status: 405 });
+    const body = await request.json().catch(() => null);
+    const site = statsSite(body?.site);
+    const click = CLICK_EVENTS.find((e) => e === body?.event);
+    if (site && click)
+      event.waitUntil(increment(countKey(site, VARIANT, click)));
+    return new NextResponse(null, { status: 204 });
+  }
+
+  const [, kind, rawSite, ...segments] = pathname.split("/");
+  if (kind === "w") {
+    const site = statsSite(decodeSite(rawSite ?? ""));
+    const step = parseStep(segments);
+    if (site && step)
+      event.waitUntil(increment(countKey(site, VARIANT, `step:${step}`)));
+  } else if (kind === "i" && rawSite && hasCountry(rawSite.toUpperCase())) {
+    event.waitUntil(increment(countKey(SAVED_SITE, VARIANT, "step:saved")));
+  }
+
+  return NextResponse.next();
+}
+
+// only real forum domains, so nobody can fill the file with made-up keys
+function statsSite(value: unknown) {
+  if (value === SAVED_SITE) return SAVED_SITE;
+  return typeof value === "string" ? parseForumDomain(value) : null;
+}
+
+export const config = {
+  matcher: ["/w/:path*", "/i/:path*", "/api/count"],
+};
