@@ -5,6 +5,7 @@ import { ChevronRight } from "@/components/flow/icons";
 import { fill, type Copy, type Pack } from "@/lib/content";
 import {
   ANONYMOUS_ANCHOR,
+  NOT_READY_ANCHOR,
   stepHref,
   type Step,
   type Variant,
@@ -48,6 +49,12 @@ export function HelpFirst({ copy, pack, forum, site, lang, variant }: Props) {
           className="inline-flex min-h-11 items-center self-center text-base font-bold underline"
         >
           {copy.contact.anonymousLink}
+        </FlowLink>
+        <FlowLink
+          href={stepHref(site, "help", lang, variant, NOT_READY_ANCHOR)}
+          className="-mt-3 inline-flex min-h-11 items-center self-center text-[15px] text-muted underline"
+        >
+          {copy.help.notReadyTitle}
         </FlowLink>
       </section>
 

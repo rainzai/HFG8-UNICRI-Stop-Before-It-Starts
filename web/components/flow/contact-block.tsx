@@ -2,7 +2,12 @@ import { CallButton } from "@/components/flow/call-button";
 import { ChatButton } from "@/components/flow/chat-button";
 import { FlowLink } from "@/components/flow/flow-link";
 import { fill, type Copy, type Pack } from "@/lib/content";
-import { ANONYMOUS_ANCHOR, stepHref, type Variant } from "@/lib/flow";
+import {
+  ANONYMOUS_ANCHOR,
+  NOT_READY_ANCHOR,
+  stepHref,
+  type Variant,
+} from "@/lib/flow";
 
 type Props = {
   copy: Copy;
@@ -35,6 +40,13 @@ export function ContactBlock({
         className="inline-flex min-h-11 items-center self-center text-[17px] font-bold underline"
       >
         {copy.contact.anonymousLink}
+      </FlowLink>
+      {/* quiet way out for people not ready to call: self-help or save the link */}
+      <FlowLink
+        href={stepHref(site, "help", lang, variant, NOT_READY_ANCHOR)}
+        className="-mt-2 inline-flex min-h-11 items-center self-center text-[15px] text-muted underline"
+      >
+        {copy.help.notReadyTitle}
       </FlowLink>
     </div>
   );

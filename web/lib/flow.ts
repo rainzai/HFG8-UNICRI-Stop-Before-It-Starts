@@ -61,6 +61,7 @@ export function forumHref(forum: string) {
 }
 
 export const ANONYMOUS_ANCHOR = "anoniem";
+export const NOT_READY_ANCHOR = "later";
 
 // a = harm, b = help first, c = clear and serious (themes from Ciardha, Nurmi et al. 2026, see PLAN.md)
 export const VARIANTS = ["a", "b", "c"] as const;

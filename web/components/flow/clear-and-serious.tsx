@@ -6,6 +6,7 @@ import { Chat, ChevronRight, Phone } from "@/components/flow/icons";
 import { fill, type Copy, type Pack } from "@/lib/content";
 import {
   ANONYMOUS_ANCHOR,
+  NOT_READY_ANCHOR,
   stepHref,
   type Step,
   type Variant,
@@ -95,15 +96,21 @@ export function ClearAndSerious({
               <ChevronRight />
             </BeaconLink>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-x-4">
-            <p className="m-0 text-[15px] leading-snug text-[#c4c8ce]">
-              {fill(copy.contact.caption, { helpline: name, org })}
-            </p>
+          <p className="m-0 text-[15px] leading-snug text-[#c4c8ce]">
+            {fill(copy.contact.caption, { helpline: name, org })}
+          </p>
+          <div className="-mt-3 flex flex-wrap items-center gap-x-6">
             <FlowLink
               href={stepHref(site, "help", lang, variant, ANONYMOUS_ANCHOR)}
               className="inline-flex min-h-11 items-center text-base font-bold text-white underline hover:text-[#e3e6ea]"
             >
               {copy.contact.anonymousLink}
+            </FlowLink>
+            <FlowLink
+              href={stepHref(site, "help", lang, variant, NOT_READY_ANCHOR)}
+              className="inline-flex min-h-11 items-center text-[15px] text-[#c4c8ce] underline hover:text-white"
+            >
+              {copy.help.notReadyTitle}
             </FlowLink>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { fill, type Copy, type Pack } from "@/lib/content";
 import {
   ANONYMOUS_ANCHOR,
   DEFAULT_VARIANT,
+  NOT_READY_ANCHOR,
   stepHref,
   type Variant,
 } from "@/lib/flow";
@@ -138,8 +139,9 @@ export function Help({
       </section>
 
       <section
+        id={NOT_READY_ANCHOR}
         aria-labelledby="not-ready"
-        className="mt-[18px] flex flex-col gap-3"
+        className="mt-[18px] flex scroll-mt-6 flex-col gap-3"
       >
         <h2 id="not-ready" className="m-0 text-[21px] leading-tight font-bold">
           {t.notReadyTitle}
