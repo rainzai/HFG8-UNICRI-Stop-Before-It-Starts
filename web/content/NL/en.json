@@ -1,9 +1,9 @@
 {
   "meta": {
-    "title": "[Service name]"
+    "title": "SBIS"
   },
   "chrome": {
-    "serviceName": "[Service name]",
+    "serviceName": "SBIS",
     "close": "Close",
     "language": "Language",
     "back": "Back",
