@@ -13,8 +13,12 @@ export const SAVED_SITE = "saved";
 
 const SEPARATOR = "|";
 
-export function countKey(site: string, variant: string, event: string) {
-  const day = new Date().toISOString().slice(0, 10);
+export function countKey(
+  site: string,
+  variant: string,
+  event: string,
+  day = new Date().toISOString().slice(0, 10),
+) {
   return [day, site, variant, event].join(SEPARATOR);
 }
 
