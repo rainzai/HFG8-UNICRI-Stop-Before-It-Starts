@@ -76,7 +76,7 @@ These are the product, not an afterthought.
 - **No analytics tools on the visitor flow.** No PostHog, Plausible, Google Analytics or similar: they all store individual events. They are fine on the moderator and public pages.
 - **`<Link prefetch={false}>` between steps (via `FlowLink`).** Prefetching would request later steps in the background and inflate the counts. External links stay plain `<a>`.
 - **Count in `proxy.ts`, per real step request.** Verified: a load and each in-app click count exactly once. Only valid forum domains and known events are counted, so nobody can fill the file with made-up keys.
-- **Phone links stay direct** (`tel:`), counted with a small `sendBeacon`. Apart from navigation and the copy button on screen 4, the only client JS in the flow.
+- **Phone links stay direct** (`tel:`), counted with a small `sendBeacon`. Apart from navigation, the copy button on screen 4 and the leave button (`location.replace`, so Back does not return to the page), the only client JS in the flow.
 - **The saved link is identical for everyone** (`/i/nl`). A per-person code would be a tracking token.
 - **Suppress counts below 10** when reading stats.
 - **Access logs off** in our code. The host may still log requests, so we say "our code stores nothing", not "nobody ever sees an IP".

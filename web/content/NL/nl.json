@@ -4,7 +4,7 @@
   },
   "chrome": {
     "serviceName": "SBIS",
-    "close": "Sluiten",
+    "close": "Verlaten",
     "language": "Taal",
     "back": "Vorige",
     "backToForum": "Terug naar {forum}",

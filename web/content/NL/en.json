@@ -4,7 +4,7 @@
   },
   "chrome": {
     "serviceName": "SBIS",
-    "close": "Close",
+    "close": "Leave",
     "language": "Language",
     "back": "Back",
     "backToForum": "Back to {forum}",

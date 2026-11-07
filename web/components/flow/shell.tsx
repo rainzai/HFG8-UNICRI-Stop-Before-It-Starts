@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { ExitLink } from "@/components/flow/exit-link";
 import { FlowLink } from "@/components/flow/flow-link";
 import { ChevronLeft, Lock } from "@/components/flow/icons";
 import {
@@ -41,12 +42,12 @@ export function Shell({
               current={lang}
               options={languages}
             />
-            <a
+            <ExitLink
               href={pack.exitUrl}
               className="inline-flex min-h-11 items-center rounded-[10px] border-[1.5px] border-edge px-4 text-[15px] font-bold text-ink no-underline hover:text-ink"
             >
               {copy.chrome.close}
-            </a>
+            </ExitLink>
           </div>
         </div>
       </header>
