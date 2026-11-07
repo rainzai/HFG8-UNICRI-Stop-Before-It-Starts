@@ -85,17 +85,18 @@ These are the product, not an afterthought.
 
 ## Variants
 
-Three versions of the page, each a whole direction (text, layout, style), starting from the strongest themes in Ciardha, Nurmi et al. (2026). We look for what works, not why, so a variant may change anything. See PLAN.md under Research.
+Four versions of the page, each a whole direction (text, layout, style), starting from the strongest themes in Ciardha, Nurmi et al. (2026). We look for what works, not why, so a variant may change anything. See PLAN.md under Research.
 
 - `a` harm: the original page.
 - `b` help first: "help is easy" text, call and chat on screen 1 with the options below, warm style (purple, Nunito) on every screen.
 - `c` clear and serious: legality text in bold, then a dark full-width band "Er is een uitweg." with call and chat, then the options as a numbered list. Black on white, Public Sans, square corners on every screen.
+- `d` behind bars: the prison risk ("tot 6 jaar cel", from the pack) in a dark full-width block with steel bars that drop over it on load (CSS only, no image; no motion with reduced motion), then the same band and list as `c`, with "Nog is er een uitweg.". Same style as `c` on every screen. A team idea, not one of the study's themes: fear as the strongest deterrent.
 
 - The variant is in the URL (`?v=b`), never in a cookie. A request to `/w/...` without a valid `v` (the forum's redirect) gets a 307 to the same URL with one picked by the bandit; only that next request is counted.
 - **Bandit** (`lib/bandit.ts`): per variant it sums, over the last 30 days and all forums, how often screen 1 was shown (`step:start`) and how often call or chat was clicked. Thompson sampling: draw a plausible help rate per variant from those totals and take the highest. Little data means wide draws and much variety; clear differences send most visits to the best one. 10% of visits are picked evenly, so no variant is starved. Counts are re-read at most once a minute. It reads only the totals, nothing about a visitor. `currentShares()` gives the current split for the dashboard.
 - `stepHref` carries `v` through every link, and the call and chat beacon sends it along.
 - Copy overrides live in `content/<CC>/variants/<id>.json`, validated against the base shape (only existing keys, every language).
-- Style per variant: `[data-variant="b"]` in `globals.css` overrides the colour and font tokens, so every screen follows. Layout per variant: small checks like `helpFirst(variant)` and `clearAndSerious(variant)` in `lib/flow.ts`, with their own screen 1 component (`help-first.tsx`, `clear-and-serious.tsx`).
+- Style per variant: `[data-variant="b"]` in `globals.css` overrides the colour and font tokens, so every screen follows. Layout per variant: small checks like `helpFirst(variant)`, `clearAndSerious(variant)` and `behindBars(variant)` in `lib/flow.ts`, with their own screen 1 component (`help-first.tsx`, `clear-and-serious.tsx`).
 
 ## Counts (what the dashboard reads)
 
@@ -111,7 +112,7 @@ Key = `day|site|variant|event`, value = how many times it happened. Nothing else
 |---|---|
 | `day` | `YYYY-MM-DD` (UTC) |
 | `site` | the forum domain, `localhost:<port>` in dev, or `saved` for the saved-link page `/i/<country>` |
-| `variant` | `a` harm, `b` help first, `c` clear and serious. The saved-link page is always `a` |
+| `variant` | `a` harm, `b` help first, `c` clear and serious, `d` behind bars. The saved-link page is always `a` |
 | `event` | `step:start`, `step:mistake`, `step:worried`, `step:consequences`, `step:help`, `step:later`, `step:saved`, `call`, `chat`, `website` (helpline site), `selfhelp`, `forum` (back to forum), `exit` (close) |
 
 How it gets counted:

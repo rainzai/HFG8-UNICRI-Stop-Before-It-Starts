@@ -1,12 +1,14 @@
 import type { ReactNode } from "react";
 
 import { BeaconLink } from "@/components/flow/beacon-link";
+import { BehindBars } from "@/components/flow/behind-bars";
 import { FlowLink } from "@/components/flow/flow-link";
 import { Chat, ChevronRight, Phone } from "@/components/flow/icons";
 import { OpenStatus } from "@/components/flow/open-status";
 import { fill, type Copy, type Pack } from "@/lib/content";
 import {
   ANONYMOUS_ANCHOR,
+  behindBars,
   NOT_READY_ANCHOR,
   stepHref,
   type Step,
@@ -35,6 +37,7 @@ export function ClearAndSerious({
   variant,
 }: Props) {
   const t = copy.start;
+  const body = fill(t.body, { maxYears: pack.law.maxYears });
   const { name, org, phone, chatUrl } = pack.helpline;
   const options: [Step, string][] = [
     ["mistake", t.mistake],
@@ -44,20 +47,27 @@ export function ClearAndSerious({
 
   return (
     <>
-      <div className="flex flex-col gap-[18px] sm:gap-[22px]">
-        <span aria-hidden="true" className="block h-1.5 w-12 bg-ink sm:w-16" />
-        <h1 className="m-0 text-[clamp(36px,5vw,56px)] leading-[1.08] font-extrabold tracking-[-0.015em]">
-          {title}
-        </h1>
-        <p className="m-0 max-w-[30em] text-[clamp(21px,2vw,24px)] leading-normal font-bold">
-          {t.body}
-        </p>
-      </div>
+      {behindBars(variant) ? (
+        <BehindBars title={title} body={body} />
+      ) : (
+        <div className="flex flex-col gap-[18px] sm:gap-[22px]">
+          <span
+            aria-hidden="true"
+            className="block h-1.5 w-12 bg-ink sm:w-16"
+          />
+          <h1 className="m-0 text-[clamp(36px,5vw,56px)] leading-[1.08] font-extrabold tracking-[-0.015em]">
+            {title}
+          </h1>
+          <p className="m-0 max-w-[30em] text-[clamp(21px,2vw,24px)] leading-normal font-bold">
+            {body}
+          </p>
+        </div>
+      )}
 
       {/* full width band: out of main's column, content back in it */}
       <section
         aria-labelledby="way-out"
-        className="mx-[calc(50%-50vw)] mt-4 bg-[#14181c] text-white [&_a]:focus-visible:outline-white"
+        className={`mx-[calc(50%-50vw)] bg-[#14181c] text-white [&_a]:focus-visible:outline-white ${behindBars(variant) ? "-mt-[22px] border-t border-[#2b3036]" : "mt-4"}`}
       >
         <div className="mx-auto flex max-w-[720px] flex-col gap-5 px-6 pt-8 pb-6 sm:gap-6 sm:pt-12 sm:pb-9">
           <div className="flex flex-col gap-2">

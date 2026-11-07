@@ -63,8 +63,9 @@ export function forumHref(forum: string) {
 export const ANONYMOUS_ANCHOR = "anoniem";
 export const NOT_READY_ANCHOR = "later";
 
-// a = harm, b = help first, c = clear and serious (themes from Ciardha, Nurmi et al. 2026, see PLAN.md)
-export const VARIANTS = ["a", "b", "c"] as const;
+// a = harm, b = help first, c = clear and serious (themes from Ciardha, Nurmi et al. 2026, see PLAN.md),
+// d = behind bars (prison as a picture, the strongest deterrent)
+export const VARIANTS = ["a", "b", "c", "d"] as const;
 
 export type Variant = (typeof VARIANTS)[number];
 
@@ -75,7 +76,12 @@ export function helpFirst(variant: Variant) {
 
 // message, then a dark band with the way out, then a numbered list
 export function clearAndSerious(variant: Variant) {
-  return variant === "c";
+  return variant === "c" || variant === "d";
+}
+
+// clear and serious, with the message behind bars that drop on load
+export function behindBars(variant: Variant) {
+  return variant === "d";
 }
 
 export const DEFAULT_VARIANT: Variant = "a";
