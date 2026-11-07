@@ -4,8 +4,9 @@ import type { ComponentProps, MouseEvent } from "react";
 
 import { countClick } from "@/components/flow/beacon-link";
 
-// replaces this page in history, so Back does not return here.
-// earlier steps stay in history; without JS it is a plain link
+// replaces this page in the tab, so Back does not return here.
+// earlier steps stay; the history list (ctrl+h) keeps all of them, no page can
+// change that. without JS it is a plain link
 export function ExitLink({
   href,
   site,

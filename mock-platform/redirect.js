@@ -13,6 +13,10 @@ const LANG = 'nl';
 
 document.body.addEventListener('sbis:trigger', () => {
   const site = encodeURIComponent(window.location.host);
-  // replace, so the search url with the term is not left in history
-  window.location.replace(`${HELP_BASE}/w/${site}?l=${LANG}`);
+  const target = `${HELP_BASE}/w/${site}?l=${LANG}`;
+  // a results page has the term in its url: replace it, so Back does not reopen it
+  // (it stays in the browser's history list, no page can remove that).
+  // otherwise (typed on any forum page) a normal step, so Back returns to the forum
+  if (window.location.search) window.location.replace(target);
+  else window.location.assign(target);
 });

@@ -21,7 +21,7 @@ Forum (its own word filter)
 - Country and language come only from the URL. We never use IP addresses or the host's geo headers.
 - The redirect must never carry the search text, a username or an IP address.
 - The platform should set `Referrer-Policy: no-referrer` on the redirect, so its search URL never reaches us.
-- The domain must be neutral: it ends up in browser history, so it must not reveal what the page is about.
+- The domain must be neutral: it ends up in browser history, so it must not reveal what the page is about. This and the neutral title are the real protection: no page can remove itself or the forum's search page from the history list (ctrl+H). `location.replace` only changes what Back does.
 
 ## The visitor flow
 
@@ -134,7 +134,7 @@ For the dashboard:
 
 ## Running it
 
-The mock forum loads `mock-platform/redirect.js` instead of the starter widget: on an `sbis:trigger` it replaces the page with `/w/<forum host>?l=<lang>`. In dev, `localhost:<port>` counts as a valid forum so "back to the forum" works locally.
+The mock forum loads `mock-platform/redirect.js` instead of the starter widget: on an `sbis:trigger` it goes to `/w/<forum host>?l=<lang>`. It replaces the page only when the URL holds the search (`?q=...`), so Back does not reopen it (it stays in the history list); otherwise it is a normal navigation, so Back returns to the forum. The install instructions should tell platforms the same. In dev, `localhost:<port>` counts as a valid forum so "back to the forum" works locally.
 
 ```bash
 nix develop
