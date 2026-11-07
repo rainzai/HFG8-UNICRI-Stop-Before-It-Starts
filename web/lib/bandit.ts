@@ -1,10 +1,4 @@
-import {
-  CLICK_EVENTS,
-  parseKey,
-  readCounts,
-  SAVED_SITE,
-  type Counts,
-} from "@/lib/counter";
+import { parseKey, readCounts, SAVED_SITE, type Counts } from "@/lib/counter";
 import { VARIANTS, type Variant } from "@/lib/flow";
 
 // picks the variant for a new visit from the totals only: per variant how
@@ -18,6 +12,9 @@ const WINDOW_DAYS = 30;
 const EXPLORE = 0.1;
 // counts are re-read at most this often, not on every visit
 const REFRESH_MS = 60_000;
+// only contact with the helpline is a success, not every counted click
+// (leaving or going back to the forum are counted too, but are not help)
+const SUCCESS = ["call", "chat"];
 
 export type Arm = { shown: number; helped: number };
 export type Arms = Record<Variant, Arm>;
@@ -35,8 +32,7 @@ export function armsFrom(counts: Counts, now = new Date()): Arms {
     // the saved link has no screen 1, so it says nothing about a variant
     if (!arm || day < from || site === SAVED_SITE) continue;
     if (event === "step:start") arm.shown += count;
-    else if ((CLICK_EVENTS as readonly string[]).includes(event))
-      arm.helped += count;
+    else if (SUCCESS.includes(event)) arm.helped += count;
   }
   return arms;
 }
