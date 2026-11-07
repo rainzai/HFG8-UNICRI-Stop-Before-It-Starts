@@ -64,11 +64,13 @@ if (searchForm) {
   searchForm.addEventListener('submit', (e) => {
     const input = document.getElementById('search-input');
     const match = matchTrigger(input?.value || '');
-    if (match) {
+    // red stops the search here; amber and green go on to the results,
+    // where the trigger fires again on load
+    if (match && match.severity === 'high') {
       e.preventDefault();
       fireTrigger(match, 'search');
     }
-    // If no match, the form submits normally to search.html
+    // otherwise the form submits normally to search.html
   });
 }
 

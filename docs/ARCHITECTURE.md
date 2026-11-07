@@ -32,12 +32,13 @@ The contract gives every match a severity. The forum decides per term which leve
 | Level | What the forum does | Search results |
 |---|---|---|
 | **red** (`high`) | Redirects to our page. This is the whole install. | Not shown, on purpose |
-| **amber** (`medium`) | Optional: one `<script>` line from our domain shows a calm bar above the results, with a link to our page | Shown |
-| **green** (`low`) | Optional: the same script shows only a small text link | Shown |
+| **amber** (`medium`) | Optional: `notice.js` shows a popup over the results ("Even stilstaan", help button, "Doorgaan naar resultaten") | Shown, behind it |
+| **green** (`low`) | Optional: `notice.js` shows a small box above the results | Shown |
 
 - Only unambiguous terms belong in the red list. A word people also use innocently is amber or not in a list at all, otherwise those visitors never see results.
 - No "show my results anyway" button on our page: going back to the search would redirect again, an endless loop.
-- Amber and green arrivals carry a marker so they do not count as `step:start` (see PLAN.md, step 9). The bandit only learns from red arrivals.
+- `web/public/notice.js`: the forum adds one `<script>` tag with `data-show="popup"` (amber) or `"box"` (green) on a results page its filter marked, next to the redirect for red. `/setup` has a colour picker that fills in `data-color` and a live preview. It also listens for `sbis:trigger` events (the mock forum uses those). Plain DOM in the forum's page: the forum's font and text colour, a native `<dialog>` for the popup (focus, Esc, backdrop click), `data-color` for the help button. Nothing is sent until a click. With events, it must load before the forum fires them.
+- The help link adds `s=m` or `s=l`; the proxy counts that arrival as `step:amber` / `step:green` instead of `step:start`, so the bandit only learns from red arrivals. Known gap: later steps and calls of those visitors still count under their variant, a small upward push for it; carrying `s` through every link would fix it.
 
 ## The visitor flow
 
@@ -109,7 +110,7 @@ Four versions of the page, each a whole direction (text, layout, style), startin
 - `d` image variant, for now behind bars: the prison risk ("tot 6 jaar cel", from the pack) in a dark full-width block with steel bars that drop over it on load (CSS only, no image; no motion with reduced motion), then the same band and list as `c`, with "Nog is er een uitweg.". Same style as `c` on every screen. Added because Emma and the jury asked to show researchers that images can be tested too, not only text. A team idea, not one of the study's themes; the bars are a first version and can change.
 
 - The variant is in the URL (`?v=b`), never in a cookie. A request to `/w/...` without a valid `v` (the forum's redirect) gets a 307 to the same URL with one picked by the bandit; only that next request is counted.
-- **Bandit** (`lib/bandit.ts`): per variant it sums, over the last 30 days and all forums, how often screen 1 was shown (`step:start`) and how often call or chat was clicked. Thompson sampling: draw a plausible help rate per variant from those totals and take the highest. Little data means wide draws and much variety; clear differences send most visits to the best one. 10% of visits are picked evenly, so no variant is starved. Counts are re-read at most once a minute. It reads only the totals, nothing about a visitor. `currentShares()` gives the current split for the dashboard.
+- **Bandit** (`lib/bandit.ts`): per variant it sums, over the last 30 days and all forums, how often screen 1 was shown (`step:start`) and how often call or chat was clicked. Thompson sampling: draw a plausible help rate per variant from those totals and take the highest. A variant without data starts at the average of all variants, not at 50%: with a flat start every new variant won almost every draw, since real help rates are a few percent. Little data means wide draws and much variety; clear differences send most visits to the best one. 10% of visits are picked evenly, so no variant is starved. Counts are re-read at most once a minute. It reads only the totals, nothing about a visitor. `currentShares()` gives the current split for the dashboard.
 - `stepHref` carries `v` through every link, and the call and chat beacon sends it along.
 - Copy overrides live in `content/<CC>/variants/<id>.json`, validated against the base shape (only existing keys, every language).
 - Style per variant: `[data-variant="b"]` in `globals.css` overrides the colour and font tokens, so every screen follows. Layout per variant: small checks like `helpFirst(variant)`, `clearAndSerious(variant)` and `behindBars(variant)` in `lib/flow.ts`, with their own screen 1 component (`help-first.tsx`, `clear-and-serious.tsx`).

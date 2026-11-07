@@ -47,12 +47,7 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
    - No generic country-less pack: without a country there is no law to name and no number to call, so it would be a warning with a link again.
 7. **Live open/closed status** done (7 Nov): above every call button, green pulsing dot "Nu open · tot 18:00" or grey "Gesloten · weer open morgen om 09:00", from the regular hours in the helpline's time zone. Holidays and ad-hoc closures are not visible to us.
 8. **Deploy** for the demo, and the submission docs in `submission/`.
-9. **Amber and green, optional** (Ron). One script a forum can add next to the redirect, e.g. `<script src="https://<our domain>/notice.js" async></script>`:
-   - Listens for `sbis:trigger`. `high` is the forum's redirect, the script does nothing. `medium`: a calm bar above the results ("Worried about what you are looking at? Anonymous help →"). `low`: only a small text link.
-   - The link goes to `/w/<forum>?l=nl&s=m` (or `s=l`). The proxy counts those arrivals as `step:amber` / `step:green` instead of `step:start`, so the bandit keeps learning only from red arrivals. Showing the bar is not counted, only the click.
-   - Same privacy rules as the redirect: no search text, no username, no IP; `Referrer-Policy: no-referrer`.
-   - Mock forum: `test-trigger-amber` and `test-trigger-green` already fire with `medium` and `low`.
-   - On `/setup`: one optional section under the install, "Softer notice for ambiguous terms", with the script line.
+9. **Amber and green, optional** done (7 Nov): `notice.js`, amber = popup over the results, green = box above them, red = the redirect. Counted as `step:amber` / `step:green`. On `/setup` under "Softer notices". The mock forum uses it: `test-trigger-amber` and `-green` keep the results. No variants for it yet: there are no view counts, so no rates.
 
 ## Research (7 Nov)
 

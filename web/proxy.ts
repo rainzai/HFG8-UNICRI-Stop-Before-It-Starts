@@ -59,8 +59,11 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     const site = statsSite(decodeSite(rawSite ?? ""));
     const step = parseStep(segments);
     const variant = parseVariant(params.get("v")) ?? DEFAULT_VARIANT;
-    if (site && step)
-      event.waitUntil(increment(countKey(site, variant, `step:${step}`)));
+    // from notice.js (amber popup, green box): not a redirect, so not step:start,
+    // which the bandit learns from
+    const from = { m: "step:amber", l: "step:green" }[params.get("s") ?? ""];
+    const name = step === "start" && from ? from : `step:${step}`;
+    if (site && step) event.waitUntil(increment(countKey(site, variant, name)));
   } else if (kind === "i" && rawSite && hasCountry(rawSite.toUpperCase())) {
     // the saved link is the same for everyone, so no variant
     event.waitUntil(

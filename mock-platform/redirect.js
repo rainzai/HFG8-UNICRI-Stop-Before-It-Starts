@@ -11,7 +11,9 @@ const HELP_BASE = window.SBIS_HELP_BASE || 'http://localhost:3100';
 // the forum's own language, not the visitor's browser
 const LANG = 'nl';
 
-document.body.addEventListener('sbis:trigger', () => {
+document.body.addEventListener('sbis:trigger', (event) => {
+  // red only; amber and green keep the results (see notice.js)
+  if (event.detail?.severity !== 'high') return;
   const site = encodeURIComponent(window.location.host);
   const target = `${HELP_BASE}/w/${site}?l=${LANG}`;
   // a results page has the term in its url: replace it, so Back does not reopen it

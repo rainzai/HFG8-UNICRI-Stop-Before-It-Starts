@@ -79,6 +79,8 @@ export function combineForums(sites: Map<string, Map<string, Totals>>) {
 // everything we count, in the order of the flow, for the dashboards
 export const EVENTS = [
   { event: "step:start", label: "1 Warning" },
+  { event: "step:amber", label: "1 From amber popup" },
+  { event: "step:green", label: "1 From green notice" },
   { event: "step:mistake", label: "2a Mistake" },
   { event: "step:worried", label: "2b Worried" },
   { event: "step:consequences", label: "2c Consequences" },

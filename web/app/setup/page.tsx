@@ -1,6 +1,8 @@
+import Form from "next/form";
 import { Suspense } from "react";
 
 import { Code } from "@/components/setup/code";
+import { NoticeSetup } from "@/components/setup/notice-setup";
 import { statsKey, verifyCode } from "@/lib/access";
 import { parseForumDomain } from "@/lib/flow";
 import { ownOrigin } from "@/lib/origin";
@@ -213,6 +215,20 @@ function Install({ domain, origin }: { domain: string; origin: string }) {
           Leave out words people also use innocently, since a match always
           replaces the search results. Don&apos;t publish your list.
         </p>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="m-0 text-xl font-bold">
+          Softer notices{" "}
+          <span className="font-normal text-muted">(optional)</span>
+        </h2>
+        <p className="m-0">
+          If your filter has a lighter level, for terms that are sometimes used
+          innocently, you can keep the results and show a notice instead: a
+          popup, or a small box above the results. It uses your site&apos;s font
+          and colours, plus the button colour you pick.
+        </p>
+        <NoticeSetup origin={origin} domain={domain} />
       </section>
     </>
   );
