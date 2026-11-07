@@ -37,15 +37,34 @@ export function armsFrom(counts: Counts, now = new Date()): Arms {
   return arms;
 }
 
+// what a variant without data is assumed to do: the average of all of them,
+// worth about one success. a flat start (50%) made every new variant win
+// almost every draw, since real help rates are a few percent
+function prior(arms: Arms) {
+  let shown = 0;
+  let helped = 0;
+  for (const arm of Object.values(arms)) {
+    shown += arm.shown;
+    helped += arm.helped;
+  }
+  const rate = Math.min(Math.max((helped + 1) / (shown + 2), 0.01), 0.5);
+  return { a: 1, b: (1 - rate) / rate };
+}
+
 export function pick(arms: Arms, random = Math.random): Variant {
   if (random() < EXPLORE)
     return VARIANTS[Math.floor(random() * VARIANTS.length)];
+  const start = prior(arms);
   let best: Variant = VARIANTS[0];
   let bestDraw = -1;
   for (const variant of VARIANTS) {
     const { shown, helped } = arms[variant];
     // clicks can exceed views (call and chat), never a negative miss count
-    const draw = beta(1 + helped, 1 + Math.max(shown - helped, 0), random);
+    const draw = beta(
+      start.a + helped,
+      start.b + Math.max(shown - helped, 0),
+      random,
+    );
     if (draw > bestDraw) [best, bestDraw] = [variant, draw];
   }
   return best;
