@@ -17,7 +17,9 @@ const FORUMS: Record<string, number> = {
   "forum-c.example": 1,
 };
 
-// share of the warnings that reaches each event; b gets to help more often
+// share of the warnings that reaches each event, made up for the demo:
+// b gets to help most often, d (bars) least
+const COMMON = { website: 0.01, selfhelp: 0.008, forum: 0.3, exit: 0.06 };
 const RATES: Record<string, Record<string, number>> = {
   a: {
     "step:mistake": 0.35,
@@ -27,6 +29,7 @@ const RATES: Record<string, Record<string, number>> = {
     "step:later": 0.04,
     call: 0.015,
     chat: 0.025,
+    ...COMMON,
   },
   b: {
     "step:mistake": 0.3,
@@ -36,8 +39,43 @@ const RATES: Record<string, Record<string, number>> = {
     "step:later": 0.05,
     call: 0.025,
     chat: 0.04,
+    ...COMMON,
+  },
+  c: {
+    "step:mistake": 0.32,
+    "step:worried": 0.14,
+    "step:consequences": 0.18,
+    "step:help": 0.2,
+    "step:later": 0.04,
+    call: 0.02,
+    chat: 0.03,
+    ...COMMON,
+  },
+  d: {
+    "step:mistake": 0.38,
+    "step:worried": 0.1,
+    "step:consequences": 0.2,
+    "step:help": 0.14,
+    "step:later": 0.03,
+    call: 0.012,
+    chat: 0.018,
+    ...COMMON,
+    exit: 0.1,
+  },
+  e: {
+    "step:mistake": 0.3,
+    "step:worried": 0.21,
+    "step:consequences": 0.11,
+    "step:help": 0.27,
+    "step:later": 0.05,
+    call: 0.024,
+    chat: 0.042,
+    ...COMMON,
   },
 };
+
+// clicks from the optional notices (popup, box) per day, a share of the warnings
+const NOTICES = { "step:amber": 0.12, "step:green": 0.05 };
 
 if (existsSync(STATS_FILE) && !process.argv.includes("--force")) {
   console.error(`${STATS_FILE} exists, use --force to overwrite it`);
@@ -69,6 +107,8 @@ for (let i = 0; i < DAYS; i++) {
       const shown = around(perDay);
       add(countKey(site, variant, "step:start", day), shown);
       for (const [event, share] of Object.entries(rates))
+        add(countKey(site, variant, event, day), around(shown * share));
+      for (const [event, share] of Object.entries(NOTICES))
         add(countKey(site, variant, event, day), around(shown * share));
     }
   }
