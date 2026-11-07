@@ -1,14 +1,16 @@
+import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { Suspense } from "react";
 
-import { MIN_COUNT, parseKey, readCounts } from "@/lib/counter";
-import { decodeSite, STEPS } from "@/lib/flow";
+import { FunnelTable } from "@/components/stats/funnel-table";
+import { PeriodNav } from "@/components/stats/period-nav";
+import { isStatsKey } from "@/lib/access";
+import { readCounts } from "@/lib/counter";
+import { decodeSite, parseForumDomain } from "@/lib/flow";
+import { ownOrigin } from "@/lib/origin";
+import { periodOf, sumCounts } from "@/lib/stats";
 
-const EVENTS = [
-  ...Object.keys(STEPS).map((step) => `step:${step}`),
-  "step:saved",
-  "call",
-  "chat",
-];
+// a forum's private stats link, from /setup after the domain check
 
 // required by cacheComponents for params
 export default function Page(props: PageProps<"/stats/[site]">) {
@@ -19,37 +21,45 @@ export default function Page(props: PageProps<"/stats/[site]">) {
   );
 }
 
-async function Stats({ params }: PageProps<"/stats/[site]">) {
-  const site = decodeSite((await params).site);
-  const totals = new Map<string, number>();
-  for (const [key, count] of Object.entries(await readCounts())) {
-    const { site: keySite, event } = parseKey(key);
-    if (keySite !== site) continue;
-    totals.set(event, (totals.get(event) ?? 0) + count);
-  }
+async function Stats({ params, searchParams }: PageProps<"/stats/[site]">) {
+  // request time only: the period depends on today
+  await connection();
+  const site = parseForumDomain(decodeSite((await params).site));
+  const query = await searchParams;
+  const key = typeof query.k === "string" ? query.k : null;
+  // same 404 as an unknown page: does not tell which forums take part
+  if (!site || !key || !isStatsKey(site, key)) notFound();
+
+  const period = periodOf(query);
+  const variants = sumCounts(await readCounts(), period, site).get(site);
 
   return (
-    <main className="mx-auto flex max-w-[720px] flex-col gap-6 px-6 py-12">
-      <h1 className="m-0 text-3xl font-bold">{site}</h1>
-      <table className="w-full border-collapse text-left">
-        <tbody>
-          {EVENTS.filter((e) => totals.has(e)).map((event) => (
-            <tr key={event} className="border-b border-line">
-              <th className="py-2 font-normal">{event}</th>
-              <td className="py-2 text-right font-bold tabular-nums">
-                {shown(totals.get(event) ?? 0)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="m-0 text-sm text-muted">
-        All days together. Counts below {MIN_COUNT} are hidden.
-      </p>
+    <main
+      lang="en"
+      className="mx-auto flex max-w-[960px] flex-col gap-10 px-4 py-12 sm:px-6"
+    >
+      <div className="flex flex-col gap-3">
+        <h1 className="m-0 text-3xl font-bold break-words">{site}</h1>
+        <PeriodNav period={period} keep={{ k: key }} />
+      </div>
+
+      <FunnelTable
+        labelHeader="Variant"
+        rows={[...(variants ?? [])]
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([variant, totals]) => ({ label: variant, totals }))}
+      />
+
+      <section className="flex flex-col gap-2">
+        <h2 className="m-0 text-xl font-bold">Fetch these numbers</h2>
+        <p className="m-0">
+          Same totals as JSON, per variant. Keep this key private, like a
+          password.
+        </p>
+        <pre className="m-0 overflow-x-auto border-y border-line py-2 font-sans text-sm">
+          {`curl -H "Authorization: Bearer ${key}" \\\n  "${await ownOrigin()}/api/metrics/${site}?days=30"`}
+        </pre>
+      </section>
     </main>
   );
-}
-
-function shown(count: number) {
-  return count < MIN_COUNT ? `< ${MIN_COUNT}` : String(count);
 }
