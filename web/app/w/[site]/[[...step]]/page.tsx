@@ -12,8 +12,10 @@ import { DEFAULT_COUNTRY, getContent } from "@/lib/content";
 import {
   backOf,
   decodeSite,
+  DEFAULT_VARIANT,
   parseForumDomain,
   parseStep,
+  parseVariant,
   stepHref,
 } from "@/lib/flow";
 
@@ -32,7 +34,9 @@ async function Flow({
 }: PageProps<"/w/[site]/[[...step]]">) {
   const { site: rawSite, step: segments } = await params;
   const site = decodeSite(rawSite);
-  const { l: requestedLang } = await searchParams;
+  const { l: requestedLang, v } = await searchParams;
+  // the proxy assigns one when missing, the default only covers direct renders
+  const variant = parseVariant(v) ?? DEFAULT_VARIANT;
 
   const step = parseStep(segments);
   if (!step) notFound();
@@ -41,10 +45,19 @@ async function Flow({
   const { pack, copy, lang } = getContent(
     DEFAULT_COUNTRY,
     typeof requestedLang === "string" ? requestedLang : undefined,
+    variant,
   );
 
   const back = backOf(step);
-  const screenProps = { copy, pack, forum, site, lang, statsSite: forum };
+  const screenProps = {
+    copy,
+    pack,
+    forum,
+    site,
+    lang,
+    variant,
+    statsSite: forum,
+  };
 
   return (
     <div lang={lang}>
@@ -52,11 +65,11 @@ async function Flow({
         copy={copy}
         pack={pack}
         forum={forum}
-        backHref={back ? stepHref(site, back, lang) : undefined}
+        backHref={back ? stepHref(site, back, lang, variant) : undefined}
         lang={lang}
         languages={pack.languages.map((code) => ({
           code,
-          href: stepHref(site, step, code),
+          href: stepHref(site, step, code, variant),
         }))}
       >
         {step === "start" && <Start {...screenProps} />}

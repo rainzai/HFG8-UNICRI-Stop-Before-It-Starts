@@ -8,13 +8,16 @@ type Props = ComponentProps<"a"> & {
   event: "call" | "chat";
 };
 
-// counts the click without delaying it, sends only site and event
+// counts the click without delaying it, sends only site, variant and event
 export function BeaconLink({ site, event, ...props }: Props) {
   function count() {
     if (!site) return;
+    const variant = new URLSearchParams(location.search).get("v");
     navigator.sendBeacon(
       "/api/count",
-      new Blob([JSON.stringify({ site, event })], { type: "application/json" }),
+      new Blob([JSON.stringify({ site, variant, event })], {
+        type: "application/json",
+      }),
     );
   }
 

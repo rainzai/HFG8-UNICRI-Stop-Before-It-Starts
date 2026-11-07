@@ -1,5 +1,6 @@
 import { ContactBlock } from "@/components/flow/contact-block";
 import { fill, type Copy, type Pack } from "@/lib/content";
+import type { Variant } from "@/lib/flow";
 
 type Props = {
   copy: Copy;
@@ -7,9 +8,17 @@ type Props = {
   forum: string | null;
   site: string;
   lang: string;
+  variant: Variant;
 };
 
-export function Consequences({ copy, pack, forum, site, lang }: Props) {
+export function Consequences({
+  copy,
+  pack,
+  forum,
+  site,
+  lang,
+  variant,
+}: Props) {
   const t = copy.consequences;
   const { law } = pack;
 
@@ -60,6 +69,7 @@ export function Consequences({ copy, pack, forum, site, lang }: Props) {
             site={site}
             statsSite={forum}
             lang={lang}
+            variant={variant}
           />
         </div>
       </div>

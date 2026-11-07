@@ -5,7 +5,12 @@ import { ChatButton } from "@/components/flow/chat-button";
 import { FlowLink } from "@/components/flow/flow-link";
 import { Check } from "@/components/flow/icons";
 import { fill, type Copy, type Pack } from "@/lib/content";
-import { ANONYMOUS_ANCHOR, stepHref } from "@/lib/flow";
+import {
+  ANONYMOUS_ANCHOR,
+  DEFAULT_VARIANT,
+  stepHref,
+  type Variant,
+} from "@/lib/flow";
 
 type Props = {
   copy: Copy;
@@ -14,9 +19,17 @@ type Props = {
   site?: string;
   statsSite: string | null;
   lang: string;
+  variant?: Variant;
 };
 
-export function Help({ copy, pack, site, statsSite, lang }: Props) {
+export function Help({
+  copy,
+  pack,
+  site,
+  statsSite,
+  lang,
+  variant = DEFAULT_VARIANT,
+}: Props) {
   const t = copy.help;
   const { name: helpline, org, url, hours } = pack.helpline;
   const vars = { helpline, org };
@@ -143,7 +156,7 @@ export function Help({ copy, pack, site, statsSite, lang }: Props) {
         </a>
         {site && (
           <FlowLink
-            href={stepHref(site, "later", lang)}
+            href={stepHref(site, "later", lang, variant)}
             className="inline-flex min-h-11 items-center self-start text-[17px] font-bold underline"
           >
             {t.saveLink}

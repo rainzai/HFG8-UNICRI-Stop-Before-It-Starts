@@ -62,15 +62,32 @@ export function forumHref(forum: string) {
 
 export const ANONYMOUS_ANCHOR = "anoniem";
 
+// a = harm, b = legality, c = help is easy (Ciardha, Nurmi et al. 2026, see PLAN.md)
+export const VARIANTS = ["a", "b", "c"] as const;
+
+export type Variant = (typeof VARIANTS)[number];
+
+export const DEFAULT_VARIANT: Variant = "a";
+
+export function parseVariant(value: unknown): Variant | null {
+  return VARIANTS.find((v) => v === value) ?? null;
+}
+
+// one of three values shared by many visitors, so not a tracking token
+export function randomVariant(): Variant {
+  return VARIANTS[Math.floor(Math.random() * VARIANTS.length)];
+}
+
 export function stepHref(
   site: string,
   step: Step,
   lang: string,
+  variant: Variant,
   anchor?: string,
 ) {
   const slug = STEPS[step];
   const path = `/w/${encodeURIComponent(site)}${slug ? `/${slug}` : ""}`;
-  return `${path}?l=${lang}${anchor ? `#${anchor}` : ""}`;
+  return `${path}?l=${lang}&v=${variant}${anchor ? `#${anchor}` : ""}`;
 }
 
 // same for everyone, a per-person link would be a tracking token

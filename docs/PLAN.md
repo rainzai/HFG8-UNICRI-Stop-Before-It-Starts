@@ -21,8 +21,8 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
 
 ## Next, in order
 
-1. **Research: what gets people to help.** Go through `research/EVIDENCE.md` and the studies in `BRIEF.md` (Prichard 2024 deterrent vs therapeutic, Ciardha 2026 harm-focused, reThink chatbot, Google redesign, ReDirection, Prevent It). Output: a short list of techniques we can turn into testable variants.
-2. **Counter with variants.** Counter done (6 Nov): proxy counts steps, call/chat via beacon, bare `/stats/<forum>`. Variants still to do (variant is fixed to `a`). `(forum, variant, step, day) → count`, nothing else. Count in `proxy.ts` per real step request, call and chat clicks via `sendBeacon`. Variant assigned at random per visit, carried in the URL (`?v=b`), no cookie.
+1. **Research: what gets people to help.** Go through `research/EVIDENCE.md` and the studies in `BRIEF.md` (Prichard 2024 deterrent vs therapeutic, Ciardha 2026 harm-focused, reThink chatbot, Google redesign, ReDirection, Prevent It). Output: a short list of techniques we can turn into testable variants. Ciardha 2026 done (7 Nov), see Research below; the others still open.
+2. **Counter with variants.** Counter done (6 Nov): proxy counts steps, call/chat via beacon, bare `/stats/<forum>`. Variants done (7 Nov): a harm, b legality, c help is easy on screen 1, picked evenly at random, see ARCHITECTURE.md. Still to do from the setup below: pack overrides, flags, step lists. `(forum, variant, step, day) → count`, nothing else. Count in `proxy.ts` per real step request, call and chat clicks via `sendBeacon`. Variant assigned at random per visit, carried in the URL (`?v=b`), no cookie.
    Variants are more than restyles: wording, buttons, links to other services, even flow. Setup:
    - `content/<CC>/variants/<id>.json`: partial overrides of copy (per language) and pack (e.g. a different self-help service, verified only), deep-merged in `getContent(country, lang, variant)`; zod rejects keys that do not exist in the base.
    - Optional flags per variant that components read (e.g. `contactOrder: ["chat", "call"]`), and an optional own component per screen for bigger changes.
@@ -46,7 +46,20 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
 7. **Live open/closed status** in the contact block, worded as "according to regular opening hours" (ad-hoc closures are not visible to us).
 8. **Deploy** for the demo, and the submission docs in `submission/`.
 
-## Pitch angle
+## Research (7 Nov)
+
+Ciardha, Nurmi et al. (2026), [arXiv:2606.06417](https://arxiv.org/html/2606.06417v2): warning messages on Ahmia.fi (Tor search), 8 messages plus a neutral one, randomised per day.
+
+- Every message beat the neutral one (a plain description of the help programme). Randomised days: neutral 12.17% click-through, odds ratios 1.12 to 1.76.
+- Harm to children worked best, then legality and "getting help is easy", distress about yourself (shame, guilt) worked least.
+- Negative versus positive framing (e.g. "puts you at risk" vs "help keeps your job"): small difference, overlapping intervals.
+- Over the whole campaign the platform went from 8.73% to 15.67% click-through. No message changed how often people searched.
+- Authors recommend an adaptive system that keeps refining messages, not one fixed best message. That is our feedback loop.
+- Limits: dark web, clicks only (not calls), daily rotation. May not carry over to a forum.
+
+Variants on screen 1: the three strongest themes (harm, legality, help is easy), each negatively framed, in our own words. Distress is left out (weakest). Pitch: "based on the three strongest themes from the largest warning study to date". The differences were small even with millions of searches, so one forum will not tell them apart quickly; the bandit matters as forums and countries are added.
+
+
 
 Everyone else improves the warning. We shrink the jump from warning to help, and the page **keeps improving itself without tracking a single visitor**: variants plus aggregate counts plus a bandit.
 

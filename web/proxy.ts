@@ -9,13 +9,13 @@ import { hasCountry } from "@/lib/content";
 import { CLICK_EVENTS, countKey, increment, SAVED_SITE } from "@/lib/counter";
 import {
   decodeSite,
+  DEFAULT_VARIANT,
   LANGUAGE_SWITCH_PARAM,
   parseForumDomain,
   parseStep,
+  parseVariant,
+  randomVariant,
 } from "@/lib/flow";
-
-// TODO: variants
-const VARIANT = "a";
 
 export async function proxy(request: NextRequest, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
@@ -26,13 +26,11 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     const body = await request.json().catch(() => null);
     const site = statsSite(body?.site);
     const click = CLICK_EVENTS.find((e) => e === body?.event);
+    const variant = parseVariant(body?.variant) ?? DEFAULT_VARIANT;
     if (site && click)
-      event.waitUntil(increment(countKey(site, VARIANT, click)));
+      event.waitUntil(increment(countKey(site, variant, click)));
     return new NextResponse(null, { status: 204 });
   }
-
-  if (request.nextUrl.searchParams.has(LANGUAGE_SWITCH_PARAM))
-    return NextResponse.next();
 
   const [, kind, rawSite, ...segments] = pathname.split("/");
   if (kind === "admin") {
@@ -46,13 +44,28 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     });
   }
 
+  const params = request.nextUrl.searchParams;
+
+  // no variant yet (the forum's redirect): pick one and redirect, count the next request
+  if (kind === "w" && !parseVariant(params.get("v"))) {
+    const url = request.nextUrl.clone();
+    url.searchParams.set("v", randomVariant());
+    return NextResponse.redirect(url, 307);
+  }
+
+  if (params.has(LANGUAGE_SWITCH_PARAM)) return NextResponse.next();
+
   if (kind === "w") {
     const site = statsSite(decodeSite(rawSite ?? ""));
     const step = parseStep(segments);
+    const variant = parseVariant(params.get("v")) ?? DEFAULT_VARIANT;
     if (site && step)
-      event.waitUntil(increment(countKey(site, VARIANT, `step:${step}`)));
+      event.waitUntil(increment(countKey(site, variant, `step:${step}`)));
   } else if (kind === "i" && rawSite && hasCountry(rawSite.toUpperCase())) {
-    event.waitUntil(increment(countKey(SAVED_SITE, VARIANT, "step:saved")));
+    // the saved link is the same for everyone, so no variant
+    event.waitUntil(
+      increment(countKey(SAVED_SITE, DEFAULT_VARIANT, "step:saved")),
+    );
   }
 
   return NextResponse.next();

@@ -1,16 +1,17 @@
 import { FlowLink } from "@/components/flow/flow-link";
 import { ChevronRight } from "@/components/flow/icons";
 import type { Copy } from "@/lib/content";
-import { stepHref, type Step } from "@/lib/flow";
+import { stepHref, type Step, type Variant } from "@/lib/flow";
 
 type Props = {
   copy: Copy;
   forum: string | null;
   site: string;
   lang: string;
+  variant: Variant;
 };
 
-export function Start({ copy, forum, site, lang }: Props) {
+export function Start({ copy, forum, site, lang, variant }: Props) {
   const t = copy.start;
   const options: [Step, string][] = [
     ["mistake", t.mistake],
@@ -40,7 +41,7 @@ export function Start({ copy, forum, site, lang }: Props) {
         {options.map(([step, label]) => (
           <FlowLink
             key={step}
-            href={stepHref(site, step, lang)}
+            href={stepHref(site, step, lang, variant)}
             className="flex min-h-16 items-center justify-between gap-3 rounded-xl border-[1.5px] border-edge bg-white px-5 py-3.5 text-lg leading-snug font-bold text-ink no-underline hover:bg-tint-hover hover:text-ink"
           >
             <span>{label}</span>
@@ -50,7 +51,7 @@ export function Start({ copy, forum, site, lang }: Props) {
         <p className="mt-1.5 text-base leading-normal text-muted">
           {t.direct}{" "}
           <FlowLink
-            href={stepHref(site, "help", lang)}
+            href={stepHref(site, "help", lang, variant)}
             className="inline-flex min-h-11 items-center font-bold underline"
           >
             {t.directLink}

@@ -1,15 +1,16 @@
 import { FlowLink } from "@/components/flow/flow-link";
 import { fill, type Copy } from "@/lib/content";
-import { forumHref, stepHref } from "@/lib/flow";
+import { forumHref, stepHref, type Variant } from "@/lib/flow";
 
 type Props = {
   copy: Copy;
   forum: string | null;
   site: string;
   lang: string;
+  variant: Variant;
 };
 
-export function Mistake({ copy, forum, site, lang }: Props) {
+export function Mistake({ copy, forum, site, lang, variant }: Props) {
   const t = copy.mistake;
 
   return (
@@ -31,7 +32,7 @@ export function Mistake({ copy, forum, site, lang }: Props) {
       <div className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl bg-tint p-5">
         <p className="m-0 text-[17px] leading-snug">{t.nudge}</p>
         <FlowLink
-          href={stepHref(site, "help", lang)}
+          href={stepHref(site, "help", lang, variant)}
           className="inline-flex min-h-11 items-center text-[17px] font-bold underline"
         >
           {t.nudgeLink}
