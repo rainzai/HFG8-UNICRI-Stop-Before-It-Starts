@@ -42,7 +42,7 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
         </h2>
         <form
           method="get"
-          className="flex items-center gap-4 border-b border-line"
+          className="flex items-center gap-4 border-b-2 border-line pb-2 focus-within:border-ink"
         >
           <input
             id="domain"
@@ -50,14 +50,15 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
             defaultValue={typed}
             placeholder="forum.example.nl"
             required
-            className="min-w-0 flex-1 bg-transparent py-2 outline-offset-0"
+            // the underline darkens on focus, no box around the text
+            className="min-w-0 flex-1 bg-transparent py-2 text-lg focus-visible:outline-none"
           />
           <Submit>Next</Submit>
         </form>
         <p className="m-0 text-[15px]">
           {typed && !domain
-            ? "That is not a domain. Use only the host, e.g. forum.example.nl."
-            : "Exactly as in your redirect."}
+            ? "That is not a domain. Just the name, like forum.example.nl."
+            : "Just the name, like forum.example.nl. No https:// and nothing after it."}
         </p>
         {domain && !code && (
           <p className="m-0 text-[15px]">
