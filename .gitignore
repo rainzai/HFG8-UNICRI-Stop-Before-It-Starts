@@ -54,3 +54,6 @@ web/next-env.d.ts
 *.tsbuildinfo
 .vercel
 *.pem
+
+# local setup test for the mock forum (/setup)
+.well-known/

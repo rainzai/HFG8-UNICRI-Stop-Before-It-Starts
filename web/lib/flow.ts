@@ -47,7 +47,7 @@ export function parseForumDomain(site: string): string | null {
 }
 
 // dev only, so the local mock forum works as a site
-function isLocalForum(domain: string) {
+export function isLocalForum(domain: string) {
   return (
     process.env.NODE_ENV === "development" &&
     /^localhost(:\d{1,5})?$/.test(domain)

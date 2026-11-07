@@ -1,6 +1,8 @@
 import { lookup } from "node:dns/promises";
 import { BlockList } from "node:net";
 
+import { forumHref, isLocalForum } from "@/lib/flow";
+
 // we fetch a url built from user input: https, that exact host, public ips only
 
 export const VERIFY_FILE = "/.well-known/sbis.txt";
@@ -76,9 +78,12 @@ function metaContents(html: string) {
 
 // the code in /.well-known/sbis.txt or in a <meta> tag on the home page
 export async function hasVerification(domain: string, code: string) {
-  if (!(await isPublicHost(domain))) return false;
-  const file = await fetchText(`https://${domain}${VERIFY_FILE}`);
+  // dev only: the local mock forum, over http on localhost
+  const local = isLocalForum(domain);
+  if (!local && !(await isPublicHost(domain))) return false;
+  const origin = `${local ? "http" : "https"}://${domain}`;
+  const file = await fetchText(`${origin}${VERIFY_FILE}`);
   if (file?.trim() === code) return true;
-  const home = await fetchText(`https://${domain}/`);
+  const home = await fetchText(local ? forumHref(domain) : `${origin}/`);
   return home !== null && metaContents(home).includes(code);
 }
