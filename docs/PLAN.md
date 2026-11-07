@@ -38,7 +38,7 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
    - For the demo: the internal dashboard, plus a hand-made private forum link if there is time.
 4. **Feedback loop.** Bandit done (7 Nov): new visits get a variant by Thompson sampling on call/chat per screen 1 view, totals only, see ARCHITECTURE.md. Still open: show `currentShares()` on the dashboard (Ron), variant c in `pnpm seed`. Mentor: this is the most important part.
 5. **English help alternative** if Offlimits says the Preventielijn cannot help English speakers: their own advice first, otherwise a verified English programme (ReDirection, Troubled Desire, Help Wanted).
-6. **Install instructions page** (redirect URL format, Referrer-Policy).
+6. **Install instructions page** done (7 Nov) at the top of `/setup`: three steps (domain, redirect with JavaScript / PHP / Node.js examples, choose terms), then the optional dashboard (verify domain, get the link). Only red (high) for now: amber/green would need code on the forum's own page (an optional one-line script is the idea).
    - The forum picks its country once and gets the full redirect URL (e.g. `/w/forum.nl?c=be&l=fr`). Not built yet: country is fixed to NL.
    - No country or an unknown one falls back to NL. No guessing from the domain (`.com` forums) or IP.
    - No generic country-less pack: without a country there is no law to name and no number to call, so it would be a warning with a link again.

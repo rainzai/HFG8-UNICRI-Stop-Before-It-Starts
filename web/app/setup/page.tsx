@@ -1,12 +1,13 @@
-import { Suspense, type ReactNode } from "react";
+import { Suspense } from "react";
 
+import { Code } from "@/components/setup/code";
 import { statsKey, verifyCode } from "@/lib/access";
 import { parseForumDomain } from "@/lib/flow";
 import { ownOrigin } from "@/lib/origin";
 import { hasVerification, VERIFY_FILE, VERIFY_META } from "@/lib/verify";
 
-// own numbers for a forum: prove control of the domain, get a private key.
-// TODO: install instructions (PLAN.md step 6) go above this
+// for forum moderators: install (one redirect), then optionally the
+// dashboard, by proving control of the domain and getting a private key
 
 // required by cacheComponents for searchParams
 export default function Page(props: PageProps<"/setup">) {
@@ -22,23 +23,24 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
   const typed = typeof rawDomain === "string" ? rawDomain.trim() : "";
   const domain = typed ? parseForumDomain(typed) : null;
   const code = domain ? verifyCode(domain) : null;
+  const origin = await ownOrigin();
 
   return (
     <main
       lang="en"
-      className="mx-auto flex max-w-[960px] flex-col gap-10 px-4 py-12 sm:px-6"
+      className="mx-auto flex max-w-[760px] flex-col gap-10 px-4 py-12 sm:px-6 [&_p_code]:text-[0.85em]"
     >
       <div className="flex flex-col gap-3">
-        <h1 className="m-0 text-3xl font-bold">Your forum&apos;s numbers</h1>
-        <p className="m-0 text-[15px]">
-          See how many visitors from your forum reached help, per variant.
-          Totals only: we never know who anyone is. Only you get the link.
+        <h1 className="m-0 text-3xl font-bold">Install</h1>
+        <p className="m-0">
+          SBIS shows a help page instead of search results when a search matches
+          your word filter. Installing it is one redirect.
         </p>
       </div>
 
       <section className="flex flex-col gap-3">
         <h2 className="m-0 text-xl font-bold">
-          <label htmlFor="domain">Forum domain</label>
+          <label htmlFor="domain">1. Enter your domain</label>
         </h2>
         <form
           method="get"
@@ -55,29 +57,43 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
           />
           <Submit>Next</Submit>
         </form>
-        <p className="m-0 text-[15px]">
-          {typed && !domain
-            ? "That is not a domain. Just the name, like forum.example.nl."
-            : "Just the name, like forum.example.nl. No https:// and nothing after it."}
-        </p>
-        {domain && !code && (
+        {typed && !domain && (
           <p className="m-0 text-[15px]">
-            Stats are not set up on this server yet.
+            Enter a domain like forum.example.nl.
           </p>
         )}
       </section>
 
+      {domain && <Install domain={domain} origin={origin} />}
+
+      {domain && (
+        <section className="flex flex-col gap-3 border-t border-line pt-10">
+          <h2 className="m-0 text-xl font-bold">
+            Dashboard <span className="font-normal text-muted">(optional)</span>
+          </h2>
+          <p className="m-0">
+            The dashboard shows, per month, how many visitors from your forum
+            saw the page and how many called or chatted with the helpline. It
+            only has totals, no individual visits.
+          </p>
+          {!code && <p className="m-0">Not available right now.</p>}
+        </section>
+      )}
+
       {domain && code && (
         <section className="flex flex-col gap-3">
-          <h2 className="m-0 text-xl font-bold">Prove it is your forum</h2>
-          <Rows
-            header={["Option", "Put this there"]}
-            rows={[
-              [`File at https://${domain}${VERIFY_FILE}`, code],
+          <h3 className="m-0 text-lg font-bold">Verify your domain</h3>
+          <p className="m-0">
+            Add one of these to your site, then click Check.
+          </p>
+          <Code
+            tabs={[
               [
-                "Meta tag in the <head> of your home page",
+                "Meta tag",
                 `<meta name="${VERIFY_META}" content="${code}">`,
+                `In the <head> of https://${domain}/`,
               ],
+              ["File", code, `Save as https://${domain}${VERIFY_FILE}`],
             ]}
           />
           <form method="get">
@@ -99,10 +115,10 @@ async function Result({ domain, code }: { domain: string; code: string }) {
   if (!(await hasVerification(domain, code))) {
     return (
       <section className="flex flex-col gap-3">
-        <h2 className="m-0 text-xl font-bold">Not verified yet</h2>
-        <p className="m-0 text-[15px]">
-          Code not found. We looked at https://{domain}
-          {VERIFY_FILE} and the home page, without following redirects.
+        <h3 className="m-0 text-lg font-bold">Not verified yet</h3>
+        <p className="m-0">
+          Couldn&apos;t find the code at https://{domain}
+          {VERIFY_FILE} or on your home page. Redirects aren&apos;t followed.
         </p>
       </section>
     );
@@ -113,58 +129,91 @@ async function Result({ domain, code }: { domain: string; code: string }) {
   const link = `${origin}/stats/${domain}?k=${key}`;
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="m-0 text-xl font-bold">Your stats link</h2>
-      <Rows
-        header={["What", "Value"]}
-        rows={[
+      <h3 className="m-0 text-lg font-bold">Your dashboard</h3>
+      <p className="m-0">
+        Open your dashboard:{" "}
+        <a href={link} className="[overflow-wrap:anywhere] text-ink underline">
+          {link}
+        </a>
+      </p>
+      <p className="m-0">Or get the same numbers as JSON:</p>
+      <Code
+        tabs={[
           [
-            "Stats page",
-            <a key="link" href={link} className="text-ink underline">
-              {link}
-            </a>,
-          ],
-          ["API key", key ?? ""],
-          [
-            "Fetch as JSON",
-            `curl -H "Authorization: Bearer ${key}" "${origin}/api/metrics/${domain}"`,
+            "curl",
+            `curl -H "Authorization: Bearer ${key}" \\
+  "${origin}/api/metrics/${domain}"`,
           ],
         ]}
       />
-      <p className="m-0 text-[15px]">
-        Keep the link and key private, like a password. You can remove the code
-        from your site now.
+      <p className="m-0">
+        Keep the link and key private. You can remove the code from your site
+        now.
       </p>
     </section>
   );
 }
 
-// same look as the dashboard tables
-function Rows({
-  header,
-  rows,
-}: {
-  header: [string, string];
-  rows: [string, ReactNode][];
-}) {
+function Install({ domain, origin }: { domain: string; origin: string }) {
+  const link = `${origin}/w/${domain}?l=nl`;
+
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse text-left">
-        <thead>
-          <tr className="border-b border-line text-sm">
-            <th className="py-2 pr-4 font-normal">{header[0]}</th>
-            <th className="py-2 pl-4 font-normal">{header[1]}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(([label, value]) => (
-            <tr key={label} className="border-b border-line align-top">
-              <th className="py-2 pr-4 font-normal">{label}</th>
-              <td className="py-2 pl-4 break-all">{value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <section className="flex flex-col gap-3">
+        <h2 className="m-0 text-xl font-bold">2. Add the redirect</h2>
+        <p className="m-0">
+          When a search matches your filter, send the visitor to this address
+          instead of showing results:
+        </p>
+        <Code tabs={[["Link", link]]} />
+        <p className="m-0">For example:</p>
+        <Code
+          tabs={[
+            [
+              "JavaScript",
+              `<meta name="referrer" content="no-referrer">
+<script>
+  // call this when your filter matches
+  function sbisRedirect() {
+    const url = "${link}";
+    // replace a results page, so Back doesn't open it again
+    if (location.search) location.replace(url);
+    else location.assign(url);
+  }
+</script>`,
+            ],
+            [
+              "PHP",
+              `if (matches_word_filter($query)) {
+  header('Referrer-Policy: no-referrer');
+  header('Location: ${link}', true, 302);
+  exit;
+}`,
+            ],
+            [
+              "Node.js",
+              `if (matchesWordFilter(query)) {
+  res.set("Referrer-Policy", "no-referrer");
+  return res.redirect(302, "${link}");
+}`,
+            ],
+          ]}
+        />
+        <p className="m-0">
+          The examples set <code>Referrer-Policy: no-referrer</code>, so the
+          search address isn&apos;t sent to SBIS. Keep it if you write your own.
+        </p>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="m-0 text-xl font-bold">3. Choose your terms</h2>
+        <p className="m-0">
+          Only add terms that are clearly about child sexual abuse material.
+          Leave out words people also use innocently, since a match always
+          replaces the search results. Don&apos;t publish your list.
+        </p>
+      </section>
+    </>
   );
 }
 

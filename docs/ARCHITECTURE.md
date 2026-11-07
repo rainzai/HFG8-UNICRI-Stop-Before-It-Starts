@@ -56,14 +56,14 @@ web/                              Next.js (app router), pnpm
   app/admin/export/route.ts          combined totals per variant as JSON, for partners
   app/stats/[site]/page.tsx          a forum's own totals, needs its key (?k=)
   app/api/metrics/[site]/route.ts    same as JSON, key in the Authorization header
-  app/setup/page.tsx                 domain check → private stats link and key
+  app/setup/page.tsx                 install instructions (one redirect), then optional domain check → private stats link and key
   lib/stats.ts                       sum per period, funnel, suppression, metrics event
   lib/access.ts                      HMAC codes and keys, admin password check
   lib/verify.ts                      fetch the code from the forum's site (https, public ips only)
   scripts/key.ts, scripts/seed.ts    demo key for a forum, fake counts in the real format
 
   not built yet:
-  install instructions on /setup, bandit shares on the dashboard
+  bandit shares on the dashboard, amber/green triggers (optional script)
 ```
 
 Copy lives in country packs, keyed by country **and** language (`nl.json` is the reference shape; other languages must match it): English for the Netherlands carries Dutch law and Dutch helplines (saying conversations are in Dutch, see PLAN.md), which differs from English for Belgium. Adding a country means adding a folder. Packs are validated at build time, so a missing translation fails the build instead of rendering blank.
