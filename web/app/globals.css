@@ -67,12 +67,14 @@
 }
 [data-variant="b"] > div > * {
   position: relative;
+  z-index: 1;
 }
 [data-variant="b"] > div::before,
 [data-variant="b"] > div::after {
   content: "";
   position: absolute;
   border-radius: 50%;
+  z-index: 0;
 }
 [data-variant="b"] > div::before {
   top: -120px;
