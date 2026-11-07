@@ -21,6 +21,7 @@ Forum (its own word filter)
 - Country and language come only from the URL. We never use IP addresses or the host's geo headers.
 - The redirect must never carry the search text, a username or an IP address.
 - The platform should set `Referrer-Policy: no-referrer` on the redirect, so its search URL never reaches us.
+- **Opting out of counting:** a forum that does not want to be counted links to `/w/~<forum-domain>`. The page is the same (name, back link), but `~forum.nl` is not a valid domain to the counter, so no step or click is ever stored for it, and the page sends no beacons. No list or setting on our side: the choice lives in the forum's own link. No dashboard for that forum, and its visitors do not feed the bandit.
 - The domain must be neutral: it ends up in browser history, so it must not reveal what the page is about. This and the neutral title are the real protection: no page can remove itself or the forum's search page from the history list (ctrl+H). `location.replace` only changes what Back does.
 
 ## Trigger levels

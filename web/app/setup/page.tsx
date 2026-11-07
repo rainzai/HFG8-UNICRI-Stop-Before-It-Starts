@@ -206,6 +206,15 @@ function Install({ domain, origin }: { domain: string; origin: string }) {
           The examples set <code>Referrer-Policy: no-referrer</code>, so the
           search address isn&apos;t sent to SBIS. Keep it if you write your own.
         </p>
+        <p className="m-0">
+          Don&apos;t want your forum to be counted at all? Put <code>~</code>{" "}
+          before your domain:{" "}
+          <code className="[overflow-wrap:anywhere]">{`${origin}/w/~${domain}?l=nl`}</code>
+          . The page looks the same, but we count nothing for your forum, so
+          there&apos;s no dashboard and your visitors don&apos;t help improve
+          the page. For the notices below, use{" "}
+          <code>data-site=&quot;~{domain}&quot;</code>.
+        </p>
       </section>
 
       <section className="flex flex-col gap-3">

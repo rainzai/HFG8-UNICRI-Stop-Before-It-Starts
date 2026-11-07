@@ -28,6 +28,20 @@ export function backOf(step: Step) {
   return BACK[step];
 }
 
+// a forum that does not want to be counted puts ~ before its domain
+// (/w/~forum.nl). the site carries it into every link, and the proxy
+// counts nothing for it, since "~forum.nl" is not a valid domain
+export const QUIET_PREFIX = "~";
+
+export function isQuiet(site: string) {
+  return site.startsWith(QUIET_PREFIX);
+}
+
+// the domain to show and link back to, with or without the ~
+export function siteDomain(site: string) {
+  return isQuiet(site) ? site.slice(QUIET_PREFIX.length) : site;
+}
+
 // site id = forum domain
 // params arrive still encoded, stepHref encodes again: decode once here
 export function decodeSite(raw: string) {

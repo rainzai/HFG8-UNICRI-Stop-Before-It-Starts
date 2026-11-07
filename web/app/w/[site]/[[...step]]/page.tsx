@@ -13,10 +13,12 @@ import {
   backOf,
   decodeSite,
   DEFAULT_VARIANT,
+  isQuiet,
   parseForumDomain,
   parseStep,
   parseVariant,
   revisitHref,
+  siteDomain,
   stepHref,
   themeOf,
 } from "@/lib/flow";
@@ -43,7 +45,9 @@ async function Flow({
   const step = parseStep(segments);
   if (!step) notFound();
 
-  const forum = parseForumDomain(site);
+  const forum = parseForumDomain(siteDomain(site));
+  // quiet: same page, but no clicks are sent to be counted
+  const statsSite = isQuiet(site) ? null : forum;
   const { pack, copy, lang } = getContent(
     DEFAULT_COUNTRY,
     typeof requestedLang === "string" ? requestedLang : undefined,
@@ -58,7 +62,7 @@ async function Flow({
     site,
     lang,
     variant,
-    statsSite: forum,
+    statsSite,
   };
 
   return (
@@ -67,7 +71,7 @@ async function Flow({
         copy={copy}
         pack={pack}
         forum={forum}
-        statsSite={forum}
+        statsSite={statsSite}
         backHref={
           back ? revisitHref(stepHref(site, back, lang, variant)) : undefined
         }
