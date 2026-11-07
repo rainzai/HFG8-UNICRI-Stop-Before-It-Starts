@@ -1,132 +1,90 @@
-# Stop Before It Starts
+# SBIS
 
-**Hackathon for Good #8** | 6-8 November 2026 | The Hague
+Our entry for the UNICRI challenge *Stop Before It Starts* at Hackathon for Good #8. The original challenge description is in [docs/CHALLENGE.md](docs/CHALLENGE.md), our one-pager in [submission/ONE_PAGER.md](submission/ONE_PAGER.md), and how it all works in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-**Challenge owner:** [UNICRI Centre for AI and Robotics](https://unicri.it/) and the UAE Ministry of Interior — [AI for Safer Children](https://aiforsaferchildren.com/) initiative.
+## Team Name
 
----
+**Detour**: it's not too late.
 
-## The Challenge
+## What We Built
 
-Most child protection technology works after abuse has happened. This challenge works one step earlier: at the moment someone goes looking for child sexual abuse material (CSAM) online. Warning messages already run on some large platforms, and help services exist in the Netherlands, but very few platforms show a warning and very few people who see one go on to seek help.
+A hosted help page that forums send people to when a search matches their word filter. Most warnings end in a dead end with a link at the bottom, and about 1 in 100 people click through to help (Project Intercept). We focus on that step: the page is the first small step of help itself, so contacting the Preventielijn feels like a small next step instead of a leap.
 
-**Your challenge:** build a plug-and-play prevention package that platforms in the Netherlands can switch on in days rather than months — combining a warning message, a route to help, and easy integration — ready to scale to other countries and languages.
+We cover all three building blocks:
 
-Think of the target: a Dutch hobby forum with 20,000 members and one part-time moderator, who wants a warning and a route to help live within a week. What would it take for them to say yes?
+- **Warning:** one short message, then one question ("this was a mistake", "I'm worried", "what are the consequences?"), so everyone gets an answer that fits.
+- **Route to help:** call and chat with the Preventielijn of Offlimits two taps away, with honest answers to "is it anonymous?" and "will I be reported?", what a call is like, opening hours, self-help, and a neutral link to save for later.
+- **Plug-and-play:** the install is one redirect. No plugin, no account, nothing to update.
 
-Read the [full challenge brief](BRIEF.md) or the [PDF version](UNICRI%20Challenge%20Brief%20HFG%238%20%7Bdraft%20v1.1%20_%203%20Nov%202026%7D.pdf).
+The page improves itself without tracking anyone. There are five versions (`a` to `e`), based on the strongest message themes in the largest warning study so far (Ciardha, Nurmi et al. 2026), plus two image versions. A bandit sends more visitors to the version that gets more people to call or chat, using only daily totals.
 
----
+Main persona: **02 Starting** (first searches), with a route for **03** and a line for **04** (the Preventielijn also helps partners and family).
 
-## Quick Start
+## How to Run It
 
-**Prerequisites:** Node.js 20+ and npm.
+Prerequisites: Node 20+ and pnpm (or `nix develop`, which provides both).
 
 ```bash
-# 1. Clone the repo (or your fork)
-git clone https://github.com/Hackathon-for-Good-The-Hague/HFG8-UNICRI-Stop-Before-It-Starts.git
-cd HFG8-UNICRI-Stop-Before-It-Starts
+# the help page
+cd web
+pnpm install
+cp .env.example .env.local   # fill in STATS_SECRET (32+ characters) and ADMIN_PASSWORD
+pnpm seed                    # optional: 60 days of fake counts for the dashboard
+pnpm dev -p 3100
 
-# 2. Install dependencies
+# the mock forum, in a second terminal, from the repo root
 npm install
-
-# 3. Run the safety check
-npm run check
-
-# 4. Start the mock platform and backend
-npm run dev
-
-# 5. Open the mock platform
-#    http://localhost:3000/mock-platform/
-
-# 6. Type "test-trigger-red" in the search bar to see the warning
+npx vite --config vite.config.js --port 3000
 ```
 
-That is all. You should see the mock platform with a search bar. Typing `test-trigger-red` triggers the warning flow. From here, build your solution.
+Then open http://localhost:3000/mock-platform/ and search for:
 
----
+- `test-trigger-red`: the forum sends you to the help page
+- `test-trigger-amber`: the results stay, with a popup
+- `test-trigger-green`: the results stay, with a small box
 
-## Repository Map
+Other pages: `/setup` (install instructions and a preview), `/admin` (internal dashboard, any username and `ADMIN_PASSWORD`).
 
-```
-README.md                  You are here
-BRIEF.md                   Full challenge brief in markdown
-SAFETY.md                  Safety rules (read this first)
-CONTRIBUTING.md            How to fork, branch and contribute
-CODE_OF_CONDUCT.md         Contributor Covenant v2.1
-CLAUDE.md                  Context for AI coding assistants
-research/
-  EVIDENCE.md              Evidence summaries with source links
-  PERSONAS.md              User personas (4 profiles + platform)
-  READING.md               Full reading list organised by topic
-submission/
-  TEAM_README_TEMPLATE.md  Template for your team's README
-  ONE_PAGER_TEMPLATE.md    Template for rationale and safe test plan
-  PITCH_GUIDE.md           3-minute pitch structure and jury criteria
-data/
-  help-services.json       Dutch and international help services
-  legal-confidentiality.json  Legal info and confidentiality per country
-  message-blocks.json      Warning message building blocks (NL + EN)
-contract/
-  PLUGIN_CONTRACT.md       Plug-in contract (what goes in, what comes out)
-  schemas/                 JSON Schema files for all data types
-mock-platform/             Mock platform to test your module against
-starter-widget/            Starter code for the warning widget
-starter-backend/           Starter Express backend
-tools/                     Safety check, traffic generator, dashboard
-test/                      Tests
-integrations/              Example integrations (Discourse, WordPress)
+## How a Platform Installs It
+
+One redirect, about an afternoon of work. On `/setup` a moderator enters their domain and gets their link and code:
+
+```php
+if (matches_word_filter($query)) {  // your existing filter
+  header('Referrer-Policy: no-referrer');
+  header('Location: https://<our domain>/w/forum.example.nl?l=nl', true, 302);
+  exit;
+}
 ```
 
----
+There are also Node.js and browser-only versions. The link only holds the forum's domain and language, never the search text, a username or an IP address. Only terms that are clearly about child sexual abuse material go in the redirect list.
 
-## Safety Rules
+Optional extras, never required:
 
-This challenge deals with the prevention of CSAM. The safety rules are non-negotiable.
+- **Softer notices:** for terms people also use innocently, one `<script>` line shows a popup or a small box above the results instead of redirecting. It uses the forum's own font and colours.
+- **Dashboard:** a forum proves it owns its domain (meta tag or file) and gets a private link to its own numbers, per finished month.
+- **No counting at all:** a forum that does not want to be counted links to `/w/~forum.example.nl`. The page is the same, and nothing is stored for that forum.
 
-1. **No real abuse-related search terms** — only `test-trigger-*` placeholders
-2. **No real people or user data** — everything is synthetic
-3. **No tooling that identifies, exposes or tracks individuals**
-4. **Aggregate measurement only** — counts suppressed below 10
-5. **Do not invent facts** — verify or mark with `[VERIFY]`
+## How to Test Impact Safely
 
-Run `npm run check` before every commit. Read the full rules in [SAFETY.md](SAFETY.md).
+- **Totals only:** we store `(day, forum, version, event) → count`, nothing else. No IP address, no cookie, no session ID, no time finer than a day. Single visits never exist in storage.
+- **Small numbers hidden:** counts below 10 are hidden, also after adding up. Forums only see whole finished months, one at a time, so live counts or subtracting two periods can't reveal a single person.
+- **No real terms:** all testing uses `test-trigger-*` terms. The redirect never carries the search text.
+- **No live testing during the hackathon:** everything runs on the mock forum, and demo numbers come from `pnpm seed`.
 
----
+See the one-pager for the full test plan.
 
-## What You Deliver
+## What We Would Do Next
 
-| Deliverable | Description |
-|-------------|-------------|
-| **Working prototype** | Shown in the mock platform (embeddable module, chatbot, interstitial, or your own format) |
-| **3-minute pitch** | Problem, demo, evidence, next steps — see [PITCH_GUIDE.md](submission/PITCH_GUIDE.md) |
-| **One-pager** | Target user, platform, evidence, safe test plan — see [ONE_PAGER_TEMPLATE.md](submission/ONE_PAGER_TEMPLATE.md) |
-| **Repository** | Your fork with a README explaining what you built and how to install it — see [TEAM_README_TEMPLATE.md](submission/TEAM_README_TEMPLATE.md) |
+- Run a pilot with one Dutch forum and Offlimits, with a research partner and ethics approval.
+- Confirm with Offlimits whether the Preventielijn can help English speakers, and where to send them if not.
+- Add Belgium (Flemish Dutch and French) as the second country pack.
+- Let the bandit learn per country, and count how often the optional notices are shown, so they can be tested too.
+- Get an accessibility review with screen reader users.
 
-**Jury scoring:** Impact on prevention 25% | Adoptability 25% | Creativity 20% | Safety and ethics 20% | Clarity of pitch 10%
+## Team Members
 
----
-
-## Resources and Mentors
-
-- **Emma Persson** (UNICRI, Associate Programme Officer) — on site at the hackathon
-- **Dr Christoffer Rahm** (Karolinska Institutet, Sweden) — leads the Prevent It research on anonymous online therapy. Online Q&A — check Discord for times
-- **Dr Juha Nurmi** (Tampere University, Finland) — built the Ahmia search engine, researches warning messages on the dark web. Online Q&A — check Discord for times
-
-**Dutch help services:**
-- Preventielijn van Offlimits: 0800 266 64 36 | <https://preventielijn.offlimits.nl>
-- Stoppen is mogelijk: <https://stoppen-is-mogelijk.eu>
-
-See the [full reading list](research/READING.md) and [evidence summaries](research/EVIDENCE.md) for all research links.
-
----
-
-## Follow-Up
-
-The outcomes of this challenge will be shared on the **AI for Safer Children Global Hub**, the UNICRI platform used by law enforcement from more than 120 countries. Irakli Beridze, Head of the UNICRI Centre for AI and Robotics, joins the final pitches in person on Sunday 8 November.
-
----
-
-## License
-
-[MIT](LICENSE)
+| Name | Role |
+|------|------|
+| Denzel Wolvekamp | Idea and design, visitor flow, versions and bandit, notices, install page |
+| Ronald Koning | Counting, dashboards, stats access |
