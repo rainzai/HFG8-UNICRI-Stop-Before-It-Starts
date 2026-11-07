@@ -12,8 +12,12 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
 
 ## Open questions
 
-- **Which "EU English" service for English speakers?** The mentor said the Preventielijn does not support English and to use the EU English one instead. Use [Helplinks.eu](https://helplinks.eu) (the EU directory) as the source to pick it, but link visitors straight to the service itself, like the chat link. The directory is compiled by police services, which would clash with "you will not be reported" right before it. Candidates it lists: ReDirection (English self-help, `verified: false` in `data/`), Troubled Desire, Help Wanted.
-- **Service name and domain.** Still `[Service name]`. Must be neutral, it ends up in browser history.
+- **Domain.** Name is SBIS (7 Nov). The domain must be just as neutral, it ends up in browser history.
+- **Does the Preventielijn help in English?** Mentor says no, the StepToSupport directory says Dutch and English (old name, undated). Ask Offlimits; the answer decides step 5.
+
+## Decided
+
+- **English for NL links to the Preventielijn, saying conversations are in Dutch** (7 Nov). No verified English alternative: the Dutch self-help module is Dutch only, the ReDirection link in `data/` is a research page, not the programme, and the Offlimits Hulplijn (English) is for people affected by online abuse, not for our visitors. Helplinks.eu is not linked: it is compiled by police services, which clashes with "you will not be reported". In the pitch this is a known gap.
 
 ## Next, in order
 
@@ -34,8 +38,11 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
    - `GET /api/metrics/<forum>` with that key returns the contract's metrics event format: the "payload back to the forum" from `contract/PLUGIN_CONTRACT.md`. Optionally `redirect.js` fires one `sbis:result` (`shown: true`) before redirecting.
    - For the demo: the internal dashboard, plus a hand-made private forum link if there is time.
 4. **Feedback loop.** Compare variants on reaching call/chat, then a multi-armed bandit that shifts traffic to the better variant using totals only. Mentor: this is the most important part.
-5. **English help alternative** once the question above is answered.
+5. **English help alternative** if Offlimits says the Preventielijn cannot help English speakers: their own advice first, otherwise a verified English programme (ReDirection, Troubled Desire, Help Wanted).
 6. **Install instructions page** (redirect URL format, Referrer-Policy).
+   - The forum picks its country once and gets the full redirect URL (e.g. `/w/forum.nl?c=be&l=fr`). Not built yet: country is fixed to NL.
+   - No country or an unknown one falls back to NL. No guessing from the domain (`.com` forums) or IP.
+   - No generic country-less pack: without a country there is no law to name and no number to call, so it would be a warning with a link again.
 7. **Live open/closed status** in the contact block, worded as "according to regular opening hours" (ad-hoc closures are not visible to us).
 8. **Deploy** for the demo, and the submission docs in `submission/`.
 

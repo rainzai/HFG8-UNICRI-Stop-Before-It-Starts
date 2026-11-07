@@ -64,7 +64,7 @@ web/                              Next.js (app router), pnpm
   install instructions on /setup, variants (?v=)
 ```
 
-Copy lives in country packs, keyed by country **and** language (`nl.json` is the reference shape; other languages must match it): English for the Netherlands carries Dutch law and Dutch helplines, which differs from English for Belgium. Adding a country means adding a folder. Packs are validated at build time, so a missing translation fails the build instead of rendering blank.
+Copy lives in country packs, keyed by country **and** language (`nl.json` is the reference shape; other languages must match it): English for the Netherlands carries Dutch law and Dutch helplines (saying conversations are in Dutch, see PLAN.md), which differs from English for Belgium. Adding a country means adding a folder. Packs are validated at build time, so a missing translation fails the build instead of rendering blank.
 
 Facts (phone numbers, legal articles, confidentiality) come from `data/*.json`. Where the data is silent, we use the helpline's own site: opening hours, staff professional secrecy, and the one reporting exception (agreed with the organiser, since `data/legal-confidentiality.json` says there is none). Anything not verified gets a `[VERIFY]` marker, never a guess.
 
