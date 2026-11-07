@@ -42,8 +42,9 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
         <h2 className="m-0 text-xl font-bold">
           <label htmlFor="domain">1. Enter your domain</label>
         </h2>
-        <form
-          method="get"
+        {/* next/form: same GET, swapped in place instead of a full reload */}
+        <Form
+          action="/setup"
           className="flex items-center gap-4 border-b-2 border-line pb-2 focus-within:border-ink"
         >
           <input
@@ -56,7 +57,7 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
             className="min-w-0 flex-1 bg-transparent py-2 text-lg focus-visible:outline-none"
           />
           <Submit>Next</Submit>
-        </form>
+        </Form>
         {typed && !domain && (
           <p className="m-0 text-[15px]">
             Enter a domain like forum.example.nl.
@@ -96,11 +97,11 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
               ["File", code, `Save as https://${domain}${VERIFY_FILE}`],
             ]}
           />
-          <form method="get">
+          <Form action="/setup">
             <input type="hidden" name="domain" value={domain} />
             <input type="hidden" name="check" value="1" />
             <Submit>Check</Submit>
-          </form>
+          </Form>
         </section>
       )}
 
