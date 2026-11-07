@@ -15,7 +15,11 @@
     "call": "Bel {phone}",
     "chat": "Start een chat",
     "caption": "{helpline} van {org} · gratis en anoniem",
-    "anonymousLink": "Is het echt anoniem?"
+    "anonymousLink": "Is het echt anoniem?",
+    "openNow": "Nu open · tot {close}",
+    "closedNext": "Gesloten · weer open {day} om {open}",
+    "today": "vandaag",
+    "tomorrow": "morgen"
   },
   "start": {
     "title": "Je zoekopdracht op {forum} is gestopt.",

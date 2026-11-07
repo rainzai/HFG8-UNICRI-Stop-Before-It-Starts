@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { BeaconLink } from "@/components/flow/beacon-link";
 import { FlowLink } from "@/components/flow/flow-link";
 import { Chat, ChevronRight, Phone } from "@/components/flow/icons";
+import { OpenStatus } from "@/components/flow/open-status";
 import { fill, type Copy, type Pack } from "@/lib/content";
 import {
   ANONYMOUS_ANCHOR,
@@ -70,6 +71,13 @@ export function ClearAndSerious({
               {fill(t.wayOutBody, { helpline: name })}
             </p>
           </div>
+          <OpenStatus
+            copy={copy}
+            pack={pack}
+            lang={lang}
+            onDark
+            className="-mb-2 justify-start"
+          />
           <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
             <BeaconLink
               site={forum}

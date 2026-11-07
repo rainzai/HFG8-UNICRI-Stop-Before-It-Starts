@@ -15,7 +15,11 @@
     "call": "Call {phone}",
     "chat": "Start a chat",
     "caption": "{helpline} by {org} · free, anonymous, in Dutch",
-    "anonymousLink": "Is it really anonymous?"
+    "anonymousLink": "Is it really anonymous?",
+    "openNow": "Open now · until {close}",
+    "closedNext": "Closed · open again {day} at {open}",
+    "today": "today",
+    "tomorrow": "tomorrow"
   },
   "start": {
     "title": "Your search on {forum} was stopped.",

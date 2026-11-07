@@ -5,6 +5,7 @@ import { CallButton } from "@/components/flow/call-button";
 import { ChatButton } from "@/components/flow/chat-button";
 import { FlowLink } from "@/components/flow/flow-link";
 import { Check } from "@/components/flow/icons";
+import { OpenStatus } from "@/components/flow/open-status";
 import { fill, type Copy, type Pack } from "@/lib/content";
 import {
   ANONYMOUS_ANCHOR,
@@ -50,6 +51,12 @@ export function Help({
       </div>
 
       <div className="flex flex-col gap-1">
+        <OpenStatus
+          copy={copy}
+          pack={pack}
+          lang={lang}
+          className="mb-1.5 justify-start"
+        />
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(240px,100%),1fr))] gap-2.5">
           <CallButton copy={copy} pack={pack} statsSite={statsSite} />
           <ChatButton copy={copy} pack={pack} statsSite={statsSite} />

@@ -1,6 +1,7 @@
 import { CallButton } from "@/components/flow/call-button";
 import { ChatButton } from "@/components/flow/chat-button";
 import { FlowLink } from "@/components/flow/flow-link";
+import { OpenStatus } from "@/components/flow/open-status";
 import { fill, type Copy, type Pack } from "@/lib/content";
 import {
   ANONYMOUS_ANCHOR,
@@ -30,6 +31,12 @@ export function ContactBlock({
 
   return (
     <div className="flex w-full max-w-[420px] flex-col gap-2">
+      <OpenStatus
+        copy={copy}
+        pack={pack}
+        lang={lang}
+        className="mb-1 justify-center"
+      />
       <CallButton copy={copy} pack={pack} statsSite={statsSite} />
       <ChatButton copy={copy} pack={pack} statsSite={statsSite} />
       <p className="m-0 text-center text-[15px] text-muted">

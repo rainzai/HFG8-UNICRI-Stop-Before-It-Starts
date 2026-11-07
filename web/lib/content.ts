@@ -20,6 +20,13 @@ const packSchema = z.object({
     phone: z.string().regex(/^[0-9 ]+$/),
     url: z.url({ protocol: /^https$/ }),
     chatUrl: z.url({ protocol: /^https$/ }),
+    // the opening hours below are in this time zone
+    timeZone: z
+      .string()
+      .refine(
+        (tz) => Intl.supportedValuesOf("timeZone").includes(tz),
+        "unknown time zone",
+      ),
     // days: [first, last], 1 = monday
     hours: z.array(
       z.object({

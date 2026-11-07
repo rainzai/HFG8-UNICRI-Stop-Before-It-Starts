@@ -15,6 +15,18 @@
   --color-verify-ink: #4a3700;
 
   --font-sans: var(--font-atkinson), system-ui, sans-serif;
+
+  /* open status: a soft ring that swells and settles, like breathing */
+  --animate-breathe: breathe 2s ease-in-out infinite;
+  @keyframes breathe {
+    0%,
+    100% {
+      box-shadow: 0 0 0 1px rgb(46 158 91 / 0.35);
+    }
+    50% {
+      box-shadow: 0 0 0 6px rgb(46 158 91 / 0.18);
+    }
+  }
 }
 
 /* variant b: warm and personal, same tokens so every screen follows */

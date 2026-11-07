@@ -8,6 +8,7 @@
     "phone": "0800 266 64 36",
     "url": "https://preventielijn.offlimits.nl",
     "chatUrl": "https://chatpreventielijn.offlimits.nl/chat?o=600",
+    "timeZone": "Europe/Amsterdam",
     "hours": [
       {
         "days": [1, 4],

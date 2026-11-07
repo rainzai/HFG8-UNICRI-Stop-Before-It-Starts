@@ -2,6 +2,7 @@ import { CallButton } from "@/components/flow/call-button";
 import { ChatButton } from "@/components/flow/chat-button";
 import { FlowLink } from "@/components/flow/flow-link";
 import { ChevronRight } from "@/components/flow/icons";
+import { OpenStatus } from "@/components/flow/open-status";
 import { fill, type Copy, type Pack } from "@/lib/content";
 import {
   ANONYMOUS_ANCHOR,
@@ -37,6 +38,7 @@ export function HelpFirst({ copy, pack, forum, site, lang, variant }: Props) {
         aria-label={fill(copy.help.title, { helpline: name })}
         className="mt-1 flex flex-col gap-3 rounded-[28px] bg-tint px-[18px] pt-[22px] pb-3 sm:rounded-[32px] sm:px-8 sm:pt-8"
       >
+        <OpenStatus copy={copy} pack={pack} lang={lang} />
         <div className="grid gap-3 sm:grid-cols-2">
           <CallButton copy={copy} pack={pack} statsSite={forum} />
           <ChatButton copy={copy} pack={pack} statsSite={forum} />

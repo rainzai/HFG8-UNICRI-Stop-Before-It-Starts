@@ -42,7 +42,7 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
    - The forum picks its country once and gets the full redirect URL (e.g. `/w/forum.nl?c=be&l=fr`). Not built yet: country is fixed to NL.
    - No country or an unknown one falls back to NL. No guessing from the domain (`.com` forums) or IP.
    - No generic country-less pack: without a country there is no law to name and no number to call, so it would be a warning with a link again.
-7. **Live open/closed status** in the contact block, worded as "according to regular opening hours" (ad-hoc closures are not visible to us).
+7. **Live open/closed status** done (7 Nov): above every call button, green pulsing dot "Nu open · tot 18:00" or grey "Gesloten · weer open morgen om 09:00", from the regular hours in the helpline's time zone. Holidays and ad-hoc closures are not visible to us.
 8. **Deploy** for the demo, and the submission docs in `submission/`.
 
 ## Research (7 Nov)
