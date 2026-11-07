@@ -65,17 +65,18 @@ export function Shell({
       </main>
 
       <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-[720px] flex-wrap items-center justify-between gap-x-6 gap-y-1.5 px-6 pt-4 pb-7">
+        <div className="mx-auto flex max-w-[720px] flex-col items-center gap-1.5 px-6 pt-4 pb-7 sm:flex-row sm:flex-wrap sm:justify-between sm:gap-x-6">
+          {/* on phones the text is centered and the icon hangs left of it: -ml equals icon + gap */}
           {forum && (
             <a
               href={forumHref(forum)}
-              className="inline-flex min-h-11 items-center gap-1.5 text-base font-bold"
+              className="inline-flex min-h-11 items-center gap-1.5 text-base font-bold max-sm:-ml-6"
             >
               <ChevronLeft />
               {fill(copy.chrome.backToForum, { forum })}
             </a>
           )}
-          <p className="flex items-center gap-2 text-sm text-muted">
+          <p className="flex items-center gap-2 text-sm text-muted max-sm:-ml-6">
             <Lock />
             {copy.chrome.privacy}
           </p>
