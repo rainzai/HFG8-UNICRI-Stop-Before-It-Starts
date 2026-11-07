@@ -1,8 +1,15 @@
+import { ClearAndSerious } from "@/components/flow/clear-and-serious";
 import { FlowLink } from "@/components/flow/flow-link";
 import { HelpFirst } from "@/components/flow/help-first";
 import { ChevronRight } from "@/components/flow/icons";
 import type { Copy, Pack } from "@/lib/content";
-import { helpFirst, stepHref, type Step, type Variant } from "@/lib/flow";
+import {
+  clearAndSerious,
+  helpFirst,
+  stepHref,
+  type Step,
+  type Variant,
+} from "@/lib/flow";
 
 type Props = {
   copy: Copy;
@@ -21,15 +28,30 @@ export function Start({ copy, pack, forum, site, lang, variant }: Props) {
     ["consequences", t.consequences],
   ];
 
+  const title = forum ? (
+    <WithForum template={t.title} forum={forum} />
+  ) : (
+    t.titleNoForum
+  );
+
+  if (clearAndSerious(variant))
+    return (
+      <ClearAndSerious
+        copy={copy}
+        pack={pack}
+        title={title}
+        forum={forum}
+        site={site}
+        lang={lang}
+        variant={variant}
+      />
+    );
+
   return (
     <>
       <div className="flex flex-col gap-3.5">
         <h1 className="m-0 text-[clamp(30px,3.4vw,42px)] leading-tight font-bold">
-          {forum ? (
-            <WithForum template={t.title} forum={forum} />
-          ) : (
-            t.titleNoForum
-          )}
+          {title}
         </h1>
         <p className="m-0 max-w-[34em] text-[clamp(19px,1.6vw,21px)] leading-normal">
           {t.body}

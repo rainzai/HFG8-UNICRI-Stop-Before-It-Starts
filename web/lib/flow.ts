@@ -72,6 +72,11 @@ export function helpFirst(variant: Variant) {
   return variant === "b";
 }
 
+// message, then a dark band with the way out, then a numbered list
+export function clearAndSerious(variant: Variant) {
+  return variant === "c";
+}
+
 export const DEFAULT_VARIANT: Variant = "a";
 
 export function parseVariant(value: unknown): Variant | null {

@@ -30,8 +30,8 @@ export function Shell({
   children,
 }: Props) {
   return (
-    <div className="flex min-h-dvh flex-col bg-paper font-sans text-ink">
-      <header className="border-b border-line">
+    <div className="flex min-h-dvh flex-col overflow-x-clip bg-paper font-sans text-ink">
+      <header className="border-b border-line in-data-[variant=c]:border-b-2 in-data-[variant=c]:border-ink">
         <div className="mx-auto flex max-w-[1040px] flex-wrap items-center justify-between gap-3 py-3 pr-4 pl-6">
           <span className="text-[17px] font-bold">
             {copy.chrome.serviceName}
@@ -44,7 +44,7 @@ export function Shell({
             />
             <ExitLink
               href={pack.exitUrl}
-              className="inline-flex min-h-11 items-center rounded-[10px] border-[1.5px] border-edge px-4 text-[15px] font-bold text-ink no-underline hover:text-ink"
+              className="inline-flex min-h-11 items-center rounded-[10px] border-[1.5px] border-edge px-4 text-[15px] font-bold text-ink no-underline hover:text-ink in-data-[variant=c]:rounded-[4px] in-data-[variant=c]:border-2"
             >
               {copy.chrome.close}
             </ExitLink>
@@ -65,7 +65,7 @@ export function Shell({
         {children}
       </main>
 
-      <footer className="border-t border-line">
+      <footer className="border-t border-line in-data-[variant=c]:border-t-2 in-data-[variant=c]:border-ink">
         <div className="mx-auto flex max-w-[720px] flex-col items-center gap-1.5 px-6 pt-4 pb-7 sm:flex-row sm:flex-wrap sm:justify-between sm:gap-x-6">
           {/* on phones the text is centered and the icon hangs left of it: -ml equals icon + gap */}
           {forum && (

@@ -31,6 +31,22 @@
   --font-sans: var(--font-nunito), system-ui, sans-serif;
 }
 
+/* variant c: sober, black on white, square corners */
+[data-variant="c"] {
+  --color-paper: #ffffff;
+  --color-ink: #111418;
+  --color-muted: #4a4f57;
+  --color-line: #c9ccd1;
+  --color-edge: #111418;
+  --color-brand: #111418;
+  --color-brand-dark: #000000;
+  --color-tint: #f2f3f4;
+  --color-tint-hover: #f2f3f4;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
+  --font-sans: var(--font-public-sans), system-ui, sans-serif;
+}
+
 /* variant b: soft circles behind the page, content stays above them */
 [data-variant="b"] > div {
   position: relative;

@@ -26,7 +26,9 @@
     "worried": "I am worried about what I think or watch",
     "consequences": "What are the consequences?",
     "direct": "Want to talk to someone right away?",
-    "directLink": "Go to anonymous help"
+    "directLink": "Go to anonymous help",
+    "wayOut": "There is a way out.",
+    "wayOutBody": "Talk about it anonymously with the {helpline}."
   },
   "mistake": {
     "title": "Okay. Thanks for reading this.",
