@@ -24,7 +24,7 @@
   "start": {
     "title": "Your search on {forum} was stopped.",
     "titleNoForum": "Your search was stopped.",
-    "body": "Behind every image is a real child who was abused. Searching or watching makes that harm bigger.",
+    "body": "Behind every image is a real child who was abused. Searching or watching adds to that harm.",
     "question": "What fits you best?",
     "mistake": "This was a mistake",
     "worried": "I am worried about what I think or watch",
@@ -43,7 +43,7 @@
   "worried": {
     "title": "It is good that you stopped here.",
     "body": "You are not the only one with these worries. Thoughts and habits like these can change.",
-    "help": "Help exists. It is anonymous and free."
+    "help": "There is help. It is anonymous and free."
   },
   "consequences": {
     "title": "What does the law say?",
