@@ -6,7 +6,17 @@ export type Counts = Record<string, number>;
 
 export const STATS_FILE = path.join(process.cwd(), ".data", "counts.json");
 
-export const CLICK_EVENTS = ["call", "chat"] as const;
+// clicks counted with a beacon, the rest are step requests
+export const CLICK_EVENTS = [
+  "call",
+  "chat",
+  "website",
+  "selfhelp",
+  "forum",
+  "exit",
+] as const;
+
+export type ClickEvent = (typeof CLICK_EVENTS)[number];
 
 // the saved link has no forum, counted under its own key
 export const SAVED_SITE = "saved";

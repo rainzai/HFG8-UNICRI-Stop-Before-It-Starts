@@ -34,6 +34,7 @@ async function Saved({ params, searchParams }: PageProps<"/i/[country]">) {
         copy={copy}
         pack={pack}
         forum={null}
+        statsSite={SAVED_SITE}
         lang={lang}
         languages={pack.languages.map((code) => ({
           code,

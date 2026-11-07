@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { BeaconLink } from "@/components/flow/beacon-link";
 import { ExitLink } from "@/components/flow/exit-link";
 import { FlowLink } from "@/components/flow/flow-link";
 import { ChevronLeft, Lock } from "@/components/flow/icons";
@@ -14,6 +15,7 @@ type Props = {
   copy: Copy;
   pack: Pack;
   forum: string | null;
+  statsSite: string | null;
   backHref?: string;
   lang: string;
   languages: LanguageOption[];
@@ -24,6 +26,7 @@ export function Shell({
   copy,
   pack,
   forum,
+  statsSite,
   backHref,
   lang,
   languages,
@@ -43,6 +46,7 @@ export function Shell({
               options={languages}
             />
             <ExitLink
+              site={statsSite}
               href={pack.exitUrl}
               className="inline-flex min-h-11 items-center rounded-[10px] border-[1.5px] border-edge px-4 text-[15px] font-bold text-ink no-underline hover:text-ink in-data-[variant=c]:rounded-[4px] in-data-[variant=c]:border-2"
             >
@@ -69,13 +73,15 @@ export function Shell({
         <div className="mx-auto flex max-w-[720px] flex-col items-center gap-1.5 px-6 pt-4 pb-7 sm:flex-row sm:flex-wrap sm:justify-between sm:gap-x-6">
           {/* on phones the text is centered and the icon hangs left of it: -ml equals icon + gap */}
           {forum && (
-            <a
+            <BeaconLink
+              site={statsSite}
+              event="forum"
               href={forumHref(forum)}
               className="inline-flex min-h-11 items-center gap-1.5 text-base font-bold max-sm:-ml-6"
             >
               <ChevronLeft />
               {fill(copy.chrome.backToForum, { forum })}
-            </a>
+            </BeaconLink>
           )}
           <p className="flex items-center gap-2 text-sm text-muted max-sm:-ml-6">
             <Lock />

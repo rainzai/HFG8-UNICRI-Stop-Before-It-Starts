@@ -65,6 +65,7 @@ async function Flow({
         copy={copy}
         pack={pack}
         forum={forum}
+        statsSite={forum}
         backHref={back ? stepHref(site, back, lang, variant) : undefined}
         lang={lang}
         languages={pack.languages.map((code) => ({

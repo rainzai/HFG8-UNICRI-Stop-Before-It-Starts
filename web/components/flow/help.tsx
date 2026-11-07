@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { BeaconLink } from "@/components/flow/beacon-link";
 import { CallButton } from "@/components/flow/call-button";
 import { ChatButton } from "@/components/flow/chat-button";
 import { FlowLink } from "@/components/flow/flow-link";
@@ -53,9 +54,14 @@ export function Help({
           <CallButton copy={copy} pack={pack} statsSite={statsSite} />
           <ChatButton copy={copy} pack={pack} statsSite={statsSite} />
         </div>
-        <a href={url} className="self-start text-[15px] underline">
+        <BeaconLink
+          site={statsSite}
+          event="website"
+          href={url}
+          className="self-start text-[15px] underline"
+        >
           {new URL(url).host}
-        </a>
+        </BeaconLink>
       </div>
       <div className="flex flex-col gap-1.5 text-[15px] text-muted">
         <dl className="m-0 grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5">
@@ -146,7 +152,9 @@ export function Help({
         <h2 id="not-ready" className="m-0 text-[21px] leading-tight font-bold">
           {t.notReadyTitle}
         </h2>
-        <a
+        <BeaconLink
+          site={statsSite}
+          event="selfhelp"
           href={pack.selfHelp.url}
           className="flex flex-col gap-1.5 rounded-xl border-[1.5px] border-edge bg-white p-5 text-ink no-underline hover:text-ink"
         >
@@ -154,7 +162,7 @@ export function Help({
             {pack.selfHelp.name}
           </span>
           <span className="text-base leading-snug">{t.selfHelpBody}</span>
-        </a>
+        </BeaconLink>
         {site && (
           <FlowLink
             href={stepHref(site, "later", lang, variant)}
