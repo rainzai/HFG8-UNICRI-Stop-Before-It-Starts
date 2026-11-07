@@ -112,12 +112,12 @@ Key = `day|site|variant|event`, value = how many times it happened. Nothing else
 | `day` | `YYYY-MM-DD` (UTC) |
 | `site` | the forum domain, `localhost:<port>` in dev, or `saved` for the saved-link page `/i/<country>` |
 | `variant` | `a` harm, `b` help first, `c` clear and serious. The saved-link page is always `a` |
-| `event` | `step:start`, `step:mistake`, `step:worried`, `step:consequences`, `step:help`, `step:later`, `step:saved`, `call`, `chat` |
+| `event` | `step:start`, `step:mistake`, `step:worried`, `step:consequences`, `step:help`, `step:later`, `step:saved`, `call`, `chat`, `website` (helpline site), `selfhelp`, `forum` (back to forum), `exit` (close) |
 
 How it gets counted:
 
 - **Steps:** `web/proxy.ts` adds 1 for every real request to `/w/<site>/<step>` (page load or in-app click, each exactly once; prefetch is off) and to `/i/<country>`. A language switch adds `switch=1` to the URL and is not counted, since it is the same step again.
-- **Call and chat:** the buttons send `{ site, event }` with `sendBeacon` to `POST /api/count`, which the proxy also handles. The link itself is not delayed.
+- **Clicks** (call, chat, helpline site, self-help, back to forum, close): the links send `{ site, variant, event }` with `sendBeacon` to `POST /api/count`, which the proxy also handles. The link itself is not delayed.
 - Only valid forum domains and known events are counted, so nobody can fill the file with made-up keys.
 
 For the dashboard:
