@@ -23,6 +23,22 @@ Forum (its own word filter)
 - The platform should set `Referrer-Policy: no-referrer` on the redirect, so its search URL never reaches us.
 - The domain must be neutral: it ends up in browser history, so it must not reveal what the page is about. This and the neutral title are the real protection: no page can remove itself or the forum's search page from the history list (ctrl+H). `location.replace` only changes what Back does.
 
+## Trigger levels
+
+The headline is the install: **one redirect**. Everything else is an optional extra a forum can add later, never a requirement.
+
+The contract gives every match a severity. The forum decides per term which level it is; it knows its own community.
+
+| Level | What the forum does | Search results |
+|---|---|---|
+| **red** (`high`) | Redirects to our page. This is the whole install. | Not shown, on purpose |
+| **amber** (`medium`) | Optional: one `<script>` line from our domain shows a calm bar above the results, with a link to our page | Shown |
+| **green** (`low`) | Optional: the same script shows only a small text link | Shown |
+
+- Only unambiguous terms belong in the red list. A word people also use innocently is amber or not in a list at all, otherwise those visitors never see results.
+- No "show my results anyway" button on our page: going back to the search would redirect again, an endless loop.
+- Amber and green arrivals carry a marker so they do not count as `step:start` (see PLAN.md, step 9). The bandit only learns from red arrivals.
+
 ## The visitor flow
 
 | Step | Screen | Purpose |
@@ -90,7 +106,7 @@ Four versions of the page, each a whole direction (text, layout, style), startin
 - `a` harm: the original page.
 - `b` help first: "help is easy" text, call and chat on screen 1 with the options below, warm style (purple, Nunito) on every screen.
 - `c` clear and serious: legality text in bold, then a dark full-width band "Er is een uitweg." with call and chat, then the options as a numbered list. Black on white, Public Sans, square corners on every screen.
-- `d` behind bars: the prison risk ("tot 6 jaar cel", from the pack) in a dark full-width block with steel bars that drop over it on load (CSS only, no image; no motion with reduced motion), then the same band and list as `c`, with "Nog is er een uitweg.". Same style as `c` on every screen. A team idea, not one of the study's themes: fear as the strongest deterrent.
+- `d` behind bars: the prison risk ("tot 6 jaar cel", from the pack) in a dark full-width block with steel bars that drop over it on load (CSS only, no image; no motion with reduced motion), then the same band and list as `c`, with "Nog is er een uitweg.". Same style as `c` on every screen. Added because Emma and the jury asked to show researchers that images can be tested too, not only text. A team idea, not one of the study's themes, and untested.
 
 - The variant is in the URL (`?v=b`), never in a cookie. A request to `/w/...` without a valid `v` (the forum's redirect) gets a 307 to the same URL with one picked by the bandit; only that next request is counted.
 - **Bandit** (`lib/bandit.ts`): per variant it sums, over the last 30 days and all forums, how often screen 1 was shown (`step:start`) and how often call or chat was clicked. Thompson sampling: draw a plausible help rate per variant from those totals and take the highest. Little data means wide draws and much variety; clear differences send most visits to the best one. 10% of visits are picked evenly, so no variant is starved. Counts are re-read at most once a minute. It reads only the totals, nothing about a visitor. `currentShares()` gives the current split for the dashboard.
