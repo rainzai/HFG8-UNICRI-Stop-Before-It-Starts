@@ -3,12 +3,12 @@ import { connection } from "next/server";
 import { Suspense } from "react";
 
 import { EventTable } from "@/components/stats/event-table";
-import { PeriodNav } from "@/components/stats/period-nav";
+import { MonthNav } from "@/components/stats/period-nav";
 import { isStatsKey } from "@/lib/access";
 import { readCounts } from "@/lib/counter";
 import { decodeSite, parseForumDomain } from "@/lib/flow";
 import { ownOrigin } from "@/lib/origin";
-import { periodOf, sumCounts } from "@/lib/stats";
+import { monthOf, sumCounts } from "@/lib/stats";
 
 // a forum's private stats link, from /setup after the domain check
 
@@ -30,7 +30,7 @@ async function Stats({ params, searchParams }: PageProps<"/stats/[site]">) {
   // same 404 as an unknown page: does not tell which forums take part
   if (!site || !key || !isStatsKey(site, key)) notFound();
 
-  const period = periodOf(query);
+  const period = monthOf(query);
   const variants = sumCounts(await readCounts(), period, site).get(site);
   const sorted = [...(variants ?? [])].sort(([a], [b]) => a.localeCompare(b));
 
@@ -41,7 +41,7 @@ async function Stats({ params, searchParams }: PageProps<"/stats/[site]">) {
     >
       <div className="flex flex-col gap-3">
         <h1 className="m-0 text-3xl font-bold break-words">{site}</h1>
-        <PeriodNav period={period} keep={{ k: key }} />
+        <MonthNav month={period.month} keep={{ k: key }} />
       </div>
 
       <section className="flex flex-col gap-3">
@@ -59,7 +59,7 @@ async function Stats({ params, searchParams }: PageProps<"/stats/[site]">) {
           password.
         </p>
         <pre className="m-0 overflow-x-auto border-y border-line py-2 font-sans text-sm">
-          {`curl -H "Authorization: Bearer ${key}" \\\n  "${await ownOrigin()}/api/metrics/${site}?days=30"`}
+          {`curl -H "Authorization: Bearer ${key}" \\\n  "${await ownOrigin()}/api/metrics/${site}?month=${period.month}"`}
         </pre>
       </section>
     </main>

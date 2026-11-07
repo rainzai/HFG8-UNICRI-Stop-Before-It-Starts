@@ -92,6 +92,33 @@ export const EVENTS = [
   { event: "exit", label: "Close" },
 ] as const;
 
+// what a forum sees: one finished calendar month at a time (UTC).
+// no today (it would show each new visit as it happens) and no free
+// ranges (subtracting two would reveal a hidden day)
+const MONTHS_BACK = 12;
+
+function monthPeriod(month: string): Period {
+  const [y, m] = month.split("-").map(Number);
+  const last = new Date(Date.UTC(y, m, 0)).toISOString().slice(0, 10);
+  return { from: `${month}-01`, to: last };
+}
+
+// the finished months a forum can pick, newest first
+export function finishedMonths(now = new Date()) {
+  return Array.from({ length: MONTHS_BACK }, (_, i) =>
+    new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1 - i, 1))
+      .toISOString()
+      .slice(0, 7),
+  );
+}
+
+// ?month=YYYY-MM, the last finished month by default
+export function monthOf(params: Record<string, unknown>) {
+  const months = finishedMonths();
+  const month = months.find((m) => m === params.month) ?? months[0];
+  return { month, ...monthPeriod(month) };
+}
+
 // the funnel: warning → help screen → call or chat
 export function funnel(totals: Totals) {
   const call = totals.call ?? 0;

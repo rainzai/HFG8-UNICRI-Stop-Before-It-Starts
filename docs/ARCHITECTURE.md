@@ -80,7 +80,7 @@ These are the product, not an afterthought.
 - **Count in `proxy.ts`, per real step request.** Verified: a load and each in-app click count exactly once. Only valid forum domains and known events are counted, so nobody can fill the file with made-up keys.
 - **Phone links stay direct** (`tel:`), counted with a small `sendBeacon`. Apart from navigation, the copy button on screen 4, the open/closed status (needs the visitor's clock) and the leave button (`location.replace`, so Back does not return to the page), the only client JS in the flow.
 - **The saved link is identical for everyone** (`/i/nl`). A per-person code would be a tracking token.
-- **Suppress counts below 10** when reading stats.
+- **Suppress counts below 10** when reading stats. Forums only see finished months, one at a time, so the rule cannot be worked around with live counts or by subtracting periods.
 - **Access logs off** in our code. The host may still log requests, so we say "our code stores nothing", not "nobody ever sees an IP".
 
 ## Variants
@@ -129,7 +129,8 @@ For the dashboard:
   - `/admin`: internal dashboard for us, all forums and the variant comparison. Basic auth in `proxy.ts`, password from `ADMIN_PASSWORD`. `/admin/export` gives combined totals for partners.
   - `/stats/<forum>?k=<key>` and `GET /api/metrics/<forum>` with `Authorization: Bearer <key>`: one forum's own totals per variant, in the contract's metrics event format. A wrong key gives 404, so nobody learns which forums take part.
   - The key is `HMAC(STATS_SECRET, "stats:<domain>")`, the public verification code `HMAC(STATS_SECRET, "verify:<domain>")`. Nothing is stored; both are recomputed per request. A forum gets its key on `/setup` after putting the code in `/.well-known/sbis.txt` or a `<meta name="sbis-verify">` tag.
-  - All take `?days=` or `?from=YYYY-MM-DD&to=YYYY-MM-DD` (default 30 days).
+  - `/admin` and its export take `?days=` (7, 30, 90) or `?from=&to=`; that is only us.
+  - Forums (`/stats` and `/api/metrics`) get one finished calendar month at a time, `?month=YYYY-MM`, the last finished month by default, up to 12 back. No today: live counts would show each new visit as it happens, so a moderator could match it to who hit the filter. No free ranges: subtracting two overlapping periods would reveal a hidden day.
 - For demo data: `pnpm seed` writes fake counts in this same format for `*.example` forums with variants a and b (restart the dev server afterwards). Do not use `tools/generate-traffic.js` as is: it creates per-session events with a UUID, which is exactly what we do not store.
 
 ## Running it

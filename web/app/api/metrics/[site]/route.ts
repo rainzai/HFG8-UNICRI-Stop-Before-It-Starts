@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { isStatsKey } from "@/lib/access";
 import { readCounts } from "@/lib/counter";
 import { decodeSite, parseForumDomain } from "@/lib/flow";
-import { metricsEvent, periodOf, sumCounts } from "@/lib/stats";
+import { metricsEvent, monthOf, sumCounts } from "@/lib/stats";
 
 // a forum's own totals per variant, with its key in the header, never the url
 export async function GET(
@@ -18,7 +18,7 @@ export async function GET(
   if (!site || !key || !isStatsKey(site, key))
     return new NextResponse(null, { status: 404 });
 
-  const period = periodOf(Object.fromEntries(request.nextUrl.searchParams));
+  const period = monthOf(Object.fromEntries(request.nextUrl.searchParams));
   const variants = sumCounts(await readCounts(), period, site).get(site);
   const events = [...(variants ?? [])].map(([variant, totals]) =>
     metricsEvent(variant, totals, period),

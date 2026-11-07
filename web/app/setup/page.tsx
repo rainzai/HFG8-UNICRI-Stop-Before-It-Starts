@@ -126,7 +126,7 @@ async function Result({ domain, code }: { domain: string; code: string }) {
           ["API key", key ?? ""],
           [
             "Fetch as JSON",
-            `curl -H "Authorization: Bearer ${key}" "${origin}/api/metrics/${domain}?days=30"`,
+            `curl -H "Authorization: Bearer ${key}" "${origin}/api/metrics/${domain}"`,
           ],
         ]}
       />
