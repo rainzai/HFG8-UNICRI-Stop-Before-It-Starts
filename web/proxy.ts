@@ -4,6 +4,7 @@ import {
   type NextRequest,
 } from "next/server";
 
+import { isAdmin } from "@/lib/access";
 import { hasCountry } from "@/lib/content";
 import { CLICK_EVENTS, countKey, increment, SAVED_SITE } from "@/lib/counter";
 import { decodeSite, parseForumDomain, parseStep } from "@/lib/flow";
@@ -26,6 +27,17 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   }
 
   const [, kind, rawSite, ...segments] = pathname.split("/");
+  if (kind === "admin") {
+    if (isAdmin(request.headers.get("authorization")))
+      return NextResponse.next();
+    return new NextResponse("Login required", {
+      status: 401,
+      headers: {
+        "WWW-Authenticate": 'Basic realm="dashboard", charset="UTF-8"',
+      },
+    });
+  }
+
   if (kind === "w") {
     const site = statsSite(decodeSite(rawSite ?? ""));
     const step = parseStep(segments);
@@ -45,5 +57,5 @@ function statsSite(value: unknown) {
 }
 
 export const config = {
-  matcher: ["/w/:path*", "/i/:path*", "/api/count"],
+  matcher: ["/w/:path*", "/i/:path*", "/api/count", "/admin/:path*"],
 };
