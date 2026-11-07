@@ -14,7 +14,6 @@ export function LanguageLink({
     <FlowLink
       {...props}
       href={revisitHref(href)}
-      replace
       scroll={false}
       onClick={(e) =>
         e.currentTarget.closest("details")?.removeAttribute("open")
