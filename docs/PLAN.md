@@ -36,7 +36,7 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
    - **No storage, secret never leaves the server:** verification code = `HMAC(secret, "verify:<domain>")` (public, only proves control of the site), stats key = `HMAC(secret, "stats:<domain>")` (private, shown after a successful check). Different prefixes, so the key cannot be derived from the code. Both are recomputed on every request.
    - `GET /api/metrics/<forum>` with that key returns the contract's metrics event format: the "payload back to the forum" from `contract/PLUGIN_CONTRACT.md`. Optionally `redirect.js` fires one `sbis:result` (`shown: true`) before redirecting.
    - For the demo: the internal dashboard, plus a hand-made private forum link if there is time.
-4. **Feedback loop.** Compare variants on reaching call/chat, then a multi-armed bandit that shifts traffic to the better variant using totals only. Mentor: this is the most important part.
+4. **Feedback loop.** Bandit done (7 Nov): new visits get a variant by Thompson sampling on call/chat per screen 1 view, totals only, see ARCHITECTURE.md. Still open: show `currentShares()` on the dashboard (Ron), variant c in `pnpm seed`. Mentor: this is the most important part.
 5. **English help alternative** if Offlimits says the Preventielijn cannot help English speakers: their own advice first, otherwise a verified English programme (ReDirection, Troubled Desire, Help Wanted).
 6. **Install instructions page** (redirect URL format, Referrer-Policy).
    - The forum picks its country once and gets the full redirect URL (e.g. `/w/forum.nl?c=be&l=fr`). Not built yet: country is fixed to NL.

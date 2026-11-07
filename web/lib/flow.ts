@@ -79,13 +79,10 @@ export function clearAndSerious(variant: Variant) {
 
 export const DEFAULT_VARIANT: Variant = "a";
 
+// in the url (?v=b): one of three values shared by many visitors, so not a tracking token
+
 export function parseVariant(value: unknown): Variant | null {
   return VARIANTS.find((v) => v === value) ?? null;
-}
-
-// one of three values shared by many visitors, so not a tracking token
-export function randomVariant(): Variant {
-  return VARIANTS[Math.floor(Math.random() * VARIANTS.length)];
 }
 
 export function stepHref(

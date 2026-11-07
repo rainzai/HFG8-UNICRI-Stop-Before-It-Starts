@@ -5,6 +5,7 @@ import {
 } from "next/server";
 
 import { isAdmin } from "@/lib/access";
+import { chooseVariant } from "@/lib/bandit";
 import { hasCountry } from "@/lib/content";
 import { CLICK_EVENTS, countKey, increment, SAVED_SITE } from "@/lib/counter";
 import {
@@ -14,7 +15,6 @@ import {
   parseForumDomain,
   parseStep,
   parseVariant,
-  randomVariant,
 } from "@/lib/flow";
 
 export async function proxy(request: NextRequest, event: NextFetchEvent) {
@@ -46,10 +46,10 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
 
   const params = request.nextUrl.searchParams;
 
-  // no variant yet (the forum's redirect): pick one and redirect, count the next request
+  // no variant yet (the forum's redirect): the bandit picks one, count the next request
   if (kind === "w" && !parseVariant(params.get("v"))) {
     const url = request.nextUrl.clone();
-    url.searchParams.set("v", randomVariant());
+    url.searchParams.set("v", await chooseVariant());
     return NextResponse.redirect(url, 307);
   }
 

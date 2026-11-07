@@ -50,6 +50,7 @@ web/                              Next.js (app router), pnpm
   content/NL/{nl,en,pack}.json       copy per language + shared facts (helpline, hours, law)
   content/NL/variants/<id>.json      per-variant copy overrides, every language (base copy = variant a)
   proxy.ts                           the only writer: +1 per step request, and POST /api/count for call/chat beacons
+  lib/bandit.ts                      picks the variant for a new visit from the totals
   lib/counter.ts                     (day, site, variant, event) → count in web/.data/counts.json (gitignored)
   app/admin/page.tsx                 internal dashboard, all forums, basic auth in proxy.ts
   app/admin/export/route.ts          combined totals per variant as JSON, for partners
@@ -62,7 +63,7 @@ web/                              Next.js (app router), pnpm
   scripts/key.ts, scripts/seed.ts    demo key for a forum, fake counts in the real format
 
   not built yet:
-  install instructions on /setup, bandit (variants are picked evenly for now)
+  install instructions on /setup, bandit shares on the dashboard
 ```
 
 Copy lives in country packs, keyed by country **and** language (`nl.json` is the reference shape; other languages must match it): English for the Netherlands carries Dutch law and Dutch helplines (saying conversations are in Dutch, see PLAN.md), which differs from English for Belgium. Adding a country means adding a folder. Packs are validated at build time, so a missing translation fails the build instead of rendering blank.
@@ -90,7 +91,8 @@ Three versions of the page, each a whole direction (text, layout, style), starti
 - `b` help first: "help is easy" text, call and chat on screen 1 with the options below, warm style (purple, Nunito) on every screen.
 - `c` clear and serious: legality text in bold, then a dark full-width band "Er is een uitweg." with call and chat, then the options as a numbered list. Black on white, Public Sans, square corners on every screen.
 
-- The variant is in the URL (`?v=b`), never in a cookie. A request to `/w/...` without a valid `v` (the forum's redirect) gets a 307 to the same URL with a random one; only that next request is counted.
+- The variant is in the URL (`?v=b`), never in a cookie. A request to `/w/...` without a valid `v` (the forum's redirect) gets a 307 to the same URL with one picked by the bandit; only that next request is counted.
+- **Bandit** (`lib/bandit.ts`): per variant it sums, over the last 30 days and all forums, how often screen 1 was shown (`step:start`) and how often call or chat was clicked. Thompson sampling: draw a plausible help rate per variant from those totals and take the highest. Little data means wide draws and much variety; clear differences send most visits to the best one. 10% of visits are picked evenly, so no variant is starved. Counts are re-read at most once a minute. It reads only the totals, nothing about a visitor. `currentShares()` gives the current split for the dashboard.
 - `stepHref` carries `v` through every link, and the call and chat beacon sends it along.
 - Copy overrides live in `content/<CC>/variants/<id>.json`, validated against the base shape (only existing keys, every language).
 - Style per variant: `[data-variant="b"]` in `globals.css` overrides the colour and font tokens, so every screen follows. Layout per variant: small checks like `helpFirst(variant)` and `clearAndSerious(variant)` in `lib/flow.ts`, with their own screen 1 component (`help-first.tsx`, `clear-and-serious.tsx`).
