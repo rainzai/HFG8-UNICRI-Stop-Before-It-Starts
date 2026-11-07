@@ -77,11 +77,10 @@ export function Help({
         <h2 id="anonymous" className="m-0 text-[26px] leading-tight font-bold">
           {t.anonymousTitle}
         </h2>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(280px,100%),1fr))] items-start gap-5">
-          <Answer answer={t.anonymousAnswer}>
-            <p className="m-0 text-lg leading-normal">{t.anonymousBody}</p>
-          </Answer>
-          <ul className="m-0 flex list-none flex-col gap-3.5 p-0 pt-1">
+        {/* points inside the box, so they line up with the answer */}
+        <Answer answer={t.anonymousAnswer}>
+          <p className="m-0 text-lg leading-normal">{t.anonymousBody}</p>
+          <ul className="m-0 mt-3 flex list-none flex-col gap-3 border-t border-line p-0 pt-4">
             {t.anonymousPoints.map((point) => (
               <li
                 key={point}
@@ -94,7 +93,7 @@ export function Help({
               </li>
             ))}
           </ul>
-        </div>
+        </Answer>
       </section>
 
       <section
