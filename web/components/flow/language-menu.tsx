@@ -1,4 +1,5 @@
 import { ChevronDown } from "@/components/flow/icons";
+import { LanguageLink } from "@/components/flow/language-link";
 
 export type LanguageOption = { code: string; href: string };
 
@@ -29,15 +30,14 @@ export function LanguageMenu({ label, current, options }: Props) {
       <ul className="absolute right-0 z-10 m-0 mt-1 flex min-w-40 list-none flex-col rounded-xl border border-line bg-white p-1.5 shadow-lg">
         {options.map(({ code, href }) => (
           <li key={code}>
-            {/* plain link: full reload closes the menu */}
-            <a
+            <LanguageLink
               href={href}
               lang={code}
               aria-current={code === current ? "true" : undefined}
               className="flex min-h-11 items-center rounded-lg px-3 text-base text-ink no-underline hover:bg-tint-hover hover:text-ink aria-[current]:font-bold"
             >
               {nativeName(code)}
-            </a>
+            </LanguageLink>
           </li>
         ))}
       </ul>

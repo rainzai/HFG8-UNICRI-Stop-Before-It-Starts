@@ -77,3 +77,10 @@ export function stepHref(
 export function savedLinkPath(country: string, lang?: string) {
   return `/i/${country.toLowerCase()}${lang ? `?l=${lang}` : ""}`;
 }
+
+// marks a language switch: same step again, so the proxy skips counting it
+export const LANGUAGE_SWITCH_PARAM = "switch";
+
+export function languageSwitchHref(href: string) {
+  return `${href}${href.includes("?") ? "&" : "?"}${LANGUAGE_SWITCH_PARAM}=1`;
+}

@@ -7,7 +7,12 @@ import {
 import { isAdmin } from "@/lib/access";
 import { hasCountry } from "@/lib/content";
 import { CLICK_EVENTS, countKey, increment, SAVED_SITE } from "@/lib/counter";
-import { decodeSite, parseForumDomain, parseStep } from "@/lib/flow";
+import {
+  decodeSite,
+  LANGUAGE_SWITCH_PARAM,
+  parseForumDomain,
+  parseStep,
+} from "@/lib/flow";
 
 // TODO: variants
 const VARIANT = "a";
@@ -25,6 +30,9 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
       event.waitUntil(increment(countKey(site, VARIANT, click)));
     return new NextResponse(null, { status: 204 });
   }
+
+  if (request.nextUrl.searchParams.has(LANGUAGE_SWITCH_PARAM))
+    return NextResponse.next();
 
   const [, kind, rawSite, ...segments] = pathname.split("/");
   if (kind === "admin") {
