@@ -38,6 +38,24 @@ export function EventTable({ variants, saved }: Props) {
               <th className="py-2 pl-6 text-right font-normal">Saved link</th>
             )}
           </tr>
+          <tr className="border-b border-line text-sm text-muted">
+            <th className="py-1 pr-4 font-normal" />
+            {variants.map(([variant]) => [
+              <th
+                key={`${variant}-n`}
+                className="py-1 pl-4 text-right font-normal"
+              >
+                Count
+              </th>,
+              <th
+                key={`${variant}-p`}
+                className="py-1 pl-3 text-right font-normal"
+              >
+                % of warnings
+              </th>,
+            ])}
+            {saved && <th className="py-1 pl-6" />}
+          </tr>
         </thead>
         <tbody>
           {events.map(({ event, label }) => (
@@ -51,7 +69,12 @@ export function EventTable({ variants, saved }: Props) {
                   <Cells
                     key={variant}
                     count={count}
-                    share={rate(count, totals["step:start"] ?? 0)}
+                    // the warning is what the shares are of
+                    share={
+                      event === "step:start"
+                        ? null
+                        : rate(count, totals["step:start"] ?? 0)
+                    }
                   />
                 );
               })}
@@ -59,7 +82,7 @@ export function EventTable({ variants, saved }: Props) {
                 <td className="py-2 pl-6 text-right">
                   {/* the saved page only shows the help screen */}
                   {event.startsWith("step:") && event !== SAVED_EVENT
-                    ? ""
+                    ? "—"
                     : count(saved[event] ?? 0)}
                 </td>
               )}
@@ -85,6 +108,12 @@ export function EventTable({ variants, saved }: Props) {
           </tr>
         </tbody>
       </table>
+      {saved && (
+        <p className="m-0 mt-2 text-sm text-muted">
+          The saved link only opens the help screen, so it has no warning and no
+          other screens (—).
+        </p>
+      )}
     </div>
   );
 }
