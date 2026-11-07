@@ -14,7 +14,7 @@ Most child protection technology works after abuse has happened. This challenge 
 
 Think of the target: a Dutch hobby forum with 20,000 members and one part-time moderator, who wants a warning and a route to help live within a week. What would it take for them to say yes?
 
-Read the [full challenge brief](../BRIEF.md) or the [PDF version](../UNICRI%20Challenge%20Brief%20HFG%238%20%7Bdraft%20v1.1%20_%203%20Nov%202026%7D.pdf).
+Read the [full challenge brief](../BRIEF.md) or the [PDF version](../UNICRI%20Challenge%20Brief%20HFG%238.pdf).
 
 ---
 
