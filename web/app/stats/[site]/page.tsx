@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
 
-import { FunnelTable } from "@/components/stats/funnel-table";
+import { EventTable } from "@/components/stats/event-table";
 import { PeriodNav } from "@/components/stats/period-nav";
 import { isStatsKey } from "@/lib/access";
 import { readCounts } from "@/lib/counter";
@@ -32,6 +32,7 @@ async function Stats({ params, searchParams }: PageProps<"/stats/[site]">) {
 
   const period = periodOf(query);
   const variants = sumCounts(await readCounts(), period, site).get(site);
+  const sorted = [...(variants ?? [])].sort(([a], [b]) => a.localeCompare(b));
 
   return (
     <main
@@ -43,12 +44,13 @@ async function Stats({ params, searchParams }: PageProps<"/stats/[site]">) {
         <PeriodNav period={period} keep={{ k: key }} />
       </div>
 
-      <FunnelTable
-        labelHeader="Variant"
-        rows={[...(variants ?? [])]
-          .sort(([a], [b]) => a.localeCompare(b))
-          .map(([variant, totals]) => ({ label: variant, totals }))}
-      />
+      <section className="flex flex-col gap-3">
+        <h2 className="m-0 text-xl font-bold">Variants</h2>
+        <p className="m-0 text-[15px]">
+          Each screen and button, with the share of warnings.
+        </p>
+        <EventTable variants={sorted} />
+      </section>
 
       <section className="flex flex-col gap-2">
         <h2 className="m-0 text-xl font-bold">Fetch these numbers</h2>

@@ -52,6 +52,15 @@ export function sumCounts(counts: Counts, period: Period, onlySite?: string) {
   return sites;
 }
 
+// all variants of one site together
+export function sumVariants(perVariant: Map<string, Totals>) {
+  const sum: Totals = {};
+  for (const totals of perVariant.values())
+    for (const [event, count] of Object.entries(totals))
+      sum[event] = (sum[event] ?? 0) + count;
+  return sum;
+}
+
 // all forums together per variant; the saved link has no warning, left out
 export function combineForums(sites: Map<string, Map<string, Totals>>) {
   const variants = new Map<string, Totals>();
@@ -66,6 +75,22 @@ export function combineForums(sites: Map<string, Map<string, Totals>>) {
   }
   return variants;
 }
+
+// everything we count, in the order of the flow, for the dashboards
+export const EVENTS = [
+  { event: "step:start", label: "1 Warning" },
+  { event: "step:mistake", label: "2a Mistake" },
+  { event: "step:worried", label: "2b Worried" },
+  { event: "step:consequences", label: "2c Consequences" },
+  { event: "step:help", label: "3 Help" },
+  { event: "step:later", label: "4 Not ready yet" },
+  { event: "call", label: "Call" },
+  { event: "chat", label: "Chat" },
+  { event: "website", label: "Helpline website" },
+  { event: "selfhelp", label: "Self-help" },
+  { event: "forum", label: "Back to forum" },
+  { event: "exit", label: "Close" },
+] as const;
 
 // the funnel: warning → help screen → call or chat
 export function funnel(totals: Totals) {
@@ -103,6 +128,10 @@ export function metricsEvent(variant: string, totals: Totals, period: Period) {
       worried: totals["step:worried"] ?? 0,
       consequences: totals["step:consequences"] ?? 0,
       later: totals["step:later"] ?? 0,
+      website: totals.website ?? 0,
+      selfhelp: totals.selfhelp ?? 0,
+      back_to_forum: totals.forum ?? 0,
+      exit: totals.exit ?? 0,
     }).map(([name, count]) => [name, hidden(count)]),
   );
   return {

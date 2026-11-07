@@ -1,10 +1,11 @@
 import { connection } from "next/server";
 import { Suspense } from "react";
 
-import { FunnelTable } from "@/components/stats/funnel-table";
+import { EventTable } from "@/components/stats/event-table";
+import { ForumTable } from "@/components/stats/forum-table";
 import { PeriodNav } from "@/components/stats/period-nav";
-import { MIN_COUNT, readCounts, SAVED_SITE } from "@/lib/counter";
-import { combineForums, hidden, periodOf, sumCounts } from "@/lib/stats";
+import { readCounts, SAVED_SITE } from "@/lib/counter";
+import { combineForums, periodOf, sumCounts, sumVariants } from "@/lib/stats";
 
 // internal dashboard, behind basic auth in proxy.ts
 
@@ -28,14 +29,8 @@ async function Admin({ searchParams }: PageProps<"/admin">) {
   const forums = [...sites]
     .filter(([site]) => site !== SAVED_SITE)
     .sort(([a], [b]) => a.localeCompare(b));
+  // no variant on the saved link, all in one column
   const saved = sites.get(SAVED_SITE);
-  const savedTotal = (event: string) => {
-    const sum = [...(saved?.values() ?? [])].reduce(
-      (total, t) => total + (t[event] ?? 0),
-      0,
-    );
-    return hidden(sum) ?? `< ${MIN_COUNT}`;
-  };
 
   return (
     <main
@@ -49,13 +44,10 @@ async function Admin({ searchParams }: PageProps<"/admin">) {
 
       <section className="flex flex-col gap-3">
         <h2 className="m-0 text-xl font-bold">Variants, all forums</h2>
-        <FunnelTable
-          labelHeader="Variant"
-          rows={variants.map(([variant, totals]) => ({
-            label: variant,
-            totals,
-          }))}
-        />
+        <p className="m-0 text-[15px]">
+          Each screen and button, with the share of warnings.
+        </p>
+        <EventTable variants={variants} saved={saved && sumVariants(saved)} />
         <a
           href={`/admin/export?${new URLSearchParams(period)}`}
           className="self-start text-[15px] text-ink underline hover:text-black"
@@ -66,26 +58,10 @@ async function Admin({ searchParams }: PageProps<"/admin">) {
 
       <section className="flex flex-col gap-3">
         <h2 className="m-0 text-xl font-bold">Per forum</h2>
-        <FunnelTable
-          labelHeader="Forum / variant"
-          rows={forums.flatMap(([site, perVariant]) =>
-            [...perVariant]
-              .sort(([a], [b]) => a.localeCompare(b))
-              .map(([variant, totals]) => ({
-                label: `${site} / ${variant}`,
-                totals,
-              })),
-          )}
+        <ForumTable
+          variants={variants.map(([variant]) => variant)}
+          forums={forums}
         />
-      </section>
-
-      <section className="flex flex-col gap-2">
-        <h2 className="m-0 text-xl font-bold">Saved link</h2>
-        <p className="m-0">
-          Visits {savedTotal("step:saved")}, call {savedTotal("call")}, chat{" "}
-          {savedTotal("chat")}. Not in the totals above: these visitors saw no
-          warning.
-        </p>
       </section>
     </main>
   );
