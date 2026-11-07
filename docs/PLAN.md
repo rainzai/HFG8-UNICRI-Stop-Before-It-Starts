@@ -32,7 +32,6 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
    Done (7 Nov): `/admin` behind basic auth with export, `/stats/<forum>?k=`, `GET /api/metrics/<forum>` with the key, `/setup` domain check, `pnpm seed` and `pnpm key` for the demo. Still open: the optional `sbis:result` event, and a key version to revoke one forum's key without changing all.
    - **Private by default.** Nothing is public. Counts below 10 suppressed everywhere.
    - **Internal dashboard for us (the provider):** all forums, behind a login (password from an environment variable, never in the code). Includes an export of combined totals for partners like UNICRI or Offlimits, only when we choose to share.
-   - The bare `/stats/<site>` from 6 Nov is open to anyone: it must go behind that login before anything is deployed.
    - **Own numbers, optional and self-service:** on the instructions page a forum enters its domain and gets a verification code, puts it in a `<meta>` tag or file on its own site, clicks check; we fetch it and show its private stats link. Same idea as Google Search Console.
    - **No storage, secret never leaves the server:** verification code = `HMAC(secret, "verify:<domain>")` (public, only proves control of the site), stats key = `HMAC(secret, "stats:<domain>")` (private, shown after a successful check). Different prefixes, so the key cannot be derived from the code. Both are recomputed on every request.
    - `GET /api/metrics/<forum>` with that key returns the contract's metrics event format: the "payload back to the forum" from `contract/PLUGIN_CONTRACT.md`. Optionally `redirect.js` fires one `sbis:result` (`shown: true`) before redirecting.
@@ -57,9 +56,9 @@ Ciardha, Nurmi et al. (2026), [arXiv:2606.06417](https://arxiv.org/html/2606.064
 - Authors recommend an adaptive system that keeps refining messages, not one fixed best message. That is our feedback loop.
 - Limits: dark web, clicks only (not calls), daily rotation. May not carry over to a forum.
 
-Variants on screen 1: the three strongest themes (harm, legality, help is easy), each negatively framed, in our own words. Distress is left out (weakest). Pitch: "based on the three strongest themes from the largest warning study to date". The differences were small even with millions of searches, so one forum will not tell them apart quickly; the bandit matters as forums and countries are added.
+Our variants start from the three strongest themes (harm, legality, help is easy), in our own words; distress is left out (weakest). Each variant is a whole direction (text, layout, style), since we look for what works, not why. Pitch: "starting from the strongest themes in the largest warning study to date". The differences were small even with millions of searches, so one forum will not tell them apart quickly; the bandit matters as forums and countries are added.
 
-
+## Pitch angle
 
 Everyone else improves the warning. We shrink the jump from warning to help, and the page **keeps improving itself without tracking a single visitor**: variants plus aggregate counts plus a bandit.
 
