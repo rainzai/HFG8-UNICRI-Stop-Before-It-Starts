@@ -91,8 +91,12 @@ function random() {
   return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
 }
 
+// a whole number near the mean; the fraction becomes a chance, so a mean of
+// 0.2 a day still adds up over 60 days (plain rounding made it 0 every day)
 function around(mean: number) {
-  return Math.round(mean * (0.6 + random() * 0.8));
+  const value = mean * (0.6 + random() * 0.8);
+  const whole = Math.floor(value);
+  return whole + (random() < value - whole ? 1 : 0);
 }
 
 const counts: Counts = {};
@@ -112,8 +116,17 @@ for (let i = 0; i < DAYS; i++) {
         add(countKey(site, variant, event, day), around(shown * share));
     }
   }
-  add(countKey("saved", "a", "step:saved", day), around(2));
-  add(countKey("saved", "a", "call", day), around(0.2));
+  // the saved link: opened, then the buttons on its help page
+  const opened = around(4);
+  add(countKey("saved", "a", "step:saved", day), opened);
+  for (const [event, share] of Object.entries({
+    call: 0.12,
+    chat: 0.15,
+    website: 0.06,
+    selfhelp: 0.08,
+    exit: 0.05,
+  }))
+    add(countKey("saved", "a", event, day), around(opened * share));
 }
 
 await mkdir(path.dirname(STATS_FILE), { recursive: true });
