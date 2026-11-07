@@ -50,11 +50,18 @@ web/                              Next.js (app router), pnpm
   content/NL/{nl,en,pack}.json       copy per language + shared facts (helpline, hours, law)
   proxy.ts                           the only writer: +1 per step request, and POST /api/count for call/chat beacons
   lib/counter.ts                     (day, site, variant, event) → count in web/.data/counts.json (gitignored)
-  app/stats/[site]/page.tsx          totals per forum, counts below 10 hidden (bare for now)
+  app/admin/page.tsx                 internal dashboard, all forums, basic auth in proxy.ts
+  app/admin/export/route.ts          combined totals per variant as JSON, for partners
+  app/stats/[site]/page.tsx          a forum's own totals, needs its key (?k=)
+  app/api/metrics/[site]/route.ts    same as JSON, key in the Authorization header
+  app/setup/page.tsx                 domain check → private stats link and key
+  lib/stats.ts                       sum per period, funnel, suppression, metrics event
+  lib/access.ts                      HMAC codes and keys, admin password check
+  lib/verify.ts                      fetch the code from the forum's site (https, public ips only)
+  scripts/key.ts, scripts/seed.ts    demo key for a forum, fake counts in the real format
 
   not built yet:
-  app/setup/page.tsx                 install instructions (no form)
-  variants (?v=), metrics endpoint for forums
+  install instructions on /setup, variants (?v=)
 ```
 
 Copy lives in country packs, keyed by country **and** language (`nl.json` is the reference shape; other languages must match it): English for the Netherlands carries Dutch law and Dutch helplines, which differs from English for Belgium. Adding a country means adding a folder. Packs are validated at build time, so a missing translation fails the build instead of rendering blank.
@@ -65,7 +72,7 @@ Facts (phone numbers, legal articles, confidentiality) come from `data/*.json`. 
 
 These are the product, not an afterthought.
 
-- **Aggregate at ingest.** The counter stores `(site, event, day) → count` and nothing else: no IP, no timestamp finer than a day, no session ID, no cookies. Individual visits never exist in storage.
+- **Aggregate at ingest.** The counter stores `(day, site, variant, event) → count` and nothing else: no IP, no timestamp finer than a day, no session ID, no cookies. Individual visits never exist in storage.
 - **No analytics tools on the visitor flow.** No PostHog, Plausible, Google Analytics or similar: they all store individual events. They are fine on the moderator and public pages.
 - **`<Link prefetch={false}>` between steps (via `FlowLink`).** Prefetching would request later steps in the background and inflate the counts. External links stay plain `<a>`.
 - **Count in `proxy.ts`, per real step request.** Verified: a load and each in-app click count exactly once. Only valid forum domains and known events are counted, so nobody can fill the file with made-up keys.
@@ -102,8 +109,12 @@ For the dashboard:
 - **Read only.** Use `readCounts()` and `parseKey()` from `web/lib/counter.ts`. Only the proxy writes, so there is one writer.
 - **Suppress counts below 10** (`MIN_COUNT`) in anything shown, also after summing or filtering.
 - The useful number is the funnel: `step:start` → `step:help` → `call` + `chat`.
-- `/stats/<site>` is a bare example of reading it, and still open to anyone. All stats are private by default: an internal dashboard for us behind a login, and each forum only its own numbers (see PLAN.md, step 3).
-- For demo data, write fake counts in this same format. Do not use `tools/generate-traffic.js` as is: it creates per-session events with a UUID, which is exactly what we do not store.
+- All stats are private:
+  - `/admin`: internal dashboard for us, all forums and the variant comparison. Basic auth in `proxy.ts`, password from `ADMIN_PASSWORD`. `/admin/export` gives combined totals for partners.
+  - `/stats/<forum>?k=<key>` and `GET /api/metrics/<forum>` with `Authorization: Bearer <key>`: one forum's own totals per variant, in the contract's metrics event format. A wrong key gives 404, so nobody learns which forums take part.
+  - The key is `HMAC(STATS_SECRET, "stats:<domain>")`, the public verification code `HMAC(STATS_SECRET, "verify:<domain>")`. Nothing is stored; both are recomputed per request. A forum gets its key on `/setup` after putting the code in `/.well-known/sbis.txt` or a `<meta name="sbis-verify">` tag.
+  - All take `?days=` or `?from=YYYY-MM-DD&to=YYYY-MM-DD` (default 30 days).
+- For demo data: `pnpm seed` writes fake counts in this same format for `*.example` forums with variants a and b (restart the dev server afterwards). Do not use `tools/generate-traffic.js` as is: it creates per-session events with a UUID, which is exactly what we do not store.
 
 ## Running it
 
@@ -111,7 +122,10 @@ The mock forum loads `mock-platform/redirect.js` instead of the starter widget: 
 
 ```bash
 nix develop
-cd web && pnpm dev -p 3100     # the starter's mock platform uses port 3000
+cd web && cp .env.example .env.local   # fill in STATS_SECRET and ADMIN_PASSWORD
+pnpm seed                      # optional: fake counts for the dashboard
+pnpm key forum-a.example       # private stats link and API key for one forum
+pnpm dev -p 3100     # the starter's mock platform uses port 3000
 pnpm format && pnpm lint && pnpm typecheck
 
 # mock forum (repo root), redirects test-trigger-* searches to :3100

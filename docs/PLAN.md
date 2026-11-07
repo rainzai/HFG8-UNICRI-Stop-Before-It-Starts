@@ -25,6 +25,7 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
    - Optional step list per variant in `lib/flow.ts` (e.g. call button on screen 1).
    - `?v=` added once in `stepHref`, so it carries through every link.
 3. **Stats and metrics** (Ron: analytics dashboard; data format and rules in ARCHITECTURE.md under "Counts"). The redirect stays the whole install; stats are fetched separately, never in the visitor's request.
+   Done (7 Nov): `/admin` behind basic auth with export, `/stats/<forum>?k=`, `GET /api/metrics/<forum>` with the key, `/setup` domain check, `pnpm seed` and `pnpm key` for the demo. Still open: the optional `sbis:result` event, and a key version to revoke one forum's key without changing all.
    - **Private by default.** Nothing is public. Counts below 10 suppressed everywhere.
    - **Internal dashboard for us (the provider):** all forums, behind a login (password from an environment variable, never in the code). Includes an export of combined totals for partners like UNICRI or Offlimits, only when we choose to share.
    - The bare `/stats/<site>` from 6 Nov is open to anyone: it must go behind that login before anything is deployed.
