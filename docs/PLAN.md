@@ -20,7 +20,7 @@ Where we are and what is next. How it works lives in [ARCHITECTURE.md](ARCHITECT
 - **English for NL links to the Preventielijn, saying conversations are in Dutch** (7 Nov). No verified English alternative: the Dutch self-help module is Dutch only, the ReDirection link in `data/` is a research page, not the programme, and the Offlimits Hulplijn (English) is for people affected by online abuse, not for our visitors. Helplinks.eu is not linked: it is compiled by police services, which clashes with "you will not be reported". In the pitch this is a known gap.
 
 - **The install is one redirect, everything else is optional** (7 Nov). The jury keeps coming back to this: the headline is "a forum installs it in an afternoon". Red matches redirect; amber and green get an optional one-line script later (step 9). See ARCHITECTURE.md, "Trigger levels".
-- **Variant d stays as the image variant** (7 Nov): Emma and the jury want to show researchers that images can be tested, not only text. Open, to agree with Ron: the bars drop with a slam on load, which says "you are caught" to everyone, including people who got there by mistake. Proposal: bars stay still (or fade in), and "Nog is er een uitweg." becomes "Er is nog een uitweg.".
+- **Variant d is the image variant** (7 Nov): Emma and the jury want to show researchers that images can be tested, not only text. The bars are a first version and can change.
 
 ## Next, in order
 
