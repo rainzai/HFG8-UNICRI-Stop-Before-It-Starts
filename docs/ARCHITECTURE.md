@@ -116,7 +116,7 @@ Key = `day|site|variant|event`, value = how many times it happened. Nothing else
 
 How it gets counted:
 
-- **Steps:** `web/proxy.ts` adds 1 for every real request to `/w/<site>/<step>` (page load or in-app click, each exactly once; prefetch is off) and to `/i/<country>`. A language switch adds `switch=1` to the URL and is not counted, since it is the same step again.
+- **Steps:** `web/proxy.ts` adds 1 for every real request to `/w/<site>/<step>` (page load or in-app click, each exactly once; prefetch is off) and to `/i/<country>`. A language switch and "Vorige" add `r=1` to the URL and are not counted, since they show a step again. So `step:start` means arrived from the forum, which the bandit uses.
 - **Clicks** (call, chat, helpline site, self-help, back to forum, close): the links send `{ site, variant, event }` with `sendBeacon` to `POST /api/count`, which the proxy also handles. The link itself is not delayed.
 - Only valid forum domains and known events are counted, so nobody can fill the file with made-up keys.
 

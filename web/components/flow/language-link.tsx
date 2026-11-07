@@ -3,7 +3,7 @@
 import type { ComponentProps } from "react";
 
 import { FlowLink } from "@/components/flow/flow-link";
-import { languageSwitchHref } from "@/lib/flow";
+import { revisitHref } from "@/lib/flow";
 
 // in-app switch: no reload, Back skips it, and the proxy does not count it
 export function LanguageLink({
@@ -13,7 +13,7 @@ export function LanguageLink({
   return (
     <FlowLink
       {...props}
-      href={languageSwitchHref(href)}
+      href={revisitHref(href)}
       replace
       scroll={false}
       onClick={(e) =>

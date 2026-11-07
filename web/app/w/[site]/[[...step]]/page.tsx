@@ -16,6 +16,7 @@ import {
   parseForumDomain,
   parseStep,
   parseVariant,
+  revisitHref,
   stepHref,
 } from "@/lib/flow";
 
@@ -66,7 +67,9 @@ async function Flow({
         pack={pack}
         forum={forum}
         statsSite={forum}
-        backHref={back ? stepHref(site, back, lang, variant) : undefined}
+        backHref={
+          back ? revisitHref(stepHref(site, back, lang, variant)) : undefined
+        }
         lang={lang}
         languages={pack.languages.map((code) => ({
           code,

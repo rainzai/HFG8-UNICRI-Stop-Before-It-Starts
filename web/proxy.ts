@@ -11,10 +11,10 @@ import { CLICK_EVENTS, countKey, increment, SAVED_SITE } from "@/lib/counter";
 import {
   decodeSite,
   DEFAULT_VARIANT,
-  LANGUAGE_SWITCH_PARAM,
   parseForumDomain,
   parseStep,
   parseVariant,
+  REVISIT_PARAM,
 } from "@/lib/flow";
 
 export async function proxy(request: NextRequest, event: NextFetchEvent) {
@@ -53,7 +53,7 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     return NextResponse.redirect(url, 307);
   }
 
-  if (params.has(LANGUAGE_SWITCH_PARAM)) return NextResponse.next();
+  if (params.has(REVISIT_PARAM)) return NextResponse.next();
 
   if (kind === "w") {
     const site = statsSite(decodeSite(rawSite ?? ""));

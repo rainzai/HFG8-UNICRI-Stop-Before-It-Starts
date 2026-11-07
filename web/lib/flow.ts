@@ -103,9 +103,10 @@ export function savedLinkPath(country: string, lang?: string) {
   return `/i/${country.toLowerCase()}${lang ? `?l=${lang}` : ""}`;
 }
 
-// marks a language switch: same step again, so the proxy skips counting it
-export const LANGUAGE_SWITCH_PARAM = "switch";
+// marks a step seen again (language switch, Vorige): not counted, so
+// step:start means "arrived from the forum", which the bandit relies on
+export const REVISIT_PARAM = "r";
 
-export function languageSwitchHref(href: string) {
-  return `${href}${href.includes("?") ? "&" : "?"}${LANGUAGE_SWITCH_PARAM}=1`;
+export function revisitHref(href: string) {
+  return `${href}${href.includes("?") ? "&" : "?"}${REVISIT_PARAM}=1`;
 }
