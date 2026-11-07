@@ -54,8 +54,8 @@
       .sbis-actions a,.sbis-actions button{font:inherit;padding:10px 16px;border-radius:8px;cursor:pointer;text-decoration:none}
       .sbis-help{background:${color};color:#fff;border:0;font-weight:600}
       .sbis-continue{background:transparent;color:inherit;border:1px solid color-mix(in srgb,currentColor 30%,transparent)}
-      .sbis-box{margin:0 0 16px;padding:12px 16px;border-radius:8px;line-height:1.5;
-        border:1px solid color-mix(in srgb,currentColor 18%,transparent);background:color-mix(in srgb,currentColor 5%,transparent)}`;
+      .sbis-box{box-sizing:border-box;width:fit-content;max-width:100%;grid-column:1/-1;margin:0 0 12px;padding:6px 12px;border-radius:6px;
+        font-size:.875em;line-height:1.4;border:1px solid color-mix(in srgb,currentColor 15%,transparent);background:color-mix(in srgb,currentColor 4%,transparent)}`;
     document.head.append(style);
   }
 
@@ -110,7 +110,8 @@
     dialog.showModal();
   }
 
-  // green: a quiet box above the results
+  // green: a small line above the results. fit-content and grid-column, since
+  // forums often make <main> a grid, where it would otherwise take a whole cell
   function box() {
     const p = document.createElement("p");
     p.className = "sbis-box";

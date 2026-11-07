@@ -83,7 +83,9 @@ export function NoticeSetup({
       <p className="m-0">
         Add this to the results page when a search matches that lighter level.
         Use <code>data-show=&quot;box&quot;</code> for the box instead of the
-        popup.
+        popup. The box goes at the top of <code>&lt;main&gt;</code>; to place it
+        elsewhere, such as above your results list, add{" "}
+        <code>&lt;div data-sbis-notice&gt;&lt;/div&gt;</code> there.
       </p>
       <Code
         tabs={[
