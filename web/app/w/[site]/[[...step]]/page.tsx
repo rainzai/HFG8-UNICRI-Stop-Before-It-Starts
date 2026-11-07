@@ -60,7 +60,7 @@ async function Flow({
   };
 
   return (
-    <div lang={lang}>
+    <div lang={lang} data-variant={variant}>
       <Shell
         copy={copy}
         pack={pack}

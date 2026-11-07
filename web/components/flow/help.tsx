@@ -189,7 +189,7 @@ function dayRange([first, last]: [number, number], lang: string) {
 
 function Answer({ answer, children }: { answer: string; children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-2 rounded-[14px] border-2 border-brand bg-white p-[22px]">
+    <div className="flex flex-col gap-2 rounded-[14px] border-2 border-brand bg-white p-[22px] in-data-[variant=b]:rounded-3xl">
       <p className="m-0 text-[28px] font-bold text-brand">{answer}</p>
       {children}
     </div>

@@ -27,7 +27,7 @@ Forum (its own word filter)
 
 | Step | Screen | Purpose |
 |---|---|---|
-| 1 | Interruption | One short message (harm, legality or "help is easy", per variant), then one question: mistake / worried / consequences. Must work on its own, since most people leave here. |
+| 1 | Interruption | One short message (per variant), then one question: mistake / worried / consequences. Must work on its own, since most people leave here. |
 | 2a | Mistake | Non-accusatory, back to the forum, soft link to help. |
 | 2b | Worried | "You're not alone, this can change, help is anonymous." |
 | 2c | Consequences | Article 252 / 254, then the route to help. |
@@ -84,12 +84,16 @@ These are the product, not an afterthought.
 
 ## Variants
 
-Screen 1 has three versions of its message, from the three strongest themes in Ciardha, Nurmi et al. (2026), in our own words. See PLAN.md under Research.
+Three versions of the page, each a whole direction (text, layout, style), starting from the strongest themes in Ciardha, Nurmi et al. (2026). We look for what works, not why, so a variant may change anything. See PLAN.md under Research.
+
+- `a` harm: the original page.
+- `b` help first: "help is easy" text, call and chat on screen 1 with the options below, warm style (purple, Nunito) on every screen.
+- `c` clear and serious: legality text. Its own design still to build.
 
 - The variant is in the URL (`?v=b`), never in a cookie. A request to `/w/...` without a valid `v` (the forum's redirect) gets a 307 to the same URL with a random one; only that next request is counted.
 - `stepHref` carries `v` through every link, and the call and chat beacon sends it along.
 - Copy overrides live in `content/<CC>/variants/<id>.json`, validated against the base shape (only existing keys, every language).
-- Only text differs, no colour or layout, so a difference in the counts comes from the text.
+- Style per variant: `[data-variant="b"]` in `globals.css` overrides the colour and font tokens, so every screen follows. Layout per variant: small checks like `helpFirst(variant)` in `lib/flow.ts`.
 
 ## Counts (what the dashboard reads)
 
@@ -105,7 +109,7 @@ Key = `day|site|variant|event`, value = how many times it happened. Nothing else
 |---|---|
 | `day` | `YYYY-MM-DD` (UTC) |
 | `site` | the forum domain, `localhost:<port>` in dev, or `saved` for the saved-link page `/i/<country>` |
-| `variant` | `a` harm, `b` legality, `c` help is easy. The saved-link page is always `a` |
+| `variant` | `a` harm, `b` help first, `c` clear and serious. The saved-link page is always `a` |
 | `event` | `step:start`, `step:mistake`, `step:worried`, `step:consequences`, `step:help`, `step:later`, `step:saved`, `call`, `chat` |
 
 How it gets counted:

@@ -62,10 +62,15 @@ export function forumHref(forum: string) {
 
 export const ANONYMOUS_ANCHOR = "anoniem";
 
-// a = harm, b = legality, c = help is easy (Ciardha, Nurmi et al. 2026, see PLAN.md)
+// a = harm, b = help first, c = clear and serious (themes from Ciardha, Nurmi et al. 2026, see PLAN.md)
 export const VARIANTS = ["a", "b", "c"] as const;
 
 export type Variant = (typeof VARIANTS)[number];
+
+// call and chat on screen 1, the three options below them
+export function helpFirst(variant: Variant) {
+  return variant === "b";
+}
 
 export const DEFAULT_VARIANT: Variant = "a";
 

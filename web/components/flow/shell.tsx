@@ -30,7 +30,7 @@ export function Shell({
   children,
 }: Props) {
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col bg-paper font-sans text-ink">
       <header className="border-b border-line">
         <div className="mx-auto flex max-w-[1040px] flex-wrap items-center justify-between gap-3 py-3 pr-4 pl-6">
           <span className="text-[17px] font-bold">
