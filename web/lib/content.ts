@@ -6,6 +6,7 @@ import nlPack from "@/content/NL/pack.json";
 import nlB from "@/content/NL/variants/b.json";
 import nlC from "@/content/NL/variants/c.json";
 import nlD from "@/content/NL/variants/d.json";
+import nlE from "@/content/NL/variants/e.json";
 import { DEFAULT_VARIANT, type Variant } from "@/lib/flow";
 
 // nl.json = reference shape, other languages need same keys, non-empty
@@ -147,7 +148,7 @@ function load(
 // new language: add content/<CC>/<lang>.json, list in pack.json, register here
 // new variant: add content/<CC>/variants/<id>.json (all languages), register here
 const countries: Record<string, CountryPack> = {
-  NL: load(nlPack, { nl: nlNl, en: nlEn }, { b: nlB, c: nlC, d: nlD }),
+  NL: load(nlPack, { nl: nlNl, en: nlEn }, { b: nlB, c: nlC, d: nlD, e: nlE }),
 };
 
 export const DEFAULT_COUNTRY = "NL";

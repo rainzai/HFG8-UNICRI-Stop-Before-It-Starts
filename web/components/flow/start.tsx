@@ -2,11 +2,13 @@ import { ClearAndSerious } from "@/components/flow/clear-and-serious";
 import { FlowLink } from "@/components/flow/flow-link";
 import { HelpFirst } from "@/components/flow/help-first";
 import { ChevronRight } from "@/components/flow/icons";
+import { Sprout } from "@/components/flow/sprout";
 import type { Copy, Pack } from "@/lib/content";
 import {
   clearAndSerious,
   helpFirst,
   stepHref,
+  withSprout,
   type Step,
   type Variant,
 } from "@/lib/flow";
@@ -49,6 +51,7 @@ export function Start({ copy, pack, forum, site, lang, variant }: Props) {
 
   return (
     <>
+      {withSprout(variant) && <Sprout />}
       <div className="flex flex-col gap-3.5">
         <h1 className="m-0 text-[clamp(30px,3.4vw,42px)] leading-tight font-bold">
           {title}

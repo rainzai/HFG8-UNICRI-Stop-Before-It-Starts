@@ -64,24 +64,34 @@ export const ANONYMOUS_ANCHOR = "anoniem";
 export const NOT_READY_ANCHOR = "later";
 
 // a = harm, b = help first, c = clear and serious (themes from Ciardha, Nurmi et al. 2026, see PLAN.md),
-// d = behind bars (prison as a picture, the strongest deterrent)
-export const VARIANTS = ["a", "b", "c", "d"] as const;
+// d = c with faint bars behind the message, e = b with a sprout: images, to show researchers they can be tested
+export const VARIANTS = ["a", "b", "c", "d", "e"] as const;
 
 export type Variant = (typeof VARIANTS)[number];
 
+// the look a variant shares: colours, font, shapes (data-theme in globals.css)
+export function themeOf(variant: Variant) {
+  return ({ a: "a", b: "b", c: "c", d: "c", e: "b" } as const)[variant];
+}
+
 // call and chat on screen 1, the three options below them
 export function helpFirst(variant: Variant) {
-  return variant === "b";
+  return themeOf(variant) === "b";
 }
 
 // message, then a dark band with the way out, then a numbered list
 export function clearAndSerious(variant: Variant) {
-  return variant === "c" || variant === "d";
+  return themeOf(variant) === "c";
 }
 
-// clear and serious, with the message behind bars that drop on load
+// clear and serious, with faint bars behind the message
 export function behindBars(variant: Variant) {
   return variant === "d";
+}
+
+// help first, with a small sprout above the heading
+export function withSprout(variant: Variant) {
+  return variant === "e";
 }
 
 export const DEFAULT_VARIANT: Variant = "a";

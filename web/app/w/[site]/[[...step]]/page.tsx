@@ -18,6 +18,7 @@ import {
   parseVariant,
   revisitHref,
   stepHref,
+  themeOf,
 } from "@/lib/flow";
 
 // required by cacheComponents for params
@@ -61,7 +62,7 @@ async function Flow({
   };
 
   return (
-    <div lang={lang} data-variant={variant}>
+    <div lang={lang} data-variant={variant} data-theme={themeOf(variant)}>
       <Shell
         copy={copy}
         pack={pack}

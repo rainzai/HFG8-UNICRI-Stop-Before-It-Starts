@@ -107,13 +107,15 @@ Four versions of the page, each a whole direction (text, layout, style), startin
 - `a` harm: the original page.
 - `b` help first: "help is easy" text, call and chat on screen 1 with the options below, warm style (purple, Nunito) on every screen.
 - `c` clear and serious: legality text in bold, then a dark full-width band "Er is een uitweg." with call and chat, then the options as a numbered list. Black on white, Public Sans, square corners on every screen.
-- `d` image variant, for now behind bars: the prison risk ("tot 6 jaar cel", from the pack) in a dark full-width block with steel bars that drop over it on load (CSS only, no image; no motion with reduced motion), then the same band and list as `c`, with "Nog is er een uitweg.". Same style as `c` on every screen. Added because Emma and the jury asked to show researchers that images can be tested too, not only text. A team idea, not one of the study's themes; the bars are a first version and can change.
+- `d` image variant: the prison risk ("tot 6 jaar cel", from the pack) in a dark full-width block with faint steel bars behind the text (CSS only, no motion), then the same band and list as `c`, with "Er is nog een uitweg.". Same look as `c` on every screen.
+- `e` image variant: `b` with a small sprout above the heading (inline SVG, from the team's design). Same text and look as `b`, so the only difference is the image.
+- d (fear) and e (hope) are there because Emma and the jury asked to show researchers that images can be tested, not only text. Team ideas, not the study's themes; the images can change.
 
 - The variant is in the URL (`?v=b`), never in a cookie. A request to `/w/...` without a valid `v` (the forum's redirect) gets a 307 to the same URL with one picked by the bandit; only that next request is counted.
 - **Bandit** (`lib/bandit.ts`): per variant it sums, over the last 30 days and all forums, how often screen 1 was shown (`step:start`) and how often call or chat was clicked. Thompson sampling: draw a plausible help rate per variant from those totals and take the highest. A variant without data starts at the average of all variants, not at 50%: with a flat start every new variant won almost every draw, since real help rates are a few percent. Little data means wide draws and much variety; clear differences send most visits to the best one. 10% of visits are picked evenly, so no variant is starved. Counts are re-read at most once a minute. It reads only the totals, nothing about a visitor. `currentShares()` gives the current split for the dashboard.
 - `stepHref` carries `v` through every link, and the call and chat beacon sends it along.
 - Copy overrides live in `content/<CC>/variants/<id>.json`, validated against the base shape (only existing keys, every language).
-- Style per variant: `[data-variant="b"]` in `globals.css` overrides the colour and font tokens, so every screen follows. Layout per variant: small checks like `helpFirst(variant)`, `clearAndSerious(variant)` and `behindBars(variant)` in `lib/flow.ts`, with their own screen 1 component (`help-first.tsx`, `clear-and-serious.tsx`).
+- Style per theme: `data-theme` (`themeOf(variant)` in `lib/flow.ts`: b and e share theme b, c and d theme c) selects the colour and font tokens in `globals.css`, so every screen follows and a new variant on an existing look is one line. Layout per variant: small checks like `helpFirst(variant)`, `clearAndSerious(variant)` and `behindBars(variant)` in `lib/flow.ts`, with their own screen 1 component (`help-first.tsx`, `clear-and-serious.tsx`).
 
 ## Counts (what the dashboard reads)
 
@@ -129,7 +131,7 @@ Key = `day|site|variant|event`, value = how many times it happened. Nothing else
 |---|---|
 | `day` | `YYYY-MM-DD` (UTC) |
 | `site` | the forum domain, `localhost:<port>` in dev, or `saved` for the saved-link page `/i/<country>` |
-| `variant` | `a` harm, `b` help first, `c` clear and serious, `d` behind bars. The saved-link page is always `a` |
+| `variant` | `a` harm, `b` help first, `c` clear and serious, `d` bars, `e` sprout. The saved-link page is always `a` |
 | `event` | `step:start`, `step:mistake`, `step:worried`, `step:consequences`, `step:help`, `step:later`, `step:saved`, `call`, `chat`, `website` (helpline site), `selfhelp`, `forum` (back to forum), `exit` (close) |
 
 How it gets counted:

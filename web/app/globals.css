@@ -29,8 +29,8 @@
   }
 }
 
-/* variant b: warm and personal, same tokens so every screen follows */
-[data-variant="b"] {
+/* theme b (variants b and e): warm and personal, same tokens so every screen follows */
+[data-theme="b"] {
   --color-paper: #fdf6ef;
   --color-ink: #2b1d24;
   --color-muted: #6a5560;
@@ -43,9 +43,8 @@
   --font-sans: var(--font-nunito), system-ui, sans-serif;
 }
 
-/* variant c: sober, black on white, square corners (d builds on it) */
-[data-variant="c"],
-[data-variant="d"] {
+/* theme c (variants c and d): sober, black on white, square corners */
+[data-theme="c"] {
   --color-paper: #ffffff;
   --color-ink: #111418;
   --color-muted: #4a4f57;
@@ -61,22 +60,22 @@
 }
 
 /* variant b: soft circles behind the page, content stays above them */
-[data-variant="b"] > div {
+[data-theme="b"] > div {
   position: relative;
   overflow: hidden;
 }
-[data-variant="b"] > div > * {
+[data-theme="b"] > div > * {
   position: relative;
   z-index: 1;
 }
-[data-variant="b"] > div::before,
-[data-variant="b"] > div::after {
+[data-theme="b"] > div::before,
+[data-theme="b"] > div::after {
   content: "";
   position: absolute;
   border-radius: 50%;
   z-index: 0;
 }
-[data-variant="b"] > div::before {
+[data-theme="b"] > div::before {
   top: -120px;
   right: -110px;
   width: 300px;
@@ -84,13 +83,13 @@
   background: #f9e1cf;
 }
 @media (min-width: 640px) {
-  [data-variant="b"] > div::before {
+  [data-theme="b"] > div::before {
     top: -220px;
     right: -160px;
     width: 560px;
     height: 560px;
   }
-  [data-variant="b"] > div::after {
+  [data-theme="b"] > div::after {
     bottom: -260px;
     left: -200px;
     width: 520px;
