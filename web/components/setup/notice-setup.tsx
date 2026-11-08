@@ -8,15 +8,17 @@ import { Code } from "@/components/setup/code";
 export function NoticeSetup({
   origin,
   domain,
+  lang,
 }: {
   origin: string;
   domain: string;
+  lang: string;
 }) {
   const [color, setColor] = useState("#2d5a27");
   const valid = /^#[0-9a-f]{6}$/i.test(color);
   const src = `${origin}/notice.js`;
   const tag = (kind: string) =>
-    `<script src="${src}" data-site="${domain}" data-show="${kind}" data-color="${color}" defer></script>`;
+    `<script src="${src}" data-site="${domain}" data-show="${kind}" data-lang="${lang}" data-color="${color}" defer></script>`;
 
   // loads the real script on this page, as a forum would
   function preview(kind: "popup" | "box") {
@@ -28,6 +30,7 @@ export function NoticeSetup({
     Object.assign(script.dataset, {
       site: domain,
       show: kind,
+      lang,
       color,
       preview: "1",
     });
@@ -109,7 +112,7 @@ const notice = isLightMatch(query)  // your filter's lighter level
   function sbisNotice() {
     const s = document.createElement("script");
     s.src = "${src}";
-    Object.assign(s.dataset, { site: "${domain}", show: "popup", color: "${color}" });
+    Object.assign(s.dataset, { site: "${domain}", show: "popup", lang: "${lang}", color: "${color}" });
     document.head.append(s);
   }
 </script>`,

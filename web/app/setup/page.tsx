@@ -21,7 +21,8 @@ export default function Page(props: PageProps<"/setup">) {
 }
 
 async function Setup({ searchParams }: PageProps<"/setup">) {
-  const { domain: rawDomain, check } = await searchParams;
+  const { domain: rawDomain, check, lang: rawLang } = await searchParams;
+  const lang = rawLang === "en" ? "en" : "nl";
   const typed = typeof rawDomain === "string" ? rawDomain.trim() : "";
   const domain = typed ? parseForumDomain(typed) : null;
   const code = domain ? verifyCode(domain) : null;
@@ -42,7 +43,7 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
 
       <section className="flex flex-col gap-3">
         <h2 className="m-0 text-xl font-bold">
-          <label htmlFor="domain">1. Enter your domain</label>
+          <label htmlFor="domain">1. Enter your domain and language</label>
         </h2>
         {/* next/form: same GET, swapped in place instead of a full reload */}
         <Form
@@ -58,6 +59,16 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
             // the underline darkens on focus, no box around the text
             className="min-w-0 flex-1 bg-transparent py-2 text-lg focus-visible:outline-none"
           />
+          {/* the forum's language, for the help page and the notices */}
+          <select
+            name="lang"
+            defaultValue={lang}
+            aria-label="Language of your forum"
+            className="cursor-pointer bg-transparent py-2 text-[15px] focus-visible:outline-none"
+          >
+            <option value="nl">Nederlands</option>
+            <option value="en">English</option>
+          </select>
           <Submit>Next</Submit>
         </Form>
         {typed && !domain && (
@@ -67,7 +78,7 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
         )}
       </section>
 
-      {domain && <Install domain={domain} origin={origin} />}
+      {domain && <Install domain={domain} lang={lang} origin={origin} />}
 
       {domain && (
         <section className="flex flex-col gap-3 border-t border-line pt-10">
@@ -101,6 +112,7 @@ async function Setup({ searchParams }: PageProps<"/setup">) {
           />
           <Form action="/setup">
             <input type="hidden" name="domain" value={domain} />
+            <input type="hidden" name="lang" value={lang} />
             <input type="hidden" name="check" value="1" />
             <Submit>Check</Submit>
           </Form>
@@ -157,8 +169,16 @@ async function Result({ domain, code }: { domain: string; code: string }) {
   );
 }
 
-function Install({ domain, origin }: { domain: string; origin: string }) {
-  const link = `${origin}/w/${domain}?l=nl`;
+function Install({
+  domain,
+  lang,
+  origin,
+}: {
+  domain: string;
+  lang: string;
+  origin: string;
+}) {
+  const link = `${origin}/w/${domain}?l=${lang}`;
 
   return (
     <>
@@ -209,7 +229,7 @@ function Install({ domain, origin }: { domain: string; origin: string }) {
         <p className="m-0">
           Don&apos;t want your forum to be counted at all? Put <code>~</code>{" "}
           before your domain:{" "}
-          <code className="[overflow-wrap:anywhere]">{`${origin}/w/~${domain}?l=nl`}</code>
+          <code className="[overflow-wrap:anywhere]">{`${origin}/w/~${domain}?l=${lang}`}</code>
           . The page looks the same, but we count nothing for your forum, so
           there&apos;s no dashboard and your visitors don&apos;t help improve
           the page. For the notices below, use{" "}
@@ -237,7 +257,7 @@ function Install({ domain, origin }: { domain: string; origin: string }) {
           popup, or a small box above the results. It uses your site&apos;s font
           and colours, plus the button colour you pick.
         </p>
-        <NoticeSetup origin={origin} domain={domain} />
+        <NoticeSetup origin={origin} domain={domain} lang={lang} />
       </section>
     </>
   );
