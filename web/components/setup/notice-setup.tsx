@@ -21,7 +21,7 @@ export function NoticeSetup({
   // loads the real script on this page, as a forum would
   function preview(kind: "popup" | "box") {
     document
-      .querySelectorAll(".sbis-box, dialog.sbis-dialog")
+      .querySelectorAll(".sbis-box, dialog.sbis-dialog, script[data-preview]")
       .forEach((el) => el.remove());
     const script = document.createElement("script");
     script.src = src;

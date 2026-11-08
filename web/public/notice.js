@@ -52,7 +52,7 @@
       .sbis-dialog p{margin:0 0 20px}
       .sbis-actions{display:flex;flex-wrap:wrap;gap:10px}
       .sbis-actions a,.sbis-actions button{font:inherit;padding:10px 16px;border-radius:8px;cursor:pointer;text-decoration:none}
-      .sbis-help{background:${color};color:#fff;border:0;font-weight:600}
+      .sbis-help{background:var(--sbis-color);color:#fff;border:0;font-weight:600}
       .sbis-continue{background:transparent;color:inherit;border:1px solid color-mix(in srgb,currentColor 30%,transparent)}
       .sbis-box{box-sizing:border-box;width:fit-content;max-width:100%;grid-column:1/-1;margin:0 0 12px;padding:6px 12px;border-radius:6px;
         font-size:.875em;line-height:1.4;border:1px solid color-mix(in srgb,currentColor 15%,transparent);background:color-mix(in srgb,currentColor 4%,transparent)}`;
@@ -84,6 +84,8 @@
         : "#fff";
     dialog.style.background = bg;
     dialog.style.color = page.color;
+    // on the element, not in the shared style: that is only added once
+    dialog.style.setProperty("--sbis-color", color);
     const h2 = document.createElement("h2");
     h2.id = "sbis-title";
     h2.textContent = text.title;
