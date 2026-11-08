@@ -70,6 +70,10 @@
   position: relative;
   z-index: 1;
 }
+/* the header above the content, so the language menu opens over it */
+[data-theme="b"] > div > header {
+  z-index: 2;
+}
 [data-theme="b"] > div::before,
 [data-theme="b"] > div::after {
   content: "";
