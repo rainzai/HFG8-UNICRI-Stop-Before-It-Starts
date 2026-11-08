@@ -54,8 +54,9 @@
       .sbis-actions a,.sbis-actions button{font:inherit;padding:10px 16px;border-radius:8px;cursor:pointer;text-decoration:none}
       .sbis-help{background:var(--sbis-color);color:#fff;border:0;font-weight:600}
       .sbis-continue{background:transparent;color:inherit;border:1px solid color-mix(in srgb,currentColor 30%,transparent)}
-      .sbis-box{box-sizing:border-box;width:fit-content;max-width:100%;grid-column:1/-1;margin:0 0 12px;padding:6px 12px;border-radius:6px;
-        font-size:.875em;line-height:1.4;border:1px solid color-mix(in srgb,currentColor 15%,transparent);background:color-mix(in srgb,currentColor 4%,transparent)}`;
+      .sbis-box{box-sizing:border-box;width:fit-content;max-width:100%;grid-column:1/-1;margin:0 0 12px;padding:2px 0 2px 10px;
+        font-size:.875em;line-height:1.4;border-left:3px solid var(--sbis-color)}
+      .sbis-box a{color:var(--sbis-color);font-weight:600}`;
     document.head.append(style);
   }
 
@@ -112,24 +113,29 @@
     dialog.showModal();
   }
 
-  // green: a small line above the results. fit-content and grid-column, since
-  // forums often make <main> a grid, where it would otherwise take a whole cell
+  // green: one line above the results, with a bar in the button colour.
+  // fit-content and grid-column, since forums often make <main> a grid,
+  // where it would otherwise take a whole cell
   function box() {
     const p = document.createElement("p");
     p.className = "sbis-box";
+    p.style.setProperty("--sbis-color", color);
     p.append(`${text.small} `, link("l", text.help));
     const spot = document.querySelector("[data-sbis-notice]");
     if (spot) spot.append(p);
     else (document.querySelector("main") || document.body).prepend(p);
   }
 
-  let shown = false;
+  // each kind on its own: a box already on the page doesn't block a popup.
+  // no second box, and no popup while one is open
   function show(kind) {
-    if (shown || (kind !== "popup" && kind !== "box")) return;
-    shown = true;
-    addStyle();
-    if (kind === "popup") popup();
-    else box();
+    if (kind === "popup" && !document.querySelector("dialog.sbis-dialog")) {
+      addStyle();
+      popup();
+    } else if (kind === "box" && !document.querySelector(".sbis-box")) {
+      addStyle();
+      box();
+    }
   }
 
   const kind = script.dataset.show;
