@@ -62,7 +62,9 @@
 /* variant b: soft circles behind the page, content stays above them */
 [data-theme="b"] > div {
   position: relative;
-  overflow: hidden;
+  /* clip, not hidden: hidden makes it a scroll box, which a #anchor link
+     scrolls with no way to scroll it back up */
+  overflow: clip;
 }
 [data-theme="b"] > div > * {
   position: relative;
